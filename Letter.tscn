@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://crywaplhkqgtm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7rv54"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_66wng"]
+
+[node name="Letra" type="LineEdit"]
+offset_left = 495.0
+offset_top = 172.0
+offset_right = 554.063
+offset_bottom = 227.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 0)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7rv54")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
+alignment = 1
+max_length = 1

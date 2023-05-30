@@ -1,0 +1,17 @@
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://dogdt7t2af0gr"]
+
+[ext_resource type="Texture2D" uid="uid://6ecmc1kn1lag" path="res://tablero1.jpg" id="1"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8cckn"]
+texture = ExtResource("1")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l1j0t"]
+texture = ExtResource("1")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4k16m"]
+texture = ExtResource("1")
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_8cckn")
+sources/1 = SubResource("TileSetAtlasSource_l1j0t")
+sources/2 = SubResource("TileSetAtlasSource_4k16m")
