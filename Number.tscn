@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://crywaplhkqgtm"]
+[gd_scene load_steps=5 format=3 uid="uid://cjrg7a3no1tvl"]
 
-[ext_resource type="Script" path="res://Letter.gd" id="1_kiln7"]
+[ext_resource type="Script" path="res://Letter.gd" id="1_ed60t"]
 
 [sub_resource type="FontVariation" id="FontVariation_awe0h"]
 
@@ -18,23 +18,23 @@ content_margin_bottom = 0.0
 
 [node name="Letra" type="LineEdit"]
 clip_contents = true
-custom_minimum_size = Vector2(81, 81)
-offset_right = 111.0
-offset_bottom = 111.0
+custom_minimum_size = Vector2(50, 50)
+offset_right = 60.0
+offset_bottom = 60.0
 size_flags_stretch_ratio = 0.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_selected_color = Color(0, 0, 0, 0)
 theme_override_colors/caret_color = Color(0, 0, 0, 1)
 theme_override_constants/minimum_character_width = 0
 theme_override_fonts/font = SubResource("FontVariation_awe0h")
-theme_override_font_sizes/font_size = 42
+theme_override_font_sizes/font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxEmpty_7rv54")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
 alignment = 1
 max_length = 1
 caret_blink = true
 caret_mid_grapheme = false
-script = ExtResource("1_kiln7")
+script = ExtResource("1_ed60t")
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
