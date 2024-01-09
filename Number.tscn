@@ -33,7 +33,6 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
 alignment = 1
 max_length = 1
 caret_blink = true
-caret_mid_grapheme = false
 script = ExtResource("1_ed60t")
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]

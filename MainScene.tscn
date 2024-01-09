@@ -1,8 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://01loguc0bnv3"]
+[gd_scene load_steps=5 format=3 uid="uid://01loguc0bnv3"]
 
-[ext_resource type="PackedScene" uid="uid://wyxtpqp3tbwv" path="res://MainBoard.tscn" id="1_ysr6p"]
+[ext_resource type="PackedScene" uid="uid://wyxtpqp3tbwv" path="res://MainBoard.tscn" id="1_fr5xu"]
+[ext_resource type="Script" path="res://MainScene.gd" id="1_ljmvq"]
+[ext_resource type="Texture2D" uid="uid://dlkes8pirsu0h" path="res://images/nickname.jpg" id="2_vgt36"]
+[ext_resource type="PackedScene" uid="uid://bnv4k314q8820" path="res://ScoreBoard.tscn" id="3_a1u5b"]
 
-[node name="Node2D" type="Node2D"]
+[node name="MainRoot" type="Node2D"]
+script = ExtResource("1_ljmvq")
 
-[node name="MainBoardTileMap" parent="." instance=ExtResource("1_ysr6p")]
-position = Vector2(1, 25)
+[node name="MainBoardRoot" parent="." instance=ExtResource("1_fr5xu")]
+position = Vector2(500, 137)
+scale = Vector2(1.25, 1.25)
+
+[node name="Nickname" type="Sprite2D" parent="."]
+position = Vector2(966, 105)
+scale = Vector2(0.544574, 0.559524)
+texture = ExtResource("2_vgt36")
+
+[node name="userName" type="RichTextLabel" parent="Nickname"]
+offset_left = -178.121
+offset_top = 76.8511
+offset_right = 214.879
+offset_bottom = 122.851
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 30
+fit_content = true
+
+[node name="ScoreBoardRoot" parent="." instance=ExtResource("3_a1u5b")]
+position = Vector2(560, 98)
+scale = Vector2(0.7, 0.7)
