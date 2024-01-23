@@ -1,6 +1,6 @@
 extends TileMap
 # MainBoard Script
-@onready var scoreboard = get_node("/root/MainRoot/ScoreBoardRoot/ScoreBoard")
+@onready var scoreboard = get_node("/root/MainSceneRoot/ScoreBoardRoot/ScoreBoard")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,7 +17,7 @@ func _ready():
 	var tile_size = Vector2(scoreboard.tile_set.tile_size) # Obtiene el tamaño de un tile
 	print(tile_size)
 	var numbers_array = []
-	print("yeah", Vector2(used_rect.position.x, used_rect.position.y))
+	
 	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
 		var row = []
 		for y in range(used_rect.position.y, used_rect.position.y + used_rect.size.y):

@@ -4,7 +4,8 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-@onready var mainboard = get_node("/root/MainRoot/MainBoardRoot/MainBoardTileMap")
+@export_file var f #para guardar una ruta a un archivo
+@onready var mainboard = get_node("/root/MainSceneRoot/MainBoardRoot/MainBoardTileMap")
 
 #
 func _ready():
@@ -22,7 +23,7 @@ func _ready():
 	var tile_size = Vector2(mainboard.tile_set.tile_size) # Obtiene el tamaño de un tile
 	print(tile_size)
 	var letters_array = []
-	print("yeah", Vector2(used_rect.position.x, used_rect.position.y))
+	
 	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
 		var row = []
 		for y in range(used_rect.position.y, used_rect.position.y + used_rect.size.y):

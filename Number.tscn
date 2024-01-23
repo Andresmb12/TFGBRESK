@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cjrg7a3no1tvl"]
 
-[ext_resource type="Script" path="res://Letter.gd" id="1_ed60t"]
+[ext_resource type="Script" path="res://Number.gd" id="1_ql6fo"]
 
 [sub_resource type="FontVariation" id="FontVariation_awe0h"]
 
@@ -16,7 +16,7 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 
-[node name="Letra" type="LineEdit"]
+[node name="Number" type="LineEdit"]
 clip_contents = true
 custom_minimum_size = Vector2(50, 50)
 offset_right = 60.0
@@ -33,7 +33,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
 alignment = 1
 max_length = 1
 caret_blink = true
-script = ExtResource("1_ed60t")
+script = ExtResource("1_ql6fo")
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
