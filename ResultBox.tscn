@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://chafxjdjubkl"]
+
+[ext_resource type="Script" path="res://ResultBox.gd" id="1_samsy"]
+
+[sub_resource type="FontVariation" id="FontVariation_awe0h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7rv54"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_66wng"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[node name="Result" type="LineEdit"]
+clip_contents = true
+custom_minimum_size = Vector2(172, 113)
+offset_right = 111.0
+offset_bottom = 111.0
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 0)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_constants/minimum_character_width = 0
+theme_override_fonts/font = SubResource("FontVariation_awe0h")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7rv54")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
+alignment = 1
+max_length = 3
+caret_blink = true
+script = ExtResource("1_samsy")
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="text_changed" from="." to="." method="_on_text_changed"]

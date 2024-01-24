@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4l3qihcljqoc"]
+
+[ext_resource type="Script" path="res://MenuButton.gd" id="1_k2r7c"]
+[ext_resource type="Texture2D" uid="uid://diyduna0nbity" path="res://images/redbutton.png" id="1_q4eyb"]
+[ext_resource type="Script" path="res://ButtonScript.gd" id="3_uq2nm"]
+
+[sub_resource type="Theme" id="Theme_x2v1t"]
+
+[sub_resource type="SystemFont" id="SystemFont_m6n20"]
+font_italic = true
+
+[node name="ButtonMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
+script = ExtResource("1_k2r7c")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_direction = 1
+offset_left = 466.0
+offset_top = 252.0
+offset_right = 826.0
+offset_bottom = 389.0
+mouse_filter = 1
+texture_normal = ExtResource("1_q4eyb")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_uq2nm")
+
+[node name="TextButton" type="RichTextLabel" parent="TextureButton"]
+offset_left = 36.0
+offset_top = 31.0
+offset_right = 323.0
+offset_bottom = 111.0
+mouse_filter = 1
+theme = SubResource("Theme_x2v1t")
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_fonts/bold_font = SubResource("SystemFont_m6n20")
+theme_override_font_sizes/normal_font_size = 52
+theme_override_font_sizes/bold_font_size = 52
+bbcode_enabled = true
+scroll_active = false
+
+[connection signal="mouse_entered" from="TextureButton" to="." method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="TextureButton" to="." method="_on_texture_button_mouse_exited"]
