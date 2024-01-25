@@ -9,18 +9,27 @@
 [sub_resource type="SystemFont" id="SystemFont_m6n20"]
 font_italic = true
 
-[node name="ButtonMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="ButtonMenu" type="Button" node_paths=PackedStringArray("textButton")]
+anchors_preset = -1
+anchor_left = 0.337
+anchor_top = 0.424
+anchor_right = 0.618
+anchor_bottom = 0.617
+offset_left = -431.36
+offset_top = -305.28
+offset_right = -791.04
+offset_bottom = -444.24
 mouse_filter = 1
 script = ExtResource("1_k2r7c")
+textButton = NodePath("TextureButton/TextButton")
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_direction = 1
-offset_left = 466.0
-offset_top = 252.0
-offset_right = 826.0
-offset_bottom = 389.0
+layout_mode = 0
+offset_left = 430.0
+offset_top = 310.0
+offset_right = 790.0
+offset_bottom = 447.0
 mouse_filter = 1
 texture_normal = ExtResource("1_q4eyb")
 ignore_texture_size = true
@@ -28,6 +37,7 @@ stretch_mode = 0
 script = ExtResource("3_uq2nm")
 
 [node name="TextButton" type="RichTextLabel" parent="TextureButton"]
+layout_mode = 0
 offset_left = 36.0
 offset_top = 31.0
 offset_right = 323.0

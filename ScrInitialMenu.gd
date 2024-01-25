@@ -3,9 +3,22 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var playButton = get_node("MenuButtonsContainer/PlayButtonMenu/TextureButton/TextButton")
-	playButton.append_text("[center][color=BLACK][b]PLAY[/b][/color][/center]")
+	configure_buttons()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func configure_buttons():
+	var playButton = get_node("PlayButtonMenu/TextureButton/TextButton")
+	playButton.append_text("[center][color=BLACK][b]PLAY[/b][/color][/center]")
+	var exitButton = get_node("ExitButtonMenu/TextureButton/TextButton")
+	exitButton.append_text("[center][color=BLACK][b]EXIT[/b][/color][/center]")
+	var creditsButton = get_node("CreditsButtonMenu/TextureButton/TextButton")
+	creditsButton.append_text("[center][color=BLACK][b]CREDITS[/b][/color][/center]")
+
+
+func _on_play_button_menu_pressed():
+	get_tree().change_scene_to_file("res://MainPlayerScene.tscn")
+	pass # Replace with function body.
+
+
+func _on_exit_button_menu_pressed():
+	get_tree().quit() # default behavior
+	pass # Replace with function body.
