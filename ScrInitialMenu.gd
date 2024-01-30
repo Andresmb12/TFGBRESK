@@ -8,14 +8,15 @@ func _ready():
 func configure_buttons():
 	var playButton = get_node("PlayButtonMenu/TextureButton/TextButton")
 	playButton.append_text("[center][color=BLACK][b]PLAY[/b][/color][/center]")
-	var exitButton = get_node("ExitButtonMenu/TextureButton/TextButton")
-	exitButton.append_text("[center][color=BLACK][b]EXIT[/b][/color][/center]")
+	var quitButton = get_node("ExitButtonMenu/TextureButton/TextButton")
+	quitButton.append_text("[center][color=BLACK][b]QUIT[/b][/color][/center]")
 	var creditsButton = get_node("CreditsButtonMenu/TextureButton/TextButton")
 	creditsButton.append_text("[center][color=BLACK][b]CREDITS[/b][/color][/center]")
 
 
 func _on_play_button_menu_pressed():
-	get_tree().change_scene_to_file("res://MainPlayerScene.tscn")
+	get_tree().change_scene_to_file("res://ProgressBar.tscn")
+	
 	pass # Replace with function body.
 
 
