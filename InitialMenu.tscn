@@ -7,17 +7,19 @@
 [node name="InitialMenuContainer" type="Node2D"]
 script = ExtResource("1_721m2")
 
-[node name="background_photo" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 0.992157, 0.392157)
-position = Vector2(639.5, 360)
-scale = Vector2(1.72493, 0.859544)
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.392157)
+clip_contents = true
+offset_right = 1276.0
+offset_bottom = 718.0
 texture = ExtResource("1_hhh3t")
+expand_mode = 1
 
 [node name="PlayButtonMenu" parent="." instance=ExtResource("3_jy02p")]
 offset_left = 160.0
 offset_top = -5.0
-offset_right = 160.0
-offset_bottom = -5.0
+offset_right = 168.0
+offset_bottom = 3.0
 scale = Vector2(0.8, 0.8)
 
 [node name="ExitButtonMenu" parent="." instance=ExtResource("3_jy02p")]

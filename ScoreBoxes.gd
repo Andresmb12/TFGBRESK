@@ -2,7 +2,7 @@
 extends TileMap
 # MainBoard Script
 
-@onready var scoreboxes = get_node("/root/MainSceneRoot/ScoreBoxes/ScoreBoxesTileMap")
+@onready var scoreboxes = self
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,7 +14,6 @@ func _ready():
 	var map_height = used_rect.size.y
 
 	var EscenaNumero = preload("res://ResultBox.tscn")
-	var Numero = EscenaNumero.instantiate()
 	
 	var tile_size = Vector2(scoreboxes.tile_set.tile_size) # Obtiene el tamaño de un tile
 	print(tile_size)

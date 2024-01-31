@@ -1,6 +1,6 @@
 extends TileMap
 # MainBoard Script
-@onready var scoreboard = get_node("/root/MainSceneRoot/ScoreBoardRoot/ScoreBoard")
+@onready var scoreboard = self
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bs4h1hwwtu147"]
+
+[ext_resource type="Texture2D" uid="uid://t6vgyjh3c18y" path="res://images/score_boxes.jpg" id="1_uve1f"]
+[ext_resource type="Script" path="res://ScoreBoxes.gd" id="2_mcoup"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bcib7"]
+texture = ExtResource("1_uve1f")
+separation = Vector2i(1, 0)
+texture_region_size = Vector2i(172, 113)
+0:0/next_alternative_id = 3
+0:0/0 = 0
+0:0/1 = 1
+1:0/0 = 0
+2:0/next_alternative_id = 2
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ph263"]
+tile_size = Vector2i(172, 113)
+sources/2 = SubResource("TileSetAtlasSource_bcib7")
+
+[node name="ScoreBoxes" type="Node2D"]
+
+[node name="ScoreBoxesTileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_ph263")
+format = 2
+layer_0/navigation_enabled = false
+layer_0/tile_data = PackedInt32Array(0, 2, 0, 1, 65538, 0, 2, 131074, 0, 65536, 2, 1, 65537, 65538, 1, 65538, 131074, 1)
+script = ExtResource("2_mcoup")

@@ -15,11 +15,13 @@ func configure_buttons():
 
 
 func _on_play_button_menu_pressed():
-	get_tree().change_scene_to_file("res://ProgressBar.tscn")
+	SceneSwitcher.switch_scene("res://ProgressBar.tscn")
+	SceneSwitcher.switch_scene("res://MainPlayerScene.tscn")
 	
 	pass # Replace with function body.
 
 
 func _on_exit_button_menu_pressed():
+	SceneSwitcher.switch_scene("res://ProgressBar.tscn")
 	get_tree().quit() # default behavior
 	pass # Replace with function body.

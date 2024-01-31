@@ -5,10 +5,12 @@ extends Node2D
 # var a = 2
 # var b = "text"
 @export_file var f #para guardar una ruta a un archivo
-@onready var mainboard = get_node("/root/MainSceneRoot/MainBoardRoot/MainBoardTileMap")
+#/root/MainSceneRoot/MainBoardRoot/MainBoardTileMap
+#@onready var mainboard = root.get_child()
 
 #
 func _ready():
+	var mainboard = self
 	print(mainboard.name)
 	var used_rect = mainboard.get_used_rect()
 
