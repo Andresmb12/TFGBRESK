@@ -13,7 +13,7 @@ func _ready():
 	var map_width = used_rect.size.x
 	var map_height = used_rect.size.y
 
-	var EscenaNumero = preload("res://ResultBox.tscn")
+	var EscenaNumero = preload("res://scenes/ResultBox.tscn")
 	
 	var tile_size = Vector2(scoreboxes.tile_set.tile_size) # Obtiene el tamaño de un tile
 	print(tile_size)

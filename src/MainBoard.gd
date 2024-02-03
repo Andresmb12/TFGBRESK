@@ -17,7 +17,7 @@ func _ready():
 	var map_width = used_rect.size.x
 	var map_height = used_rect.size.y
 
-	var EscenaLetra = preload("res://Letter.tscn")
+	var EscenaLetra = preload("res://scenes/Letter.tscn")
 	var Letra = EscenaLetra.instantiate()
 	
 	var first_cell_coords = Vector2(used_rect.position.x, used_rect.position.y)

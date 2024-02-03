@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://beqg8k0qbsbqm"]
 
-[ext_resource type="PackedScene" uid="uid://wyxtpqp3tbwv" path="res://MainBoard.tscn" id="1_g2gpa"]
-[ext_resource type="Script" path="res://MainPlayerScene.gd" id="1_vp321"]
-[ext_resource type="PackedScene" uid="uid://bnv4k314q8820" path="res://ScoreBoard.tscn" id="3_31luk"]
-[ext_resource type="PackedScene" uid="uid://bs4h1hwwtu147" path="res://ScoreBoxes.tscn" id="4_8j7cr"]
+[ext_resource type="PackedScene" uid="uid://wyxtpqp3tbwv" path="res://scenes/MainBoard.tscn" id="1_g2gpa"]
+[ext_resource type="Script" path="res://src/MainPlayerScene.gd" id="1_vp321"]
+[ext_resource type="PackedScene" uid="uid://bnv4k314q8820" path="res://scenes/ScoreBoard.tscn" id="3_31luk"]
+[ext_resource type="PackedScene" uid="uid://bs4h1hwwtu147" path="res://scenes/ScoreBoxes.tscn" id="4_8j7cr"]
 [ext_resource type="Texture2D" uid="uid://dlkes8pirsu0h" path="res://images/nickname.jpg" id="5_omrhd"]
 
 [node name="MainSceneRoot" type="Control"]
@@ -36,7 +36,10 @@ texture = ExtResource("5_omrhd")
 
 [node name="lblNickName" type="RichTextLabel" parent="PlayerInfo"]
 layout_mode = 0
-offset_left = 31.0
-offset_top = 120.0
-offset_right = 281.0
-offset_bottom = 147.0
+offset_left = 42.0
+offset_top = 116.0
+offset_right = 276.0
+offset_bottom = 150.0
+theme_override_font_sizes/normal_font_size = 29
+bbcode_enabled = true
+fit_content = true

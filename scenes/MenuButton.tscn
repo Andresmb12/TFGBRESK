@@ -1,13 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://b4l3qihcljqoc"]
 
-[ext_resource type="Script" path="res://MenuButton.gd" id="1_k2r7c"]
+[ext_resource type="Script" path="res://src/MenuButton.gd" id="1_k2r7c"]
 [ext_resource type="Texture2D" uid="uid://diyduna0nbity" path="res://images/redbutton.png" id="1_q4eyb"]
-[ext_resource type="Script" path="res://ButtonScript.gd" id="3_uq2nm"]
+[ext_resource type="Script" path="res://src/ButtonScript.gd" id="3_uq2nm"]
 
 [sub_resource type="Theme" id="Theme_x2v1t"]
 
 [sub_resource type="SystemFont" id="SystemFont_m6n20"]
 font_italic = true
+subpixel_positioning = 0
 
 [node name="ButtonMenu" type="Button" node_paths=PackedStringArray("textButton")]
 anchors_preset = -1

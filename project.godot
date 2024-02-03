@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Bresk1"
-run/main_scene="res://MainPlayerScene.tscn"
+run/main_scene="res://scenes/Intro.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
 
 [autoload]
 
-SceneSwitcher="*res://scene_switcher.gd"
+SceneManager="*res://scenes/SceneManager.tscn"
 
 [display]
 

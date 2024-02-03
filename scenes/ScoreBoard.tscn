@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bnv4k314q8820"]
 
 [ext_resource type="Texture2D" uid="uid://cacsiv2umn86c" path="res://images/tablero_puntuacion.jpg" id="1_0tjb2"]
-[ext_resource type="Script" path="res://ScoreBoard.gd" id="2_1iajq"]
+[ext_resource type="Script" path="res://src/ScoreBoard.gd" id="2_1iajq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l3jwu"]
 

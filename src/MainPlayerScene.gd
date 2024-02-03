@@ -10,7 +10,7 @@ extends Control
 var current_scene = null
 func _ready():
 	print("HOLAAA")
-	
+	$PlayerInfo/lblNickName.append_text("[center][color=BLACK][b]ANDRES M[/b][/color][/center]")
 
 
 

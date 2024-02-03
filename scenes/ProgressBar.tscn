@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://b84ylketuog1f"]
+
+[ext_resource type="Script" path="res://src/ProgressBar.gd" id="1_ermi2"]
+[ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="2_golmf"]
+[ext_resource type="Texture2D" uid="uid://8rueyo7buvvc" path="res://images/background_bar.jpg" id="3_2yhw3"]
+[ext_resource type="Texture2D" uid="uid://d28jnw3ctgjq2" path="res://images/barphoto.jpg" id="4_xxe2b"]
+
+[node name="RootProgressBar" type="Control"]
+layout_mode = 3
+anchor_right = 0.994
+anchor_bottom = 0.997
+offset_right = -0.320068
+offset_bottom = -6.84003
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ermi2")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.392157)
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.006
+anchor_bottom = 1.01
+offset_right = -3.63208
+offset_bottom = -0.109924
+texture = ExtResource("2_golmf")
+expand_mode = 1
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 413.0
+offset_right = 1056.0
+offset_bottom = 523.0
+value = 5.0
+nine_patch_stretch = true
+texture_under = ExtResource("3_2yhw3")
+texture_progress = ExtResource("4_xxe2b")
+
+[node name="lblTimeRemaining" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.48
+anchor_top = 0.634
+anchor_right = 0.558
+anchor_bottom = 0.681
+offset_left = -0.559998
+offset_top = 0.226044
+offset_right = 3.22394
+offset_bottom = -0.19101
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 34
+text = "45"
+horizontal_alignment = 1
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

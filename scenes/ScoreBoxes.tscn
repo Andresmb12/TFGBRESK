@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bs4h1hwwtu147"]
 
 [ext_resource type="Texture2D" uid="uid://t6vgyjh3c18y" path="res://images/score_boxes.jpg" id="1_uve1f"]
-[ext_resource type="Script" path="res://ScoreBoxes.gd" id="2_mcoup"]
+[ext_resource type="Script" path="res://src/ScoreBoxes.gd" id="2_mcoup"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bcib7"]
 texture = ExtResource("1_uve1f")

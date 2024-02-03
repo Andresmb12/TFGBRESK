@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://crywaplhkqgtm"]
 
-[ext_resource type="Script" path="res://Letter.gd" id="1_kiln7"]
+[ext_resource type="Script" path="res://Letter.gd" id="1_55t8w"]
 
 [sub_resource type="FontVariation" id="FontVariation_awe0h"]
 
@@ -33,7 +33,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
 alignment = 1
 max_length = 1
 caret_blink = true
-script = ExtResource("1_kiln7")
+script = ExtResource("1_55t8w")
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://wyxtpqp3tbwv"]
 
 [ext_resource type="TileSet" uid="uid://cadykvhkl1c1u" path="res://MainBoard.tres" id="1_npglt"]
-[ext_resource type="Script" path="res://MainBoard.gd" id="2_3aaku"]
+[ext_resource type="Script" path="res://src/MainBoard.gd" id="2_3aaku"]
 
 [node name="MainBoardRoot" type="Node2D"]
 
