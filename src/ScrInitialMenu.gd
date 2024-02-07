@@ -2,11 +2,11 @@ extends Node2D
 
 
 # Called when the node enters the scene tree for the first time.
-signal newScene(scene)
- 
+signal nextScene(scene)
+
 func _ready():
 	configure_buttons()
-
+	
 func configure_buttons():
 	
 	$PlayButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]YEAH[/b][/color][/center]")
@@ -16,14 +16,13 @@ func configure_buttons():
 
 
 func _on_play_button_menu_pressed():
-	print_debug("andres")
-	SceneSwitcher.switch_scene("res://scenes/ProgressBar.tscn")
-	print_debug("ana")
+	
+	SceneManager.change_scene("ProgressBar",SceneManager.create_options(),SceneManager.create_options(),SceneManager.create_general_options())
 	
 	pass # Replace with function body.
 
 
 func _on_exit_button_menu_pressed():
-	SceneSwitcher.switch_scene("res://scenes/ProgressBar.tscn")
+
 	get_tree().quit() # default behavior
 	pass # Replace with function body.

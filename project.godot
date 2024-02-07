@@ -17,7 +17,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-SceneManager="*res://scenes/SceneManager.tscn"
+SceneManager="*res://addons/scene_manager/scene_manager.tscn"
+Scenes="*res://addons/scene_manager/scenes.gd"
 
 [display]
 
@@ -28,7 +29,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ch.fischspiele.tilesethelper/plugin.cfg")
+enabled=PackedStringArray("res://addons/ch.fischspiele.tilesethelper/plugin.cfg", "res://addons/scene_manager/plugin.cfg")
 
 [gui]
 
