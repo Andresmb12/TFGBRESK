@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfo3efuuadp4f"]
+
+[ext_resource type="Script" path="res://src/bresk_rules.gd" id="1_m5baa"]
+[ext_resource type="Texture2D" uid="uid://x34iv8m58u04" path="res://images/possiblemenuphoto1.png" id="2_v1sp6"]
+[ext_resource type="Texture2D" uid="uid://clad7i8jxyxac" path="res://images/breskrules2.png" id="3_r178d"]
+
+[sub_resource type="SystemFont" id="SystemFont_dwf1h"]
+
+[node name="BreskRules3" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_m5baa")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.588235)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 1278.0
+offset_bottom = 720.0
+texture = ExtResource("2_v1sp6")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color(0.00392157, 0.00392157, 0.00392157, 1)
+clip_contents = false
+layout_mode = 0
+offset_left = 537.0
+offset_top = 71.0
+offset_right = 818.0
+offset_bottom = 111.0
+theme_override_fonts/normal_font = SubResource("SystemFont_dwf1h")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "REGLAS DE BRESK"
+scroll_active = false
+
+[node name="BackMenuButton3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 63.0
+offset_top = 52.0
+offset_right = 294.0
+offset_bottom = 122.0
+theme_override_font_sizes/font_size = 28
+text = "VOLVER A MENU"
+
+[node name="Breskrules3" type="Sprite2D" parent="."]
+position = Vector2(658.875, 418.563)
+scale = Vector2(0.768, 0.7)
+texture = ExtResource("3_r178d")
+
+[node name="BackButtonRules3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 603.0
+offset_right = 218.0
+offset_bottom = 676.0
+theme_override_font_sizes/font_size = 28
+text = "ATRÁS"
+
+[node name="NextButtonRules3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1049.0
+offset_top = 612.0
+offset_right = 1233.0
+offset_bottom = 684.0
+theme_override_font_sizes/font_size = 28
+text = "SIGUIENTE"
+
+[connection signal="pressed" from="BackMenuButton3" to="." method="_on_back_menu1_button_pressed"]
+[connection signal="pressed" from="BackButtonRules3" to="." method="_on_back_button_rules_3_pressed"]
+[connection signal="pressed" from="NextButtonRules3" to="." method="_on_next_button_rules_3_pressed"]

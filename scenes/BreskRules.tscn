@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6ss3hbmdeknk"]
+
+[ext_resource type="Script" path="res://src/bresk_rules.gd" id="1_fgyof"]
+[ext_resource type="Texture2D" uid="uid://x34iv8m58u04" path="res://images/possiblemenuphoto1.png" id="1_prlpv"]
+
+[sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_06wpw"]
+
+[sub_resource type="SystemFont" id="SystemFont_dwf1h"]
+
+[node name="BreskRules" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fgyof")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.588235)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 1278.0
+offset_bottom = 720.0
+texture = ExtResource("1_prlpv")
+expand_mode = 1
+
+[node name="TextEdit" type="TextEdit" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_left = 413.0
+offset_top = 162.0
+offset_right = 942.0
+offset_bottom = 696.0
+text = "OBJETIVO DEL JUEGO:
+
+BRESK! Es un juego en el que con la ayuda de un dado con las letras del alfabeto, los jugadores intentan formar palabras que anotan en su tarjeta de juego. El jugador que consigue el mayor número de puntos gana el juego."
+wrap_mode = 1
+scroll_smooth = true
+syntax_highlighter = SubResource("SyntaxHighlighter_06wpw")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color(0.00392157, 0.00392157, 0.00392157, 1)
+clip_contents = false
+layout_mode = 0
+offset_left = 537.0
+offset_top = 71.0
+offset_right = 818.0
+offset_bottom = 111.0
+theme_override_fonts/normal_font = SubResource("SystemFont_dwf1h")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "REGLAS DE BRESK"
+scroll_active = false
+
+[node name="BackMenuButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 63.0
+offset_top = 52.0
+offset_right = 230.0
+offset_bottom = 122.0
+theme_override_font_sizes/font_size = 28
+text = "VOLVER A MENU"
+
+[node name="NextButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1051.0
+offset_top = 622.0
+offset_right = 1214.0
+offset_bottom = 689.0
+theme_override_font_sizes/font_size = 28
+text = "SIGUIENTE"
+
+[connection signal="pressed" from="BackMenuButton" to="." method="_on_back_menu1_button_pressed"]
+[connection signal="pressed" from="NextButton" to="." method="_on_next_button1_pressed"]
