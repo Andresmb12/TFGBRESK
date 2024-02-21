@@ -29,7 +29,7 @@ offset_right = 160.0
 offset_bottom = 144.0
 scale = Vector2(0.8, 0.8)
 
-[node name="CreditsButtonMenu" parent="." instance=ExtResource("3_jy02p")]
+[node name="RulesButtonMenu" parent="." instance=ExtResource("3_jy02p")]
 offset_left = 160.0
 offset_top = 290.0
 offset_right = 160.0
@@ -38,3 +38,4 @@ scale = Vector2(0.8, 0.8)
 
 [connection signal="pressed" from="PlayButtonMenu" to="." method="_on_play_button_menu_pressed"]
 [connection signal="pressed" from="ExitButtonMenu" to="." method="_on_exit_button_menu_pressed"]
+[connection signal="pressed" from="RulesButtonMenu" to="." method="_on_rules_button_menu_pressed"]

@@ -9,20 +9,31 @@ func _ready():
 	
 func configure_buttons():
 	
-	$PlayButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]YEAH[/b][/color][/center]")
-	$ExitButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]QUIT[/b][/color][/center]")
-	$CreditsButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]CREDITS[/b][/color][/center]")
+	$PlayButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]JUGAR[/b][/color][/center]")
+	$ExitButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]SALIR[/b][/color][/center]")
+	$RulesButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]REGLAS[/b][/color][/center]")
 
 
 
 func _on_play_button_menu_pressed():
 	
-	SceneManager.change_scene("ProgressBar",SceneManager.create_options(),SceneManager.create_options(),SceneManager.create_general_options())
+	DataLoader._next_scene = "MainPlayerScene"
+	
+	#SceneManager.change_scene("ProgressBar",SceneManager.create_options(),SceneManager.create_options(),SceneManager.create_general_options())
+	SceneManager.no_effect_change_scene("ProgressBar")
 	
 	pass # Replace with function body.
 
 
 func _on_exit_button_menu_pressed():
+	
+	DataLoader._next_scene = "Exit"
+	SceneManager.no_effect_change_scene("ProgressBar")
+	
+	 # default behavior
+	pass # Replace with function body.
 
-	get_tree().quit() # default behavior
+
+func _on_rules_button_menu_pressed():
+	SceneManager.no_effect_change_scene("BreskRules")
 	pass # Replace with function body.

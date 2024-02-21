@@ -14,3 +14,8 @@ func _ready():
 
 
 
+
+
+func _on_texture_button_pressed():
+	SceneManager.no_effect_change_scene("InitialMenu")
+	pass # Replace with function body.

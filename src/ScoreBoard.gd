@@ -12,7 +12,7 @@ func _ready():
 	var map_height = used_rect.size.y
 
 	var EscenaNumero = preload("res://scenes/Number.tscn")
-	var Numero = EscenaNumero.instantiate()
+	
 	
 	var tile_size = Vector2(scoreboard.tile_set.tile_size) # Obtiene el tamaño de un tile
 	print(tile_size)

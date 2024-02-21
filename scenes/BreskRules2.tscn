@@ -45,8 +45,8 @@ theme_override_font_sizes/font_size = 28
 text = "VOLVER A MENU"
 
 [node name="Breskrules1" type="Sprite2D" parent="."]
-position = Vector2(658.875, 418.563)
-scale = Vector2(0.768, 0.7)
+position = Vector2(644, 402)
+scale = Vector2(0.856201, 0.727906)
 texture = ExtResource("3_kyait")
 
 [node name="Button" type="Button" parent="."]
@@ -59,6 +59,7 @@ theme_override_font_sizes/font_size = 28
 text = "ATRÁS"
 
 [node name="NextButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 1030.0
 offset_top = 612.0
 offset_right = 1214.0

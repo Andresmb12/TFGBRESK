@@ -22,7 +22,6 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.006
 anchor_bottom = 1.01
-offset_right = -3.63208
 offset_bottom = -0.109924
 texture = ExtResource("2_golmf")
 expand_mode = 1

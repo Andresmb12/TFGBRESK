@@ -1,27 +1,123 @@
-[gd_scene load_steps=3 format=3 uid="uid://rmtaxb05pqn3"]
+[gd_scene load_steps=6 format=3 uid="uid://rmtaxb05pqn3"]
 
-[ext_resource type="Script" path="res://src/ScrInitialMenu.gd" id="1_sk1gc"]
+[ext_resource type="Script" path="res://scenes/setting_players.gd" id="1_212fy"]
 [ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="2_aitbt"]
+[ext_resource type="Texture2D" uid="uid://iopav64d847b" path="res://images/square-check-regular.svg" id="3_tfgd2"]
 
-[node name="InitialMenuContainer" type="Node2D"]
-script = ExtResource("1_sk1gc")
+[sub_resource type="Theme" id="Theme_ahim6"]
+default_font_size = 29
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vm514"]
+bg_color = Color(0, 0, 0, 0.509804)
+
+[node name="SettingPlayers" type="Node2D"]
+script = ExtResource("1_212fy")
 
 [node name="Background" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.392157)
-clip_contents = true
 offset_right = 1276.0
 offset_bottom = 718.0
 texture = ExtResource("2_aitbt")
 expand_mode = 1
 
 [node name="TextEdit" type="TextEdit" parent="."]
-offset_left = 285.0
-offset_top = 255.0
-offset_right = 568.0
-offset_bottom = 354.0
-theme_override_colors/background_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_readonly_color = Color(0, 0, 0, 1)
+offset_left = 260.0
+offset_top = 362.0
+offset_right = 543.0
+offset_bottom = 414.0
 theme_override_font_sizes/font_size = 25
 text = "Número de jugadores"
 editable = false
+
+[node name="TextEdit2" type="TextEdit" parent="."]
+offset_left = 260.0
+offset_top = 442.0
+offset_right = 543.0
+offset_bottom = 494.0
+theme_override_font_sizes/font_size = 25
+text = "Seleccione un jugador"
+editable = false
+
+[node name="nplayers_sbox" type="SpinBox" parent="."]
+offset_left = 572.0
+offset_top = 365.0
+offset_right = 735.0
+offset_bottom = 413.0
+theme = SubResource("Theme_ahim6")
+min_value = 2.0
+max_value = 4.0
+value = 2.0
+alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="."]
+offset_left = 733.0
+offset_top = 358.0
+offset_right = 757.0
+offset_bottom = 382.0
+scale = Vector2(2.5, 2.5)
+size_flags_stretch_ratio = 0.0
+
+[node name="OptionButton" type="OptionButton" parent="."]
+offset_left = 573.0
+offset_top = 446.0
+offset_right = 852.0
+offset_bottom = 493.0
+theme_override_font_sizes/font_size = 28
+item_count = 2
+allow_reselect = true
+popup/item_0/text = "NUEVO JUGADOR"
+popup/item_0/id = 1
+popup/item_1/text = ""
+popup/item_1/id = 1
+
+[node name="nickname_ctnr" type="HBoxContainer" parent="."]
+layout_direction = 2
+offset_left = 261.0
+offset_top = 537.0
+offset_right = 877.0
+offset_bottom = 577.0
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 13
+
+[node name="RichTextLabel" type="RichTextLabel" parent="nickname_ctnr"]
+custom_minimum_size = Vector2(350, 40)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 28
+text = "Introduzca su nickname:"
+
+[node name="LineEdit" type="LineEdit" parent="nickname_ctnr"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+alignment = 3
+
+[node name="confirm_btn" type="TextureButton" parent="nickname_ctnr"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+texture_normal = ExtResource("3_tfgd2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 909.0
+offset_top = 267.0
+offset_right = 1233.0
+offset_bottom = 683.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(50, 80)
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/table_border = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_vm514")
+bbcode_enabled = true
+text = "[center] LISTA DE JUGADORES [/center] "
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer"]
+custom_minimum_size = Vector2(60, 300)
+layout_mode = 2
+
+[connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="nickname_ctnr/confirm_btn" to="." method="_on_confirm_new_player_btn_pressed"]
