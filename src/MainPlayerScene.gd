@@ -8,9 +8,10 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 
 var current_scene = null
+var user_player = DataLoader.game_players[0]
 func _ready():
-	print("HOLAAA")
-	$PlayerInfo/lblNickName.append_text("[center][color=BLACK][b]ANDRES M[/b][/color][/center]")
+	
+	$PlayerInfo/lblNickName.append_text("[center][color=BLACK][b]%s[/b][/color][/center]" % user_player.to_upper() )
 
 
 

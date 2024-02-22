@@ -17,7 +17,7 @@ func configure_buttons():
 
 func _on_play_button_menu_pressed():
 	
-	DataLoader._next_scene = "MainPlayerScene"
+	DataLoader._next_scene = "SettingPlayers"
 	
 	#SceneManager.change_scene("ProgressBar",SceneManager.create_options(),SceneManager.create_options(),SceneManager.create_general_options())
 	SceneManager.no_effect_change_scene("ProgressBar")

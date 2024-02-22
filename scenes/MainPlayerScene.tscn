@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dlkes8pirsu0h" path="res://images/nickname.jpg" id="5_omrhd"]
 [ext_resource type="Texture2D" uid="uid://cwjdma5ep6ipl" path="res://images/circle-left-solid.svg" id="6_38sp1"]
 
-[node name="MainSceneRoot" type="Control"]
+[node name="MainSceneRoot" type="Control" node_paths=PackedStringArray("usernamevar")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vp321")
+usernamevar = NodePath("PlayerInfo/lblNickName")
 
 [node name="MainBoardRoot" parent="." instance=ExtResource("1_g2gpa")]
 position = Vector2(-140, 38)
@@ -38,9 +39,9 @@ texture = ExtResource("5_omrhd")
 [node name="lblNickName" type="RichTextLabel" parent="PlayerInfo"]
 layout_mode = 0
 offset_left = 42.0
-offset_top = 116.0
+offset_top = 123.0
 offset_right = 276.0
-offset_bottom = 150.0
+offset_bottom = 145.0
 theme_override_font_sizes/normal_font_size = 29
 bbcode_enabled = true
 fit_content = true

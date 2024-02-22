@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://rmtaxb05pqn3"]
+[gd_scene load_steps=8 format=3 uid="uid://rmtaxb05pqn3"]
 
-[ext_resource type="Script" path="res://scenes/setting_players.gd" id="1_212fy"]
+[ext_resource type="Script" path="res://src/setting_players.gd" id="1_212fy"]
 [ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="2_aitbt"]
+[ext_resource type="Texture2D" uid="uid://o2svcjctm4y" path="res://images/trash-can-regular.svg" id="2_tjgu7"]
 [ext_resource type="Texture2D" uid="uid://iopav64d847b" path="res://images/square-check-regular.svg" id="3_tfgd2"]
 
 [sub_resource type="Theme" id="Theme_ahim6"]
@@ -10,8 +11,13 @@ default_font_size = 29
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vm514"]
 bg_color = Color(0, 0, 0, 0.509804)
 
-[node name="SettingPlayers" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ist4"]
+bg_color = Color(0.388235, 0.858824, 0.2, 1)
+
+[node name="SettingPlayers" type="Node2D" node_paths=PackedStringArray("players_available")]
 script = ExtResource("1_212fy")
+players_available = NodePath("OptionButton")
+delete_icon = ExtResource("2_tjgu7")
 
 [node name="Background" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.392157)
@@ -21,61 +27,60 @@ texture = ExtResource("2_aitbt")
 expand_mode = 1
 
 [node name="TextEdit" type="TextEdit" parent="."]
-offset_left = 260.0
-offset_top = 362.0
-offset_right = 543.0
-offset_bottom = 414.0
+offset_left = 172.0
+offset_top = 357.0
+offset_right = 455.0
+offset_bottom = 409.0
 theme_override_font_sizes/font_size = 25
 text = "Número de jugadores"
 editable = false
 
 [node name="TextEdit2" type="TextEdit" parent="."]
-offset_left = 260.0
-offset_top = 442.0
-offset_right = 543.0
-offset_bottom = 494.0
+offset_left = 174.0
+offset_top = 447.0
+offset_right = 457.0
+offset_bottom = 499.0
 theme_override_font_sizes/font_size = 25
 text = "Seleccione un jugador"
 editable = false
 
 [node name="nplayers_sbox" type="SpinBox" parent="."]
-offset_left = 572.0
-offset_top = 365.0
-offset_right = 735.0
-offset_bottom = 413.0
+offset_left = 491.0
+offset_top = 362.0
+offset_right = 654.0
+offset_bottom = 410.0
 theme = SubResource("Theme_ahim6")
 min_value = 2.0
 max_value = 4.0
 value = 2.0
 alignment = 1
+update_on_text_changed = true
 
 [node name="CheckBox" type="CheckBox" parent="."]
-offset_left = 733.0
-offset_top = 358.0
-offset_right = 757.0
-offset_bottom = 382.0
+offset_left = 671.0
+offset_top = 357.0
+offset_right = 695.0
+offset_bottom = 381.0
 scale = Vector2(2.5, 2.5)
 size_flags_stretch_ratio = 0.0
 
 [node name="OptionButton" type="OptionButton" parent="."]
-offset_left = 573.0
-offset_top = 446.0
-offset_right = 852.0
-offset_bottom = 493.0
+offset_left = 478.0
+offset_top = 452.0
+offset_right = 757.0
+offset_bottom = 499.0
 theme_override_font_sizes/font_size = 28
-item_count = 2
+item_count = 1
 allow_reselect = true
 popup/item_0/text = "NUEVO JUGADOR"
 popup/item_0/id = 1
-popup/item_1/text = ""
-popup/item_1/id = 1
 
 [node name="nickname_ctnr" type="HBoxContainer" parent="."]
 layout_direction = 2
-offset_left = 261.0
-offset_top = 537.0
-offset_right = 877.0
-offset_bottom = 577.0
+offset_left = 177.0
+offset_top = 539.0
+offset_right = 793.0
+offset_bottom = 579.0
 size_flags_stretch_ratio = 0.0
 theme_override_constants/separation = 13
 
@@ -85,7 +90,7 @@ layout_mode = 2
 theme_override_font_sizes/normal_font_size = 28
 text = "Introduzca su nickname:"
 
-[node name="LineEdit" type="LineEdit" parent="nickname_ctnr"]
+[node name="lne_input" type="LineEdit" parent="nickname_ctnr"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 alignment = 3
@@ -98,13 +103,13 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 909.0
-offset_top = 267.0
-offset_right = 1233.0
-offset_bottom = 683.0
+offset_left = 832.0
+offset_top = 260.0
+offset_right = 1156.0
+offset_bottom = 676.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(50, 80)
+custom_minimum_size = Vector2(50, 60)
 layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -117,7 +122,21 @@ text = "[center] LISTA DE JUGADORES [/center] "
 [node name="ItemList" type="ItemList" parent="VBoxContainer"]
 custom_minimum_size = Vector2(60, 300)
 layout_mode = 2
+theme_override_font_sizes/font_size = 28
+max_columns = 2
+fixed_icon_size = Vector2i(18, 18)
+
+[node name="ReadyButton" type="Button" parent="."]
+offset_left = 581.0
+offset_top = 641.0
+offset_right = 739.0
+offset_bottom = 699.0
+theme_override_font_sizes/font_size = 29
+theme_override_styles/hover = SubResource("StyleBoxFlat_7ist4")
+text = "LISTO"
 
 [connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="nickname_ctnr/confirm_btn" to="." method="_on_confirm_new_player_btn_pressed"]
+[connection signal="item_clicked" from="VBoxContainer/ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="pressed" from="ReadyButton" to="." method="_on_ready_button_pressed"]

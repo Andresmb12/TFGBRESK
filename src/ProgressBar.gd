@@ -20,5 +20,5 @@ func _change_to_next_scene(new_scene):
 	pass
 
 func _on_timer_timeout():
-	$TextureProgressBar.value+=20
+	$TextureProgressBar.value+=40
 	pass # Replace with function body.
