@@ -4,13 +4,12 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-@export_file var f #para guardar una ruta a un archivo
-#/root/MainSceneRoot/MainBoardRoot/MainBoardTileMap
-#@onready var mainboard = root.get_child()
-
+signal letter_entered
+@export var letters_main_board: Array
 #
 func _ready():
-	var mainboard = self
+	print("script del main board scene")
+	var mainboard = $MainBoardTileMap
 	print(mainboard.name)
 	var used_rect = mainboard.get_used_rect()
 
@@ -24,7 +23,6 @@ func _ready():
 	print("tamaño: ", used_rect.size)
 	var tile_size = Vector2(mainboard.tile_set.tile_size) # Obtiene el tamaño de un tile
 	print(tile_size)
-	var letters_array = []
 	
 	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
 		var row = []
@@ -41,8 +39,18 @@ func _ready():
 			letter.position = cell_coords
 			mainboard.add_child(letter)  # Añade la instancia a la escena
 			row.append(letter)
-		letters_array.append(row)
-		
-#	letters_array[0][1].editable = false
+		letters_main_board.append(row)
+	print("El tamaño del tablero es de " , letters_main_board.size())
+
 	
+	
+
+func _input(event):
+	if event is InputEventKey:
+		if Input.is_action_pressed("ui_new_letter") :
+			print("la letra metida es: ", event.as_text())
+			
+func _process(delta):
+	
+	pass
 
