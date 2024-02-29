@@ -7,15 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://dlkes8pirsu0h" path="res://images/nickname.jpg" id="5_omrhd"]
 [ext_resource type="Texture2D" uid="uid://cwjdma5ep6ipl" path="res://images/circle-left-solid.svg" id="6_38sp1"]
 
-[node name="MainSceneRoot" type="Control" node_paths=PackedStringArray("usernamevar")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MainPlayerScene" type="Node2D" node_paths=PackedStringArray("mainboard_node", "scoreboard_node", "scoreboxes_node")]
 script = ExtResource("1_vp321")
-usernamevar = NodePath("PlayerInfo/lblNickName")
+mainboard_node = NodePath("MainBoardRoot")
+scoreboard_node = NodePath("ScoreBoardRoot")
+scoreboxes_node = NodePath("ScoreBoxes")
 
 [node name="MainBoardRoot" parent="." instance=ExtResource("1_g2gpa")]
 position = Vector2(-140, 38)
@@ -29,7 +25,6 @@ position = Vector2(868, 588)
 scale = Vector2(0.55, 0.55)
 
 [node name="PlayerInfo" type="NinePatchRect" parent="."]
-layout_mode = 0
 offset_left = 854.0
 offset_top = 13.0
 offset_right = 1142.0
@@ -47,7 +42,6 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="TextureButton" type="TextureButton" parent="."]
-layout_mode = 0
 offset_left = 38.0
 offset_top = 28.0
 offset_right = 100.0

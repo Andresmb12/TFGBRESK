@@ -1,12 +1,14 @@
-@tool
-extends Control
+extends Node2D
 
 # MainScene Script
 
-@export var usernamevar: RichTextLabel
-@onready var mainboard_node
-@onready var scoreboard_node
+@export var usernamevar: String
+@export var mainboard_node :Node2D
+@export var scoreboard_node :Node2D
+@export var scoreboxes_node :Node2D
 @onready var nickname = $PlayerInfo/lblNickName
+@onready var n_mboard = $MainBoardRoot/MainBoardTileMap
+
 
 @export var mainboard: Array
 #Ahora desde la escena de cada jugador, dentro de mainboard, tengo acceso
@@ -18,18 +20,28 @@ var current_scene = null
 		
 var user_player = "ANDRES"
 
-func _ready():
-	mainboard_node = get_node("MainBoardRoot")
-	scoreboard_node = get_node("ScoreBoardRoot")
-	print("desde aqui mide: ", mainboard_node.letters_main_board.size())
-	mainboard = mainboard_node.letters_main_board
-	print("SCRIPT del main player Scene")
-	nickname.append_text("[center][color=BLACK][b]%s[/b][/color][/center]" % user_player.to_upper() )
-	#user_player = DataLoader.game_players[0]
+func constructor():
+	usernamevar = $PlayerInfo/lblNickName.text
+	mainboard_node = $MainBoardRoot
+	scoreboard_node = $ScoreBoardRoot
+	scoreboxes_node = $ScoreBoxes
 	
+func _ready():
+	
+	print("SCRIPT del main player Scene")
+	
+	set_player_name(usernamevar)
+
+	
+func set_player_name(name):
+	usernamevar = name
+	nickname.set_text("[center][color=BLACK][b]%s[/b][/color][/center]" % usernamevar.to_upper())
+
+
+
+func set_mainboard(board):
+	mainboard_node = board
+	pass
 
 func _on_texture_button_pressed():
-	
 	SceneManager.no_effect_change_scene("InitialMenu")
-	
-	pass # Replace with function body.

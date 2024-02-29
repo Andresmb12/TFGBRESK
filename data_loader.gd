@@ -18,9 +18,12 @@ extends Node
 @export var clickable: bool = false
 @export var add_to_back: bool = true
 
-@onready var all_players: Array = ["Algoritmo-1","Algoritmo-2"]
+@onready var all_players: Array = ["Algoritmo-1","Algoritmo-2","Algoritmo-3","Algoritmo-4"]
 @onready var nplayers: int = 0;
 @onready var game_players : Array = Array()
+var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
+@onready var current_player  = PlayerScene.instantiate()
+@onready var turn : int = 0
 @onready var fade_out_options = SceneManager.create_options(fade_out_speed, fade_out_pattern, fade_out_smoothness, fade_out_inverted)
 @onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)
 @onready var general_options = SceneManager.create_general_options(color, timeout, clickable, add_to_back)
@@ -34,3 +37,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+	
+func copy_player(player):
+	current_player.usernamevar = player.usernamevar
+	current_player.mainboard_node = player.mainboard_node.duplicate()
+	current_player.scoreboard_node = player.scoreboard_node.duplicate()
+	current_player.scoreboxes_node = player.scoreboxes_node.duplicate()
+	

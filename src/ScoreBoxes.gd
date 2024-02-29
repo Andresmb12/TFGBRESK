@@ -1,9 +1,9 @@
 
-extends TileMap
+extends Node2D
 # MainBoard Script
 
-@onready var scoreboxes = self
-
+@onready var scoreboxes = $ScoreBoxesTileMap
+@export var v_scores : Array = Array()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -36,6 +36,7 @@ func _ready():
 		row.append(number)
 		numbers_array.append(row)
 		
+	v_scores = numbers_array
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

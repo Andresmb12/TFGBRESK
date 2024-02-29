@@ -1,7 +1,7 @@
-extends TileMap
+extends Node2D
 # MainBoard Script
-@onready var scoreboard = self
-
+@onready var scoreboard = $ScoreBoard
+@export var n_scoreboard : TileMap
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -34,7 +34,7 @@ func _ready():
 			scoreboard.add_child(number)  # Añade la instancia a la escena
 			row.append(number)
 		numbers_array.append(row)
-		
+	n_scoreboard = scoreboard	
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

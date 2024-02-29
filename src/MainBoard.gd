@@ -6,10 +6,12 @@ extends Node2D
 # var b = "text"
 signal letter_entered
 @export var letters_main_board: Array
+@export var n_mainboard : TileMap
+@onready var mainboard = $MainBoardTileMap
 #
 func _ready():
 	print("script del main board scene")
-	var mainboard = $MainBoardTileMap
+	
 	print(mainboard.name)
 	var used_rect = mainboard.get_used_rect()
 
@@ -41,6 +43,7 @@ func _ready():
 			row.append(letter)
 		letters_main_board.append(row)
 	print("El tamaño del tablero es de " , letters_main_board.size())
+	n_mainboard = mainboard
 
 	
 	
