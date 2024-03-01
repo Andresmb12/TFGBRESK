@@ -38,9 +38,5 @@ func _ready():
 func _process(delta):
 	pass
 	
-func copy_player(player):
-	current_player.usernamevar = player.usernamevar
-	current_player.mainboard_node = player.mainboard_node.duplicate()
-	current_player.scoreboard_node = player.scoreboard_node.duplicate()
-	current_player.scoreboxes_node = player.scoreboxes_node.duplicate()
+
 	

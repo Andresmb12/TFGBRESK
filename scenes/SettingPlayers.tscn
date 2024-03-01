@@ -16,7 +16,7 @@ bg_color = Color(0.388235, 0.858824, 0.2, 1)
 
 [node name="SettingPlayers" type="Node2D" node_paths=PackedStringArray("players_available")]
 script = ExtResource("1_212fy")
-players_available = NodePath("OptionButton")
+players_available = NodePath("disp_players_btn")
 delete_icon = ExtResource("2_tjgu7")
 
 [node name="Background" type="TextureRect" parent="."]
@@ -64,7 +64,7 @@ offset_bottom = 381.0
 scale = Vector2(2.5, 2.5)
 size_flags_stretch_ratio = 0.0
 
-[node name="OptionButton" type="OptionButton" parent="."]
+[node name="disp_players_btn" type="OptionButton" parent="."]
 offset_left = 478.0
 offset_top = 452.0
 offset_right = 757.0
@@ -136,7 +136,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_7ist4")
 text = "LISTO"
 
 [connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]
-[connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="item_selected" from="disp_players_btn" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="nickname_ctnr/confirm_btn" to="." method="_on_confirm_new_player_btn_pressed"]
 [connection signal="item_clicked" from="VBoxContainer/ItemList" to="." method="_on_item_list_item_clicked"]
 [connection signal="pressed" from="ReadyButton" to="." method="_on_ready_button_pressed"]

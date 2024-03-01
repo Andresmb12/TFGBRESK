@@ -114,5 +114,13 @@ offset_right = 1165.0
 offset_bottom = 639.0
 text = "NEXT"
 
+[node name="DiceButton1" type="Button" parent="."]
+layout_mode = 0
+offset_left = 999.0
+offset_top = 428.0
+offset_right = 1199.0
+offset_bottom = 503.0
+text = "TIRA EL DADO"
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
