@@ -3,6 +3,11 @@ extends Node2D
 @onready var scoreboard = $ScoreBoard
 @export var n_scoreboard : TileMap
 # Called when the node enters the scene tree for the first time.
+
+func set_editable_board(order):
+	for n in scoreboard.get_children():
+		n.editable = order
+		
 func _ready():
 	
 	pass # Replace with function body.
@@ -15,7 +20,7 @@ func _ready():
 	
 	
 	var tile_size = Vector2(scoreboard.tile_set.tile_size) # Obtiene el tamaño de un tile
-	print(tile_size)
+	
 	var numbers_array = []
 	
 	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
@@ -26,7 +31,7 @@ func _ready():
 			number.editable = false
 			number.visible = true
 			var index = Vector2(x,y)
-#			print(index)
+#		
 			var cell_coords = scoreboard.map_to_local(index)
 			cell_coords.x -=   (tile_size.x) / 2
 			cell_coords.y -=   (tile_size.y) / 2

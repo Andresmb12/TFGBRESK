@@ -19,7 +19,7 @@ extends Node
 @export var add_to_back: bool = true
 
 @onready var all_players: Array = ["Algoritmo-1","Algoritmo-2","Algoritmo-3","Algoritmo-4"]
-@onready var nplayers: int = 0;
+@onready var nplayers: int = 2;
 @onready var game_players : Array = Array()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
 @onready var current_player  = PlayerScene.instantiate()

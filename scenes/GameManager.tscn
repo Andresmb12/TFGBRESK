@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cawqo7l54aw5t"]
+[gd_scene load_steps=7 format=3 uid="uid://cawqo7l54aw5t"]
 
 [ext_resource type="Script" path="res://scenes/GameManager.gd" id="1_lv1m6"]
 [ext_resource type="PackedScene" uid="uid://beqg8k0qbsbqm" path="res://scenes/MainPlayerScene.tscn" id="2_1ndxj"]
+[ext_resource type="PackedScene" uid="uid://b8t17ld0p75dm" path="res://scenes/Dado.tscn" id="3_mkww0"]
+[ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="4_mufjv"]
+
+[sub_resource type="Theme" id="Theme_ce18h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oku76"]
 
 [node name="GameManager" type="Control"]
 layout_mode = 3
@@ -114,13 +120,32 @@ offset_right = 1165.0
 offset_bottom = 639.0
 text = "NEXT"
 
-[node name="DiceButton1" type="Button" parent="."]
+[node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1056.0
+offset_top = 206.0
+offset_right = 1296.12
+offset_bottom = 543.468
+scale = Vector2(0.7, 0.7)
+
+[node name="lbl_next_step" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 999.0
-offset_top = 428.0
-offset_right = 1199.0
-offset_bottom = 503.0
-text = "TIRA EL DADO"
+offset_left = 482.0
+offset_top = 192.0
+offset_right = 867.0
+offset_bottom = 287.0
+theme = SubResource("Theme_ce18h")
+theme_override_fonts/normal_font = ExtResource("4_mufjv")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_oku76")
+bbcode_enabled = true
+text = "[center]TIRA LOS DADOS[/center]"
+fit_content = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="dice_thrown_sgnl" from="Dice1" to="." method="_on_dice_1_thrown_sgnl"]

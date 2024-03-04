@@ -10,7 +10,7 @@ func _on_text_changed(new_text):
 
 
 func _on_focus_entered():
-	self.editable = true
+	#self.editable = true
 	pass # Replace with function body.
 
 

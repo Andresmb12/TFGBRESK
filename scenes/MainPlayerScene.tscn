@@ -7,11 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dlkes8pirsu0h" path="res://images/nickname.jpg" id="5_omrhd"]
 [ext_resource type="Texture2D" uid="uid://cwjdma5ep6ipl" path="res://images/circle-left-solid.svg" id="6_38sp1"]
 
-[node name="MainPlayerScene" type="Node2D" node_paths=PackedStringArray("mainboard_node", "scoreboard_node", "scoreboxes_node")]
+[node name="MainPlayerScene" type="Node2D"]
 script = ExtResource("1_vp321")
-mainboard_node = NodePath("MainBoardRoot")
-scoreboard_node = NodePath("ScoreBoardRoot")
-scoreboxes_node = NodePath("ScoreBoxes")
 
 [node name="MainBoardRoot" parent="." instance=ExtResource("1_g2gpa")]
 position = Vector2(-140, 38)

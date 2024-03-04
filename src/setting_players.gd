@@ -7,6 +7,8 @@ extends Node2D
 @onready var players_list = $VBoxContainer/ItemList
 @onready var disp_players = $disp_players_btn
 # Called when the node enters the scene tree for the first time.
+
+
 func _ready():
 	nick_cont.hide()
 	disp_players.disabled = true

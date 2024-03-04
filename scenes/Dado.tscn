@@ -1,38 +1,74 @@
-[gd_scene load_steps=4 format=3 uid="uid://b8t17ld0p75dm"]
+[gd_scene load_steps=5 format=3 uid="uid://b8t17ld0p75dm"]
 
 [ext_resource type="Script" path="res://scenes/Dice.gd" id="1_x6yee"]
+[ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="2_vvbf8"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_t174h"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_67rda"]
-resource_local_to_scene = true
 
-[node name="Dado" type="TextureRect"]
-modulate = Color(0, 0, 0, 1)
-self_modulate = Color(0.00784314, 0.00784314, 0.00784314, 1)
-offset_right = 218.0
-offset_bottom = 179.0
-texture = SubResource("CanvasTexture_t174h")
+[node name="DadoRoot" type="Control"]
+clip_contents = true
+layout_mode = 3
+anchor_right = 0.187
+anchor_bottom = 0.468
+offset_right = -0.360016
+offset_bottom = 0.039978
 script = ExtResource("1_x6yee")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-top_level = true
+[node name="Dado" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.992
+anchor_bottom = 0.659
+offset_right = -0.0880127
+offset_bottom = -0.0830078
+mouse_default_cursor_shape = 6
+texture = SubResource("CanvasTexture_t174h")
+
+[node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 11.0
-offset_top = 14.0
-offset_right = 205.0
-offset_bottom = 164.0
+offset_left = 47.0
+offset_top = 253.0
+offset_right = 202.0
+offset_bottom = 290.0
+theme_override_fonts/font = ExtResource("2_vvbf8")
+text = "TIRA EL DADO"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visibility_layer = 2
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.092
+anchor_top = 0.065
+anchor_right = 0.891
+anchor_bottom = 0.605
+offset_left = 0.0119972
+offset_top = 0.0949974
+offset_right = 5.05099
+offset_bottom = 0.11499
 texture = SubResource("CanvasTexture_67rda")
 
 [node name="dice_lbl" type="RichTextLabel" parent="TextureRect"]
-top_level = true
-layout_mode = 0
-offset_left = 13.0
-offset_top = 28.0
-offset_right = 202.0
-offset_bottom = 152.0
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.026
+anchor_top = 0.198
+anchor_right = 0.958
+anchor_bottom = 0.879
+offset_left = -2.966
+offset_top = -3.036
+offset_right = 4.02199
+offset_bottom = 0.0219879
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 60
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
