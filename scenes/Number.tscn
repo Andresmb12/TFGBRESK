@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjrg7a3no1tvl"]
+[gd_scene load_steps=6 format=3 uid="uid://cjrg7a3no1tvl"]
 
 [ext_resource type="Script" path="res://src/Number.gd" id="1_dq13w"]
 [ext_resource type="FontFile" uid="uid://ddowogj42lf86" path="res://Noto_Sans_JP/static/NotoSansJP-SemiBold.ttf" id="1_ttr5w"]
@@ -15,6 +15,8 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w576q"]
+
 [node name="Number" type="LineEdit"]
 clip_contents = true
 custom_minimum_size = Vector2(50, 50)
@@ -22,13 +24,15 @@ offset_right = 60.0
 offset_bottom = 60.0
 size_flags_stretch_ratio = 0.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_selected_color = Color(0, 0, 0, 0)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 1)
 theme_override_colors/caret_color = Color(0, 0, 0, 1)
 theme_override_constants/minimum_character_width = 0
 theme_override_fonts/font = ExtResource("1_ttr5w")
 theme_override_font_sizes/font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxEmpty_7rv54")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_w576q")
 alignment = 1
 max_length = 1
 caret_blink = true

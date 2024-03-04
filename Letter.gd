@@ -20,7 +20,15 @@ func _on_text_changed(new_text):
 
 
 func _on_focus_entered():
-	#self.editable = true
+	if DataLoader.play_type == DataLoader.game_play_types.BRESK:
+		text = DataLoader.next_letter
+		DataLoader.play_type = DataLoader.game_play_types.SKIP
+		self.editable = false
+	if DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE:
+		pass
+	if DataLoader.play_type == DataLoader.game_play_types.SKIP:
+		
+		pass
 	pass # Replace with function body.
 
 

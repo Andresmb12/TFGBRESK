@@ -3,15 +3,20 @@ extends Control
 #Members
 @onready var current_player
 @onready var next_step = $lbl_next_step
+@onready var bresk_dice = $Dice1
+@onready var alph_dice = $Dice2
 @onready var grid = $GridContainer
 @onready var viewport1 = $GridContainer/svpcontainer1/SubViewport1
 @onready var lbl_turn = $lbl_game_turn
+@onready var last_letter
+@onready var last_index = Vector2(0,0)
 @onready var player4 = $GridContainer/svpcontainer4/SubViewport4/MainScenePlayer4
 @onready var nplayers = DataLoader.nplayers
 @onready var turn : int = 1
 @onready var actions = {"0": "LO SENTIMOS! SALTAMOS TU TURNO", 
 "1": "COLOCA 1 LETRA EN EL TABLERO","2": "COLOCA 2 LETRAS EN EL TABLERO",
-"3": "COLOCA 3 LETRAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA" }
+"3": "COLOCA 3 LETRAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA",
+"4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" }
 
 
 var PlayersBoards: Dictionary
@@ -32,6 +37,7 @@ func show_next_step(action):
 	next_step.show()
 	await get_tree().create_timer(3).timeout
 	next_step.hide()
+	
 	current_player.modulate.a = 1
 	
 func update_game():
@@ -40,6 +46,7 @@ func update_game():
 	$Button.show()
 	$Button2.hide()
 	$Dice1.hide()
+	$Dice2.hide()
 	for i in range(1,nplayers+1):
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
 		if i != turn: #Difuminamos los tableros que no es su turno aun
@@ -59,7 +66,10 @@ func update_game():
 
 func focus_on_player():
 	$Button2.show()
-	$Dice1.show()
+	bresk_dice.show()
+	bresk_dice.set_bresk_dice()
+	bresk_dice.roll_dice()
+	
 	var root = get_tree().root
 	grid.columns = 1
 	for i in range(1,5):
@@ -90,15 +100,31 @@ func _on_button_2_pressed():
 	pass # Replace with function body.
 
 
-func _on_dice_1_thrown_sgnl(result):
+func _on_bresk_dice_thrown(result):
+	
+	var second_dice
 	show_next_step(result)
 	if result=="0":
+		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		pass
 	elif result == "BRESK":
-		pass
+		DataLoader.play_type = DataLoader.game_play_types.BRESK
+		await get_tree().create_timer(3).timeout
+		alph_dice.show()
+		alph_dice.set_alphabet_dice()
+		alph_dice.roll_dice()
 		#throw second dice
 	else:
+		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 		current_player.set_editable_subboards(true)
 		pass
 		#chooses result letters to write
 	
+
+
+func _on_alph_dice_thrown(result):
+	print("Ha salido la letra ", result)
+	last_letter = result
+	DataLoader.next_letter = result
+	show_next_step("4")
+	pass # Replace with function body.

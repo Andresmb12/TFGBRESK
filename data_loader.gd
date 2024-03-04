@@ -23,7 +23,10 @@ extends Node
 @onready var game_players : Array = Array()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
 @onready var current_player  = PlayerScene.instantiate()
+enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP }
+@onready var play_type
 @onready var turn : int = 0
+@onready var next_letter
 @onready var fade_out_options = SceneManager.create_options(fade_out_speed, fade_out_pattern, fade_out_smoothness, fade_out_inverted)
 @onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)
 @onready var general_options = SceneManager.create_general_options(color, timeout, clickable, add_to_back)
