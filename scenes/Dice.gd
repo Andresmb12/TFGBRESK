@@ -8,6 +8,7 @@ extends Control
 ]
 @onready var dice_options
 @onready var dice_chosen
+@onready var timer
 @onready var dice_is_thrown = false
 @onready var wait_time = 0.4
 @onready var result
@@ -24,29 +25,25 @@ func set_alphabet_dice():
 	dice_chosen = "alphabet"
 
 func _ready():
-	
+	timer = Timer.new()
+	dice_is_thrown = false
 	pass
 
 func roll_dice():
 	var i = 0
 	var option
 	while !dice_is_thrown:
-		
 			option = dice_options[i]
-			if dice_chosen == "bresk":
-				option="BRESK"
-			else:
-				print("holaaa")
 			dice.text = "[center]%s[/center]" % option
 			await get_tree().create_timer(wait_time).timeout
-			i = (i + 1) % dice_options.size() 
+			i = (i + 1) % dice_options.size()
 	result = option
 	print("EL RESULTADO ES ", result)
 	dice_is_thrown = false
 	wait_time = 0.4
 	if dice_chosen == "bresk":
 		bresk_dice_thrown.emit(result)
-	else:
+	if dice_chosen == "alphabet":
 		alph_dice_thrown.emit(result)
 			
 func _process(delta):
@@ -56,7 +53,7 @@ func _process(delta):
 	
 func _on_button_pressed():
 	wait_time = 0.1
-	var timer = Timer.new()
+	
 	timer.set_wait_time(2)  # Cambiar la opción cada segundo
 	timer.set_one_shot(false)
 	timer.connect("timeout", _choose_option )
@@ -65,3 +62,5 @@ func _on_button_pressed():
 	
 func _choose_option():
 	dice_is_thrown = true
+	remove_child(timer) #Important
+	timer.disconnect("timeout", _choose_option)

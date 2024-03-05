@@ -23,8 +23,8 @@ var PlayersBoards: Dictionary
 var Scores: Array
 
 func _ready():
+	DataLoader.play_type = DataLoader.game_play_types.SKIP
 	grid.columns = 2
-	
 	for i in range(1,5):
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
 		p_container.hide()
@@ -54,21 +54,16 @@ func update_game():
 		else:
 			p_container.modulate.a = 1
 		var player  = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
-		player.set_player_name(DataLoader.all_players[i-1])
-		PlayersBoards[DataLoader.all_players[i-1]] = player
+		player.set_player_name(DataLoader.game_players[i-1])
+		PlayersBoards[DataLoader.game_players[i-1]] = player
 		p_container.show()
 		var scale : float = float(grid.columns) / float(nplayers)
 		player.scale = Vector2(0.47, 0.47)
 		
-	print(PlayersBoards)
 	lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % PlayersBoards.keys()[turn-1])
 	
 
 func focus_on_player():
-	$Button2.show()
-	bresk_dice.show()
-	bresk_dice.set_bresk_dice()
-	bresk_dice.roll_dice()
 	
 	var root = get_tree().root
 	grid.columns = 1
@@ -83,16 +78,23 @@ func focus_on_player():
 			
 		else:
 			cont.hide()
-			
+	print("en la primera casilla hay: ", current_player.get_letter(Vector2(0,0)))
+	bresk_dice.dice_is_thrown = false
+	alph_dice.dice_is_thrown = false
 	$Button.hide()
-
+	$Button2.show()
+	bresk_dice.show()
+	bresk_dice.set_bresk_dice()
+	bresk_dice.roll_dice()
 	
 func _on_button_pressed():
+	print("SIGUIENTE JUGADOR")
 	focus_on_player()
 	pass # Replace with function body.
 
 
 func _on_button_2_pressed():
+	
 	grid.columns = 2
 	turn = turn % nplayers + 1
 	update_game()
@@ -102,13 +104,15 @@ func _on_button_2_pressed():
 
 func _on_bresk_dice_thrown(result):
 	
-	var second_dice
 	show_next_step(result)
+	
 	if result=="0":
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
+		await get_tree().create_timer(2).timeout
+		_on_button_2_pressed()
 		pass
 	elif result == "BRESK":
-		DataLoader.play_type = DataLoader.game_play_types.BRESK
+		
 		await get_tree().create_timer(3).timeout
 		alph_dice.show()
 		alph_dice.set_alphabet_dice()
@@ -123,8 +127,12 @@ func _on_bresk_dice_thrown(result):
 
 
 func _on_alph_dice_thrown(result):
+	DataLoader.play_type = DataLoader.game_play_types.BRESK
+	
 	print("Ha salido la letra ", result)
 	last_letter = result
+	
 	DataLoader.next_letter = result
 	show_next_step("4")
+	alph_dice.dice_is_thrown = false
 	pass # Replace with function body.

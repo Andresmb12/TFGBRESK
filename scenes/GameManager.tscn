@@ -121,7 +121,6 @@ offset_bottom = 639.0
 text = "NEXT"
 
 [node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
-visible = false
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
@@ -133,7 +132,6 @@ offset_bottom = 543.468
 scale = Vector2(0.7, 0.7)
 
 [node name="Dice2" parent="." instance=ExtResource("3_mkww0")]
-visible = false
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
@@ -145,6 +143,7 @@ offset_bottom = 543.468
 scale = Vector2(0.7, 0.7)
 
 [node name="lbl_next_step" type="RichTextLabel" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 482.0
 offset_top = 192.0

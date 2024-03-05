@@ -19,6 +19,14 @@ var current_scene = null
 		
 var user_player = "ANDRES"
 
+func get_letter(position):
+	return n_mainboard.letters_main_board[position.x][position.y].text
+	
+func disable_score_cells():
+	for i in range(0,9):
+		n_mainboard.letters_main_board[i][8].focus_mode = Control.FOCUS_NONE 
+		n_mainboard.letters_main_board[8][i].focus_mode = Control.FOCUS_NONE 
+		 
 
 func set_editable_subboards(order):
 	n_mainboard.set_editable_board(order)
@@ -26,7 +34,7 @@ func set_editable_subboards(order):
 	n_scoreboxes.set_editable_board(order)
 	
 func _ready():
-	
+	disable_score_cells()
 	print("SCRIPT del main player Scene")
 	
 	set_player_name(usernamevar)

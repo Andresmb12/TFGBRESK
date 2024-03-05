@@ -30,10 +30,11 @@ texture = SubResource("CanvasTexture_t174h")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 47.0
-offset_top = 253.0
-offset_right = 202.0
-offset_bottom = 290.0
+offset_left = 15.0
+offset_top = 236.0
+offset_right = 227.0
+offset_bottom = 299.0
+focus_mode = 1
 theme_override_fonts/font = ExtResource("2_vvbf8")
 text = "TIRA EL DADO"
 
