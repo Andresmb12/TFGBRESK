@@ -9,6 +9,8 @@ extends Control
 @onready var viewport1 = $GridContainer/svpcontainer1/SubViewport1
 @onready var lbl_turn = $lbl_game_turn
 @onready var last_letter
+@onready var general_scale = 0.47
+@onready var focus_scale = 0.85
 @onready var last_index = Vector2(0,0)
 @onready var player4 = $GridContainer/svpcontainer4/SubViewport4/MainScenePlayer4
 @onready var nplayers = DataLoader.nplayers
@@ -29,7 +31,20 @@ func _ready():
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
 		p_container.hide()
 	update_game()
-
+	
+	
+func split_in_two():
+	for i in range(1,nplayers):
+		var cont = grid.get_node("svpcontainer" + str(i))
+		print("es el turno de ",turn)
+		if(i == turn):
+			cont.size = grid.size / 2
+			current_player = cont.get_node("SubViewport" + str(i) + "/MainScenePlayer" + str(i))
+			current_player.scale = Vector2(0.6,0.6)
+			current_player.set_editable_subboards(false)
+	pass
+	
+	
 func show_next_step(action):
 	current_player.modulate.a = 0.5
 	var next_action = actions[action]
