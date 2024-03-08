@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cawqo7l54aw5t"]
+[gd_scene load_steps=9 format=3 uid="uid://cawqo7l54aw5t"]
 
 [ext_resource type="Script" path="res://scenes/GameManager.gd" id="1_lv1m6"]
 [ext_resource type="PackedScene" uid="uid://beqg8k0qbsbqm" path="res://scenes/MainPlayerScene.tscn" id="2_1ndxj"]
 [ext_resource type="PackedScene" uid="uid://b8t17ld0p75dm" path="res://scenes/Dado.tscn" id="3_mkww0"]
 [ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="4_mufjv"]
+[ext_resource type="PackedScene" uid="uid://crywaplhkqgtm" path="res://scenes/Letter.tscn" id="5_hcpsy"]
+[ext_resource type="StyleBox" uid="uid://b4rttf8bbdtmi" path="res://scenes/letters_chosen.tres" id="6_tlnfj"]
 
 [sub_resource type="Theme" id="Theme_ce18h"]
 
@@ -30,6 +32,7 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
+visible = false
 clip_contents = true
 layout_direction = 1
 layout_mode = 0
@@ -54,7 +57,7 @@ snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 size = Vector2i(638, 338)
 size_2d_override_stretch = true
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="MainScenePlayer1" parent="GridContainer/svpcontainer1/SubViewport1" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -69,7 +72,7 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 size = Vector2i(637, 338)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -84,7 +87,7 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 size = Vector2i(638, 338)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -100,7 +103,7 @@ disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
 size = Vector2i(637, 338)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -124,27 +127,25 @@ offset_bottom = 639.0
 text = "NEXT"
 
 [node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
-visible = false
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 1056.0
-offset_top = 206.0
+offset_top = 251.0
 offset_right = 1296.12
-offset_bottom = 543.468
+offset_bottom = 588.468
 scale = Vector2(0.7, 0.7)
 
 [node name="Dice2" parent="." instance=ExtResource("3_mkww0")]
-visible = false
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 1056.0
-offset_top = 206.0
+offset_top = 251.0
 offset_right = 1296.12
-offset_bottom = 543.468
+offset_bottom = 588.468
 scale = Vector2(0.7, 0.7)
 
 [node name="lbl_next_step" type="RichTextLabel" parent="."]
@@ -160,6 +161,91 @@ theme_override_font_sizes/normal_font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_oku76")
 bbcode_enabled = true
 text = "[center]TIRA LOS DADOS[/center]"
+fit_content = true
+
+[node name="cont_chosen_letters" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1019.0
+offset_top = 40.0
+offset_right = 1270.0
+offset_bottom = 190.0
+
+[node name="cont_letter1" type="VBoxContainer" parent="cont_chosen_letters"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Letter1" parent="cont_chosen_letters/cont_letter1" instance=ExtResource("5_hcpsy")]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = ExtResource("6_tlnfj")
+theme_override_styles/focus = ExtResource("6_tlnfj")
+theme_override_styles/read_only = ExtResource("6_tlnfj")
+caret_force_displayed = true
+
+[node name="btn_letter1" type="Button" parent="cont_chosen_letters/cont_letter1"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "SELECT"
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="cont_letter2" type="VBoxContainer" parent="cont_chosen_letters"]
+custom_minimum_size = Vector2(80, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Letter2" parent="cont_chosen_letters/cont_letter2" instance=ExtResource("5_hcpsy")]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = ExtResource("6_tlnfj")
+theme_override_styles/focus = ExtResource("6_tlnfj")
+theme_override_styles/read_only = ExtResource("6_tlnfj")
+caret_force_displayed = true
+
+[node name="btn_letter2" type="Button" parent="cont_chosen_letters/cont_letter2"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "SELECT"
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="cont_letter3" type="VBoxContainer" parent="cont_chosen_letters"]
+custom_minimum_size = Vector2(80, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Letter3" parent="cont_chosen_letters/cont_letter3" instance=ExtResource("5_hcpsy")]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = ExtResource("6_tlnfj")
+theme_override_styles/focus = ExtResource("6_tlnfj")
+theme_override_styles/read_only = ExtResource("6_tlnfj")
+caret_force_displayed = true
+
+[node name="btn_letter3" type="Button" parent="cont_chosen_letters/cont_letter3"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "SELECT"
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 1003.0
+offset_top = 6.0
+offset_right = 1271.0
+offset_bottom = 63.0
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_mufjv")
 fit_content = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

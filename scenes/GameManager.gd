@@ -6,19 +6,22 @@ extends Control
 @onready var bresk_dice = $Dice1
 @onready var alph_dice = $Dice2
 @onready var grid = $GridContainer
-@onready var viewport1 = $GridContainer/svpcontainer1/SubViewport1
 @onready var lbl_turn = $lbl_game_turn
 @onready var last_letter
 @onready var cont_letters = 0
+@onready var n_chosen_letters = 0
 @onready var general_scale = Vector2(0.47, 0.47)
 @onready var focus_scale = Vector2(0.85, 0.85)
 @onready var last_index = Vector2(0,0)
-@onready var player4 = $GridContainer/svpcontainer4/SubViewport4/MainScenePlayer4
+@onready var cont_chosen_letters = $cont_chosen_letters
+@onready var cont_letter1 = $cont_chosen_letters/cont_letter1
+@onready var cont_letter2 = $cont_chosen_letters/cont_letter2
+@onready var cont_letter3 = $cont_chosen_letters/cont_letter3
 @onready var nplayers = DataLoader.nplayers
 @onready var turn : int = 1
 @onready var actions = {"0": "LO SENTIMOS! SALTAMOS TU TURNO", 
-"1": "COLOCA 1 LETRA EN EL TABLERO","2": "COLOCA 2 LETRAS EN EL TABLERO",
-"3": "COLOCA 3 LETRAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA",
+"1": "ELIGE 1 LETRA Y LUEGO \nCOLOCALA EN EL TABLERO","2": "ELIGE 2 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO",
+"3": "ELIGE 3 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA",
 "4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"5": "TURNO DEL SIGUIENTE JUGADOR"}
 
 
@@ -28,6 +31,13 @@ var Scores: Array
 func _ready():
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
 	grid.columns = 2
+	grid.show()
+	cont_chosen_letters.hide()
+	for i in range(1,4):
+		var cont_letter = cont_chosen_letters.get_node("cont_letter" + str(i))
+		cont_letter.hide()
+	#for i in range(1,4):
+		#cont_chosen_letters.get_node("cont_letter" + str(i)).hide()
 	for i in range(1,5):
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
 		p_container.hide()
@@ -135,16 +145,56 @@ func _on_bresk_dice_thrown(result):
 		#throw second dice
 	else:
 		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
-		current_player.n_mainboard.set_editable_board(true)
+		current_player.n_mainboard.set_editable_board(false)
+		first_choose_n_letters(int(result))
 		read_n_letters(int(result))
 		
 		pass
 		#chooses result letters to write
+		
+func allow_placing_letters(letter, n):
+	print("Señal recibida, n=",n)
+	print("Letra elegida =", letter)
+	n_chosen_letters += 1
+	if n_chosen_letters == n:
+		for i in range(1,n+1):
+			var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
+			i_letter.disconnect("letter_entered", self.allow_placing_letters)
+		print("Tablero desactivado")
+		await get_tree().create_timer(4).timeout
+
+func _on_btn_letter_n_pressed(i_button):
+	print("Se llama")
+	var cont_letter_i = cont_chosen_letters.get_node("cont_letter" + str(i_button)).get_node("Letter" + str(i_button))
+	if !cont_letter_i.text.is_empty():
+		current_player.n_mainboard.set_editable_board(false)
+		current_player.n_mainboard.connect("letter_placed", self.handle_letter_placed)
+		DataLoader.play_type = DataLoader.game_play_types.BRESK
+		DataLoader.next_letter = cont_letter_i.text
+		print("Se puede poner una letra")
 	
+	pass # Replace with function body.
+	
+func first_choose_n_letters(n):
+	cont_chosen_letters.show()
+	n_chosen_letters = 0
+	var cont_i
+	var btn_i
+	for i in range(1,n+1):
+		print("i = ",i)
+		cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
+		cont_i.show()
+		btn_i = cont_i.get_node("btn_letter" + str(i))
+		btn_i.connect("pressed", self.on_btn_letter_n_pressed)
+		var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
+		i_letter.connect("letter_entered", self.allow_placing_letters.bind(n))
+		
+		
+
+		
 func save_letter(letter,n):
 	
-	
-	cont_letters = cont_letters +1
+	cont_letters = cont_letters + 1
 	print("LETTER SAVED: ", letter)
 	print("cont_letters= ",cont_letters)
 	print("n = ", n)
@@ -184,3 +234,8 @@ func _on_alph_dice_thrown(result):
 	current_player.n_mainboard.connect("letter_placed", self.handle_letter_placed)
 	
 	pass # Replace with function body.
+
+
+
+
+
