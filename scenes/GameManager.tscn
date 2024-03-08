@@ -31,6 +31,7 @@ fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
 clip_contents = true
+layout_direction = 1
 layout_mode = 0
 offset_top = 39.0
 offset_right = 1280.0

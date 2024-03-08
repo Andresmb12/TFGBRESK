@@ -14,10 +14,6 @@ extends Node2D
 # a todas las casillas del tablero mediante mainboard[col][row].text
 # Called when the node enters the scene tree for the first time.
 
-var current_scene = null
-
-		
-var user_player = "ANDRES"
 
 func get_letter(position):
 	return n_mainboard.letters_main_board[position.x][position.y].text

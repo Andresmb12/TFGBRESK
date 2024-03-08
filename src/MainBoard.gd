@@ -4,17 +4,23 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-signal letter_entered
+signal b_letter_entered(letter)
+signal letter_placed(letter)
 @export var letters_main_board: Array
 @export var tm_mainboard : TileMap
 @onready var mainboard = $MainBoardTileMap
 @onready var editable = false
 #
-
+func send_letter_entered(letter):
+	print("señal enviada desde tablero, letra: ", letter)
+	b_letter_entered.emit(letter)
+	
 func set_editable_board(order):
 	for n in mainboard.get_children():
 		n.editable = order
 		
+func handle_letter_placed(letter):
+	letter_placed.emit(letter)
 		
 func _ready():
 	mainboard.set_process_input(false)
@@ -43,20 +49,14 @@ func _ready():
 			cell_coords.x -=   (tile_size.x) / 2
 			cell_coords.y -=   (tile_size.y) / 2
 			letter.position = cell_coords
-			
 			mainboard.add_child(letter)  # Añade la instancia a la escena
 			row.append(letter)
+			letter.connect("letter_placed", self.handle_letter_placed)
+			letter.connect("letter_entered", self.send_letter_entered)
 		letters_main_board.append(row)
 	print("El tamaño del tablero es de " , letters_main_board.size())
 	tm_mainboard = mainboard
 
-	
-	
-
-func _input(event):
-	if event is InputEventKey:
-		if Input.is_action_pressed("ui_new_letter") :
-			print("la letra metida es: ", event.as_text())
 			
 func _process(delta):
 	
