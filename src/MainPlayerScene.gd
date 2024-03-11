@@ -4,7 +4,7 @@ extends Node2D
 
 @export var usernamevar: String
 @onready var nickname = $PlayerInfo/lblNickName
-
+@onready var id_player
 @onready var n_scoreboard = $ScoreBoardRoot
 @onready var n_scoreboxes = $ScoreBoxes
 @onready var n_mainboard = $MainBoardRoot

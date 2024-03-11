@@ -16,11 +16,12 @@ func validate_letters(your_string):
 		return your_string.to_upper()
 		
 func _on_text_changed(new_text):
-	text = validate_letters(new_text)
-	text = text
-	letter_entered.emit(text)
-	self.editable = false
-	pass # Replace with function body.
+	if !text.is_empty():
+		text = validate_letters(new_text)
+		text = text
+		letter_entered.emit(text)
+		self.editable = false
+		pass # Replace with function body.
 
 
 func _on_focus_entered():
@@ -32,7 +33,11 @@ func _on_focus_entered():
 		self.editable = false
 		
 	if DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and text.is_empty():
-		pass
+		text = DataLoader.next_letter
+		letter_placed.emit(text)
+		print("letra colocada en la casilla")
+		DataLoader.play_type = DataLoader.game_play_types.SKIP
+		self.editable = false
 		pass
 		
 	if DataLoader.play_type == DataLoader.game_play_types.SKIP:

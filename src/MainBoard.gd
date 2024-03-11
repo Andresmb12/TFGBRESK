@@ -20,6 +20,7 @@ func set_editable_board(order):
 		n.editable = order
 		
 func handle_letter_placed(letter):
+	print("Letter placed in Mainboard")
 	letter_placed.emit(letter)
 		
 func _ready():

@@ -9,10 +9,15 @@ extends Control
 @onready var lbl_turn = $lbl_game_turn
 @onready var last_letter
 @onready var cont_letters = 0
+@onready var dice_player #has the id of the player who threw the dice
+@onready var turn_completed = 0
 @onready var n_chosen_letters = 0
+@onready var n_placed_letters = 0
+@onready var letters_to_place = 0
 @onready var general_scale = Vector2(0.47, 0.47)
 @onready var focus_scale = Vector2(0.85, 0.85)
 @onready var last_index = Vector2(0,0)
+@onready var current_play_type
 @onready var cont_chosen_letters = $cont_chosen_letters
 @onready var cont_letter1 = $cont_chosen_letters/cont_letter1
 @onready var cont_letter2 = $cont_chosen_letters/cont_letter2
@@ -22,7 +27,8 @@ extends Control
 @onready var actions = {"0": "LO SENTIMOS! SALTAMOS TU TURNO", 
 "1": "ELIGE 1 LETRA Y LUEGO \nCOLOCALA EN EL TABLERO","2": "ELIGE 2 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO",
 "3": "ELIGE 3 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA",
-"4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"5": "TURNO DEL SIGUIENTE JUGADOR"}
+"4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"5": "TURNO DEL SIGUIENTE JUGADOR", 
+"6": "COLOCA LAS LETRAS EN EL TABLERO", "7": "COLOCA LA LETRA EN EL TABLERO"}
 
 
 var PlayersBoards: Dictionary
@@ -30,6 +36,7 @@ var Scores: Array
 
 func _ready():
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
+	current_play_type = DataLoader.game_play_types.SKIP
 	grid.columns = 2
 	grid.show()
 	cont_chosen_letters.hide()
@@ -43,7 +50,13 @@ func _ready():
 		p_container.hide()
 	update_game()
 	
-	
+func clean_letters_boxes():
+	for i in range(1,4):
+		var box = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
+		box.clear()
+		box.editable = true
+		cont_chosen_letters.get_node("cont_letter" + str(i)).hide()
+
 func show_next_step(action):
 	current_player.modulate.a = 0.5
 	var next_action = actions[action]
@@ -59,13 +72,12 @@ func update_game():
 	next_step.hide()
 	#$Button.show()
 	#$Button2.hide()
-	$Dice1.hide()
-	$Dice2.hide()
 	
-	focus_on_next_player()
-	
-	
-	
+	cont_chosen_letters.hide()
+	bresk_dice.hide()
+	alph_dice.hide()
+	#ARREGLAR QUE SE RESALTE EL JUGADOR CORRECTO DEL TURNO
+	#Y TAMBIEN EL LABEL DE ES EL TURNO DE
 	for i in range(1,nplayers+1):
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
 		if i != turn: #Difuminamos los tableros que no es su turno aun
@@ -74,6 +86,7 @@ func update_game():
 			p_container.modulate.a = 1
 		var player  = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
 		player.set_player_name(DataLoader.all_players[i-1])
+		player.id_player = i
 		PlayersBoards[DataLoader.all_players[i-1]] = player
 		if nplayers == 2:
 			grid.columns = 1
@@ -82,18 +95,26 @@ func update_game():
 		p_container.show()
 		player.scale = general_scale
 			
-		
+	
+	focus_on_next_player()
 	lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % PlayersBoards.keys()[turn-1])
 	
 
 func focus_on_player():
-	
+	if(turn_completed == nplayers):
+		turn_completed = 0
+		turn += 1
+		
 	var root = get_tree().root
+	
 	grid.columns = 1
-	for i in range(1,5):
+	
+	for i in range(1,nplayers+1):
 		var cont = grid.get_node("svpcontainer" + str(i))
 		print("es el turno de ",turn)
 		if(i == turn):
+			
+			print("turn_completed = ", turn_completed)
 			cont.size = grid.size
 			current_player = cont.get_node("SubViewport" + str(i) + "/MainScenePlayer" + str(i))
 			current_player.position.x = 0
@@ -102,14 +123,32 @@ func focus_on_player():
 			
 		else:
 			cont.hide()
-	print("en la primera casilla hay: ", current_player.get_letter(Vector2(0,0)))
-	bresk_dice.dice_is_thrown = false
-	alph_dice.dice_is_thrown = false
-	#$Button.hide()
-	#$Button2.show()
-	bresk_dice.show()
-	bresk_dice.set_bresk_dice()
-	bresk_dice.roll_dice()
+			
+	if turn_completed == 0:
+		
+		clean_letters_boxes()
+		bresk_dice.dice_is_thrown = false
+		alph_dice.dice_is_thrown = false
+		#$Button.hide()
+		#$Button2.show()
+		bresk_dice.show()
+		bresk_dice.set_bresk_dice()
+		bresk_dice.roll_dice()
+		
+	else:
+		print("aqui entra")
+		if current_play_type == DataLoader.game_play_types.BRESK:
+			print("aqui no entra")
+			alph_dice.show()
+			_on_alph_dice_thrown(alph_dice.result)
+		if current_play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE:
+			print("elegir letras")
+			cont_chosen_letters.show()
+			read_n_letters(int(bresk_dice.result))
+			enable_placing_letters(int(bresk_dice.result))
+			
+			
+	turn_completed += 1
 	
 func focus_on_next_player():
 	print("SIGUIENTE JUGADOR")
@@ -123,8 +162,6 @@ func go_back_to_game_view():
 	grid.columns = 2
 	turn = turn % nplayers + 1
 	update_game()
-	
-	pass # Replace with function body.
 
 
 func _on_bresk_dice_thrown(result):
@@ -134,43 +171,60 @@ func _on_bresk_dice_thrown(result):
 	if result=="0":
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		await get_tree().create_timer(3).timeout
+		turn_completed = 0
 		go_back_to_game_view()
 		pass
 	elif result == "BRESK":
-		
+		DataLoader.play_type = DataLoader.game_play_types.BRESK
+		current_play_type = DataLoader.game_play_types.BRESK
 		await get_tree().create_timer(3).timeout
 		alph_dice.show()
 		alph_dice.set_alphabet_dice()
 		alph_dice.roll_dice()
 		#throw second dice
 	else:
-		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
+		current_play_type =  DataLoader.game_play_types.LETTER_TO_CHOOSE
 		current_player.n_mainboard.set_editable_board(false)
-		first_choose_n_letters(int(result))
 		read_n_letters(int(result))
+		first_choose_n_letters(int(result))
+		#read_n_letters(int(result))
 		
-		pass
-		#chooses result letters to write
-		
-func allow_placing_letters(letter, n):
+#Cuando ya se han elegido las 3 letras , entonces se pueden colocar
+#y ya no se pueden cambiar
+func done_choosing_letters(n):
+	for i in range(1,n+1):
+			var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
+			var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
+			i_letter.disconnect("letter_entered", self.manage_placing_letters)
+	print("Tablero desactivado")
+	current_player.n_mainboard.set_editable_board(false)
+
+func enable_placing_letters(n):
+	
+	for i in range(1,n+1):
+		var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
+		var btn_i = cont_i.get_node("btn_letter" + str(i))
+		btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
+			
+#Contemplar en vez de usar n asi en las funciones usar el atributo result de BreskDice
+func manage_placing_letters(letter, n):
 	print("Señal recibida, n=",n)
 	print("Letra elegida =", letter)
 	n_chosen_letters += 1
 	if n_chosen_letters == n:
-		for i in range(1,n+1):
-			var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
-			i_letter.disconnect("letter_entered", self.allow_placing_letters)
-		print("Tablero desactivado")
-		await get_tree().create_timer(4).timeout
+		done_choosing_letters(n) #Disable Letters Boxes Lineedits
+		enable_placing_letters(n)
 
-func _on_btn_letter_n_pressed(i_button):
-	print("Se llama")
+func on_btn_letter_n_pressed(i_button):
+
 	var cont_letter_i = cont_chosen_letters.get_node("cont_letter" + str(i_button)).get_node("Letter" + str(i_button))
+	var btn_i = cont_chosen_letters.get_node("cont_letter" + str(i_button) + "/btn_letter" + str(i_button) )
 	if !cont_letter_i.text.is_empty():
 		current_player.n_mainboard.set_editable_board(false)
-		current_player.n_mainboard.connect("letter_placed", self.handle_letter_placed)
-		DataLoader.play_type = DataLoader.game_play_types.BRESK
+		#TRAS ESTA LINEA REALMENTE SE USA SIEMPRE EL GAME_PLAY_BRESK
+		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 		DataLoader.next_letter = cont_letter_i.text
+		btn_i.disconnect("pressed", self.on_btn_letter_n_pressed)
 		print("Se puede poner una letra")
 	
 	pass # Replace with function body.
@@ -184,10 +238,8 @@ func first_choose_n_letters(n):
 		print("i = ",i)
 		cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
 		cont_i.show()
-		btn_i = cont_i.get_node("btn_letter" + str(i))
-		btn_i.connect("pressed", self.on_btn_letter_n_pressed)
 		var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
-		i_letter.connect("letter_entered", self.allow_placing_letters.bind(n))
+		i_letter.connect("letter_entered", self.manage_placing_letters.bind(n))
 		
 		
 
@@ -199,7 +251,8 @@ func save_letter(letter,n):
 	print("cont_letters= ",cont_letters)
 	print("n = ", n)
 	if cont_letters == n:
-		current_player.n_mainboard.disconnect("b_letter_entered", self.save_letter)
+		print("AQUI SI SE LLAMA ANDRES")
+		#current_player.n_mainboard.disconnect("b_letter_entered", self.save_letter)
 		await get_tree().create_timer(0.23).timeout
 		current_player.set_editable_subboards(false)
 		print("Tablero desactivado")
@@ -212,26 +265,31 @@ func save_letter(letter,n):
 func read_n_letters(n):
 	cont_letters = 0
 	var i = 0
-	current_player.n_mainboard.connect("b_letter_entered", self.save_letter.bind(n))
+	letters_to_place = n
+	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(n))
 	pass
 	
-func handle_letter_placed(letter):
-	print("Letra colocada: ",letter)
-	show_next_step("5")
-	await get_tree().create_timer(4).timeout
-	go_back_to_game_view()
+func handle_letter_placed(letter,n):
+	
+	n_placed_letters += 1
+	if n_placed_letters == n:
+		print("Letra colocada: ",letter)
+		current_player.n_mainboard.disconnect("letter_placed", self.handle_letter_placed)
+		show_next_step("5")
+		await get_tree().create_timer(4).timeout
+		go_back_to_game_view()
 	
 	
 	
 func _on_alph_dice_thrown(result):
 	DataLoader.play_type = DataLoader.game_play_types.BRESK
-	
+	cont_letters = 0
 	print("Ha salido la letra ", result)
 	last_letter = result
 	DataLoader.next_letter = result
 	show_next_step("4")
 	alph_dice.dice_is_thrown = false
-	current_player.n_mainboard.connect("letter_placed", self.handle_letter_placed)
+	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(1))
 	
 	pass # Replace with function body.
 
