@@ -1,11 +1,11 @@
 extends Control
 
 #Members
-@onready var current_player
 @onready var next_step = $lbl_next_step
 @onready var bresk_dice = $Dice1
 @onready var alph_dice = $Dice2
 @onready var grid = $GridContainer
+@onready var current_player = $GridContainer/svpcontainer1/SubViewport1/MainScenePlayer1
 @onready var lbl_turn = $lbl_game_turn
 @onready var last_letter
 @onready var cont_letters = 0
@@ -68,10 +68,14 @@ func show_next_step(action):
 	current_player.modulate.a = 1
 	
 func update_game():
-	print("UPDATE GAME")
+	if(turn_completed == nplayers):
+		print("TURNO COMPLETADO, NEXT PLAYER ROLLS THE DICE")
+		turn_completed = 0
+		turn = turn % nplayers + 1 #Saltamos al tiró el dado el turno
+		
+	
+	print("UPDATE GAME, TURNO DE ", turn)
 	next_step.hide()
-	#$Button.show()
-	#$Button2.hide()
 	
 	cont_chosen_letters.hide()
 	bresk_dice.hide()
@@ -86,6 +90,7 @@ func update_game():
 			p_container.modulate.a = 1
 		var player  = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
 		player.set_player_name(DataLoader.all_players[i-1])
+		print("jugador configurado: ", player.usernamevar)
 		player.id_player = i
 		PlayersBoards[DataLoader.all_players[i-1]] = player
 		if nplayers == 2:
@@ -97,13 +102,11 @@ func update_game():
 			
 	
 	focus_on_next_player()
-	lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % PlayersBoards.keys()[turn-1])
+	lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % DataLoader.all_players[turn-1])
 	
 
 func focus_on_player():
-	if(turn_completed == nplayers):
-		turn_completed = 0
-		turn += 1
+	print("llamada a focus_on_player , turno de ",turn)
 		
 	var root = get_tree().root
 	
@@ -149,6 +152,8 @@ func focus_on_player():
 			
 			
 	turn_completed += 1
+	turn = turn % nplayers +1
+	
 	
 func focus_on_next_player():
 	print("SIGUIENTE JUGADOR")
@@ -160,7 +165,6 @@ func focus_on_next_player():
 func go_back_to_game_view():
 	
 	grid.columns = 2
-	turn = turn % nplayers + 1
 	update_game()
 
 
@@ -242,22 +246,25 @@ func first_choose_n_letters(n):
 		i_letter.connect("letter_entered", self.manage_placing_letters.bind(n))
 		
 		
-
-		
 func save_letter(letter,n):
-	
+	current_player.n_scoreboard.note_new_letter(current_player.last_index)
+	current_player.update_index()
+	print("last_index = ", last_index)
 	cont_letters = cont_letters + 1
 	print("LETTER SAVED: ", letter)
 	print("cont_letters= ",cont_letters)
 	print("n = ", n)
+	
+	
 	if cont_letters == n:
-		print("AQUI SI SE LLAMA ANDRES")
 		#current_player.n_mainboard.disconnect("b_letter_entered", self.save_letter)
 		await get_tree().create_timer(0.23).timeout
 		current_player.set_editable_subboards(false)
 		print("Tablero desactivado")
+		await get_tree().create_timer(2).timeout
 		show_next_step("5")
-		await get_tree().create_timer(4).timeout
+		
+		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
 		go_back_to_game_view()
 	
 	pass

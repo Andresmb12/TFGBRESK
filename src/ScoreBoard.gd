@@ -2,11 +2,16 @@ extends Node2D
 # MainBoard Script
 @onready var scoreboard = $ScoreBoard
 @export var n_scoreboard : TileMap
+@onready var letters_noted
 # Called when the node enters the scene tree for the first time.
 
 func set_editable_board(order):
 	for n in scoreboard.get_children():
 		n.editable = order
+		
+func note_new_letter(pos):
+	print(pos)
+	letters_noted[pos.x][pos.y].text = DataLoader.next_letter
 		
 func _ready():
 	
@@ -21,7 +26,7 @@ func _ready():
 	
 	var tile_size = Vector2(scoreboard.tile_set.tile_size) # Obtiene el tamaño de un tile
 	
-	var numbers_array = []
+	var letters_noted_array = []
 	
 	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
 		var row = []
@@ -38,9 +43,9 @@ func _ready():
 			number.position = cell_coords
 			scoreboard.add_child(number)  # Añade la instancia a la escena
 			row.append(number)
-		numbers_array.append(row)
+		letters_noted_array.append(row)
 	n_scoreboard = scoreboard	
-	
+	letters_noted = letters_noted_array
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

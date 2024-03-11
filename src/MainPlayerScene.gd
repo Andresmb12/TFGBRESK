@@ -8,6 +8,7 @@ extends Node2D
 @onready var n_scoreboard = $ScoreBoardRoot
 @onready var n_scoreboxes = $ScoreBoxes
 @onready var n_mainboard = $MainBoardRoot
+@onready var last_index: Vector2
 
 @export var mainboard: Array
 #Ahora desde la escena de cada jugador, dentro de mainboard, tengo acceso
@@ -17,7 +18,13 @@ extends Node2D
 
 func get_letter(position):
 	return n_mainboard.letters_main_board[position.x][position.y].text
-	
+
+func update_index():
+	last_index.x = last_index.x + 1 
+	if last_index.x == 8:
+		last_index.x = 0
+		last_index.y += 1
+		
 func disable_score_cells():
 	for i in range(0,9):
 		n_mainboard.letters_main_board[i][8].focus_mode = Control.FOCUS_NONE 
@@ -32,7 +39,7 @@ func set_editable_subboards(order):
 func _ready():
 	disable_score_cells()
 	print("SCRIPT del main player Scene")
-	
+	last_index = Vector2(0,0)
 	set_player_name(usernamevar)
 
 	
