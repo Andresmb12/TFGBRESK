@@ -12,7 +12,7 @@ signal letter_placed(letter)
 @onready var editable = false
 #
 func send_letter_entered(letter):
-	print("señal enviada desde tablero, letra: ", letter)
+	#print("señal enviada desde tablero, letra: ", letter)
 	b_letter_entered.emit(letter)
 	
 func set_editable_board(order):
@@ -36,14 +36,12 @@ func _ready():
 	var first_cell_coords = Vector2(used_rect.position.x, used_rect.position.y)
 	
 	var tile_size = Vector2(mainboard.tile_set.tile_size) # Obtiene el tamaño de un tile
-	
-	
-	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
-		var row = []
-		for y in range(used_rect.position.y, used_rect.position.y + used_rect.size.y):
+
+	for y in range(used_rect.position.y, used_rect.position.y + used_rect.size.y):
+		var column = []  # Cambio de 'row' a 'column' para representar una columna en la matriz
+		for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
 			var letter = EscenaLetra.instantiate()
-			
-			letter.editable = false
+			#letter.editable = false
 			letter.visible = true
 			var index = Vector2(x,y)
 			var cell_coords = mainboard.map_to_local(index)
@@ -51,12 +49,13 @@ func _ready():
 			cell_coords.y -=   (tile_size.y) / 2
 			letter.position = cell_coords
 			mainboard.add_child(letter)  # Añade la instancia a la escena
-			row.append(letter)
+			column.append(letter)
 			letter.connect("letter_placed", self.handle_letter_placed)
 			letter.connect("letter_entered", self.send_letter_entered)
-		letters_main_board.append(row)
-	print("El tamaño del tablero es de " , letters_main_board.size())
-	tm_mainboard = mainboard
+		letters_main_board.append(column)  # Cambio de 'row' a 'column' para agregar la columna a la matriz
+
+	print("El tamaño del tablero es de ", letters_main_board.size())
+	
 
 			
 func _process(delta):

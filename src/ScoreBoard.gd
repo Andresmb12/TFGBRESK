@@ -28,22 +28,21 @@ func _ready():
 	
 	var letters_noted_array = []
 	
-	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
-		var row = []
-		for y in range(used_rect.position.y, used_rect.position.y + used_rect.size.y):
+	for y in range(used_rect.position.y, used_rect.position.y + used_rect.size.y):
+		var column = []  # Cambio de 'row' a 'column' para representar una columna en la matriz
+		for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
 			var number = EscenaNumero.instantiate()
-			
-			number.editable = false
+			number.editable = true
 			number.visible = true
-			var index = Vector2(x,y)
-#		
+			var index = Vector2(x,y)	
 			var cell_coords = scoreboard.map_to_local(index)
 			cell_coords.x -=   (tile_size.x) / 2
 			cell_coords.y -=   (tile_size.y) / 2
 			number.position = cell_coords
 			scoreboard.add_child(number)  # Añade la instancia a la escena
-			row.append(number)
-		letters_noted_array.append(row)
+			column.append(number)  # Cambio de 'row' a 'column' para agregar a la columna
+		letters_noted_array.append(column)  # Cambio de 'row' a 'column' para agregar la columna a la matriz
+
 	n_scoreboard = scoreboard	
 	letters_noted = letters_noted_array
 

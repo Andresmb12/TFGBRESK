@@ -118,7 +118,6 @@ offset_bottom = 374.0
 text = "NEXT"
 
 [node name="Button2" type="Button" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 1014.0
 offset_top = 587.0
@@ -249,6 +248,6 @@ theme_override_fonts/normal_font = ExtResource("4_mufjv")
 fit_content = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button2" to="." method="go_back_to_game_view"]
 [connection signal="bresk_dice_thrown" from="Dice1" to="." method="_on_bresk_dice_thrown"]
 [connection signal="alph_dice_thrown" from="Dice2" to="." method="_on_alph_dice_thrown"]
