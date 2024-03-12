@@ -9,9 +9,9 @@ func set_editable_board(order):
 	for n in scoreboard.get_children():
 		n.editable = order
 		
-func note_new_letter(pos):
+func note_new_letter(letter, pos):
 	print(pos)
-	letters_noted[pos.x][pos.y].text = DataLoader.next_letter
+	letters_noted[pos.x][pos.y].text = letter
 		
 func _ready():
 	

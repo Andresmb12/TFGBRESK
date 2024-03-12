@@ -8,6 +8,7 @@ extends Control
 @onready var current_player = $GridContainer/svpcontainer1/SubViewport1/MainScenePlayer1
 @onready var lbl_turn = $lbl_game_turn
 @onready var last_letter
+@onready var letters_in_board = 0
 @onready var cont_letters = 0
 @onready var dice_player #has the id of the player who threw the dice
 @onready var turn_completed = 0
@@ -27,8 +28,8 @@ extends Control
 @onready var actions = {"0": "LO SENTIMOS! SALTAMOS TU TURNO", 
 "1": "ELIGE 1 LETRA Y LUEGO \nCOLOCALA EN EL TABLERO","2": "ELIGE 2 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO",
 "3": "ELIGE 3 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA",
-"4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"5": "TURNO DEL SIGUIENTE JUGADOR", 
-"6": "COLOCA LAS LETRAS EN EL TABLERO", "7": "COLOCA LA LETRA EN EL TABLERO"}
+"4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"NextPlayer": "TURNO DEL SIGUIENTE JUGADOR", 
+"PlaceLetters": "COLOCA LAS LETRAS EN EL TABLERO", "7": "COLOCA LA LETRA EN EL TABLERO"}
 
 
 var PlayersBoards: Dictionary
@@ -62,7 +63,7 @@ func show_next_step(action):
 	var next_action = actions[action]
 	next_step.text =  ("[center][color=WHITE][b]\n%s[/b][/color][/center]" % next_action)
 	next_step.show()
-	await get_tree().create_timer(3).timeout
+	await get_tree().create_timer(4).timeout
 	next_step.hide()
 	
 	current_player.modulate.a = 1
@@ -73,9 +74,8 @@ func update_game():
 		turn_completed = 0
 		turn = turn % nplayers + 1 #Saltamos al tiró el dado el turno
 		
-	
 	print("UPDATE GAME, TURNO DE ", turn)
-	next_step.hide()
+	show_next_step("NextPlayer")
 	
 	cont_chosen_letters.hide()
 	bresk_dice.hide()
@@ -100,9 +100,11 @@ func update_game():
 		p_container.show()
 		player.scale = general_scale
 			
-	
-	focus_on_next_player()
-	lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % DataLoader.all_players[turn-1])
+	if(letters_in_board == 6 ):
+		print("PARTIDA ACABADA, COMIENZA EL RECUENTO")
+	else:
+		focus_on_next_player()
+		lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % DataLoader.all_players[turn-1])
 	
 
 func focus_on_player():
@@ -114,7 +116,6 @@ func focus_on_player():
 	
 	for i in range(1,nplayers+1):
 		var cont = grid.get_node("svpcontainer" + str(i))
-		print("es el turno de ",turn)
 		if(i == turn):
 			
 			print("turn_completed = ", turn_completed)
@@ -127,26 +128,26 @@ func focus_on_player():
 		else:
 			cont.hide()
 			
-	if turn_completed == 0:
+	if turn_completed == 0: #New player rolls the dices
 		
 		clean_letters_boxes()
 		bresk_dice.dice_is_thrown = false
 		alph_dice.dice_is_thrown = false
-		#$Button.hide()
-		#$Button2.show()
 		bresk_dice.show()
 		bresk_dice.set_bresk_dice()
 		bresk_dice.roll_dice()
 		
-	else:
-		print("aqui entra")
+	else: #Next player just places letters
+		
 		if current_play_type == DataLoader.game_play_types.BRESK:
-			print("aqui no entra")
+			print("Colcoa la letra del dado Bresk")
 			alph_dice.show()
 			_on_alph_dice_thrown(alph_dice.result)
+			
 		if current_play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE:
-			print("elegir letras")
+			print("Coloca letras")
 			cont_chosen_letters.show()
+			show_next_step("PlaceLetters")
 			read_n_letters(int(bresk_dice.result))
 			enable_placing_letters(int(bresk_dice.result))
 			
@@ -177,7 +178,7 @@ func _on_bresk_dice_thrown(result):
 		await get_tree().create_timer(3).timeout
 		turn_completed = 0
 		go_back_to_game_view()
-		pass
+	
 	elif result == "BRESK":
 		DataLoader.play_type = DataLoader.game_play_types.BRESK
 		current_play_type = DataLoader.game_play_types.BRESK
@@ -211,9 +212,20 @@ func enable_placing_letters(n):
 		btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
 			
 #Contemplar en vez de usar n asi en las funciones usar el atributo result de BreskDice
+func note_letter_to_players(letter):
+	letters_in_board += 1
+	print("Letras en el tablero:", letters_in_board)
+	for i in range(1,nplayers+1):
+		var player = grid.get_node("svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i) )
+		player.n_scoreboard.note_new_letter(letter, player.last_index)
+		player.update_index()
+		
+		
+		
 func manage_placing_letters(letter, n):
 	print("Señal recibida, n=",n)
 	print("Letra elegida =", letter)
+	note_letter_to_players(letter)
 	n_chosen_letters += 1
 	if n_chosen_letters == n:
 		done_choosing_letters(n) #Disable Letters Boxes Lineedits
@@ -247,8 +259,6 @@ func first_choose_n_letters(n):
 		
 		
 func save_letter(letter,n):
-	current_player.n_scoreboard.note_new_letter(current_player.last_index)
-	current_player.update_index()
 	print("last_index = ", last_index)
 	cont_letters = cont_letters + 1
 	print("LETTER SAVED: ", letter)
@@ -262,7 +272,7 @@ func save_letter(letter,n):
 		current_player.set_editable_subboards(false)
 		print("Tablero desactivado")
 		await get_tree().create_timer(2).timeout
-		show_next_step("5")
+		show_next_step("NextPlayer")
 		
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
 		go_back_to_game_view()
@@ -282,8 +292,8 @@ func handle_letter_placed(letter,n):
 	if n_placed_letters == n:
 		print("Letra colocada: ",letter)
 		current_player.n_mainboard.disconnect("letter_placed", self.handle_letter_placed)
-		show_next_step("5")
-		await get_tree().create_timer(4).timeout
+		show_next_step("NextPlayer")
+		#await get_tree().create_timer(4).timeout
 		go_back_to_game_view()
 	
 	
@@ -294,6 +304,7 @@ func _on_alph_dice_thrown(result):
 	print("Ha salido la letra ", result)
 	last_letter = result
 	DataLoader.next_letter = result
+	
 	show_next_step("4")
 	alph_dice.dice_is_thrown = false
 	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(1))
