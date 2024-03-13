@@ -16,40 +16,76 @@ extends Node2D
 
 func get_letter(row,col):
 	return n_mainboard.letters_main_board[row][col].text
-
+	
+func set_score(points, row, col):
+	n_mainboard.letters_main_board[row][col].text = str(points)
+	
 func place_letter(letter, pos):
 	n_mainboard.letters_main_board[pos.x][pos.y].text = letter
 
 func count_words_horz():
-	var letra
-	print("hola")
+	var points = 0
 	var words = []
 	var new_word : String
 	var found_letter
 	for r in range(8):
 		new_word = "" # Cada vez que paso de linea ya si habia alguna palabra formandose F
+		points = 0
 		for c in range(8):
 			if !n_mainboard.letters_main_board[r][c].text.is_empty():
 				found_letter = get_letter(r,c)
-				print("letra encontrada")
-				print("la palabra va por: ", new_word)
-				if (found_letter == "#" and new_word.length() > 1 ):
-					print("nueva palabra: ", new_word)
-					words.append(new_word)
+				
+				if (c == 0 or get_letter(r,c-1) == "#") and found_letter != "#": #Start new word
+					new_word += found_letter
+				
+				elif (found_letter == "#" and new_word.length() > 1 ): #Word finished with #
+					if DataLoader.check_word(new_word):
+							words.append(new_word)
+							points += new_word.length()
 					new_word = ""
-				elif found_letter != "#":
+					
+				elif found_letter != "#" and new_word.length() > 0: #Continue word
 					new_word +=  get_letter(r,c)
-					if(new_word.length() >= 2 and c == 7):
-						print(new_word.length())
-						print("nueva palabra: ", new_word)
+					if(new_word.length() >= 2 and c == 7): #Word finished with limit
+						if DataLoader.check_word(new_word):
+							words.append(new_word)
+							points += new_word.length()
+						new_word = ""
+		set_score(points, r, 8)
+						
+	print("Palabras en Horizontal: ", words)
+
+
+func count_words_vertz():
+	var words = []
+	var new_word : String
+	var points
+	var found_letter
+	for c in range(8):
+		new_word = "" # Cada vez que paso de linea ya si habia alguna palabra formandose F
+		points = 0
+		for r in range(8):
+			if !n_mainboard.letters_main_board[r][c].text.is_empty():
+				found_letter = get_letter(r,c)
+				
+				if (r == 0 or get_letter(r-1,c) == "#") and found_letter != "#": #Start new word
+					new_word += found_letter
+				
+				elif (found_letter == "#" and new_word.length() > 1 ): #Word finished with #
+					if DataLoader.check_word(new_word):
 						words.append(new_word)
-				
-				
-		
-		print(words)
-	
-		
-		
+						points += new_word.length()
+					new_word = ""
+					
+				elif found_letter != "#" and new_word.length() > 0: #Continue word
+					new_word +=  get_letter(r,c)
+					if(new_word.length() >= 2 and r == 7): #Word finished with limit
+						if DataLoader.check_word(new_word):
+							words.append(new_word)
+							points += new_word.length()
+						new_word = ""
+		set_score(points, 8, c)
+	print("Palabras en Vertical: ", words)
 
 func update_index():
 	last_index.y = last_index.y + 1 
@@ -73,6 +109,7 @@ func set_editable_subboards(order):
 
 func _ready():
 	disable_score_cells()
+	DataLoader.load_dictionary_from_file()
 	print("SCRIPT del main player Scene")
 	last_index = Vector2(0,0)
 	set_player_name(usernamevar)
@@ -85,4 +122,8 @@ func set_player_name(name):
 
 
 func _on_texture_button_pressed():
+	
 	count_words_horz()
+	count_words_vertz()
+
+

@@ -31,12 +31,31 @@ enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP }
 @onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)
 @onready var general_options = SceneManager.create_general_options(color, timeout, clickable, add_to_back)
 
+@onready var dictionary_route = "res://diccionarios/0_palabras_todas.txt"
+@onready var spanish_dictionary = {}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	pass # Replace with function body.
 
+func load_dictionary_from_file():
+	
+	var file = FileAccess.open(dictionary_route, FileAccess.READ)
+	if file != null:
+		var linea = file.get_line()
+		while linea != "":
+			linea = linea.strip_edges(true,true).to_upper()  # Eliminar espacios en blanco al principio y al final
+			spanish_dictionary[linea] = linea  # La palabra se agrega como clave y como valor
+			linea = file.get_line()  # Leer la siguiente línea
+		file.close()
+		print("Diccionario cargado correctamente")
+	else:
+		print("No se pudo abrir el archivo:", dictionary_route)
 
+func check_word(word):
+	return spanish_dictionary.has(word)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

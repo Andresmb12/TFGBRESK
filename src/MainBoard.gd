@@ -25,6 +25,7 @@ func handle_letter_placed(letter):
 		
 func _ready():
 	mainboard.set_process_input(false)
+	
 	var used_rect = mainboard.get_used_rect()
 
 	var map_width = used_rect.size.x

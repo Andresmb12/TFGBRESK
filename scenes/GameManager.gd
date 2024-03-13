@@ -37,6 +37,7 @@ var PlayersBoards: Dictionary
 var Scores: Array
 
 func _ready():
+	DataLoader.load_dictionary_from_file()
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
 	current_play_type = DataLoader.game_play_types.SKIP
 	grid.columns = 2
