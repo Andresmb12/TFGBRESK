@@ -19,13 +19,14 @@ extends Node
 @export var add_to_back: bool = true
 
 @onready var all_players: Array = ["Algoritmo-1","Algoritmo-2","Algoritmo-3","Algoritmo-4"]
-@onready var nplayers: int = 4;
+@onready var nplayers: int = 4
 @onready var game_players : Array = Array()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
 @onready var current_player  = PlayerScene.instantiate()
-enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP }
+enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP, COUNT }
 @onready var play_type
 @onready var turn : int = 0
+@onready var max_letters = 2
 @onready var next_letter
 @onready var fade_out_options = SceneManager.create_options(fade_out_speed, fade_out_pattern, fade_out_smoothness, fade_out_inverted)
 @onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)
@@ -39,6 +40,14 @@ enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP }
 func _ready():
 	
 	pass # Replace with function body.
+
+func get_longest_word(words):
+	var longest = ""
+	for w in words:
+		if w.length() > longest.length():
+			longest = w
+	return longest
+	
 
 func load_dictionary_from_file():
 	

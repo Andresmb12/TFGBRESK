@@ -108,7 +108,6 @@ render_target_update_mode = 4
 scale = Vector2(0.47, 0.47)
 
 [node name="Button" type="Button" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 581.0
 offset_top = 312.0

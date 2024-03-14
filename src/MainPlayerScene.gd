@@ -9,7 +9,9 @@ extends Node2D
 @onready var n_scoreboxes = $ScoreBoxes
 @onready var n_mainboard = $MainBoardRoot
 @onready var last_index: Vector2
-
+@onready var longest_word : String
+@onready var words_formed_by_player : Array
+@onready var total_points: int
 @export var mainboard: Array
 #Ahora desde la escena de cada jugador, dentro de mainboard, tengo acceso
 # a todas las casillas del tablero mediante mainboard[row][col].text
@@ -22,6 +24,7 @@ func set_score(points, row, col):
 	
 func place_letter(letter, pos):
 	n_mainboard.letters_main_board[pos.x][pos.y].text = letter
+
 
 func count_words_horz():
 	var points = 0
@@ -52,8 +55,10 @@ func count_words_horz():
 							points += new_word.length()
 						new_word = ""
 		set_score(points, r, 8)
+		total_points += points
 						
 	print("Palabras en Horizontal: ", words)
+	words_formed_by_player += words
 
 
 func count_words_vertz():
@@ -85,7 +90,9 @@ func count_words_vertz():
 							points += new_word.length()
 						new_word = ""
 		set_score(points, 8, c)
+		total_points += points
 	print("Palabras en Vertical: ", words)
+	words_formed_by_player += words
 
 func update_index():
 	last_index.y = last_index.y + 1 
@@ -120,10 +127,16 @@ func set_player_name(name):
 	usernamevar = name
 	nickname.set_text("[center][color=BLACK][b]%s[/b][/color][/center]" % usernamevar.to_upper())
 
-
-func _on_texture_button_pressed():
-	
+func calculate_points():
+	words_formed_by_player = []
+	total_points = 0
 	count_words_horz()
 	count_words_vertz()
+	longest_word = DataLoader.get_longest_word(words_formed_by_player)
+	#print(words_formed_by_player)
+	
+	
+func _on_texture_button_pressed():
+	calculate_points()
 
 
