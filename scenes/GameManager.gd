@@ -14,7 +14,6 @@ extends Control
 @onready var turn_completed = 0
 @onready var n_chosen_letters = 0
 @onready var n_placed_letters = 0
-@onready var letters_to_place = 0
 @onready var general_scale = Vector2(0.47, 0.47)
 @onready var focus_scale = Vector2(0.85, 0.85)
 @onready var last_index = Vector2(0,0)
@@ -28,6 +27,7 @@ extends Control
 @onready var turn : int = 1
 @onready var longest_bonus_winner = []
 @onready var GAME_FINISHED = false
+@onready var SHOW_RESULTS = false
 @onready var game_longest_word
 @onready var max_words_formed = 0
 @onready var max_words_bonus_winner
@@ -66,7 +66,7 @@ func clean_letters_boxes():
 		cont_chosen_letters.get_node("cont_letter" + str(i)).hide()
 
 func show_next_step(action):
-	current_player.modulate.a = 0.5
+	#current_player.modulate.a = 0.5
 	var next_action = actions[action]
 	next_step.text =  ("[center][color=WHITE][b]\n%s[/b][/color][/center]" % next_action)
 	next_step.show()
@@ -88,7 +88,7 @@ func update_game():
 		turn_completed = 0
 		turn = turn % nplayers + 1 #Saltamos al tiró el dado el turno
 		
-		
+	
 	print("UPDATE GAME, TURNO DE ", turn)
 	show_next_step("NextPlayer")
 	
@@ -115,26 +115,27 @@ func update_game():
 		p_container.show()
 		player.scale = general_scale
 	print("DE MOMENTO SE HAN PUESTO DE LETRAS: ",letters_in_board)
-	
-	
-	focus_on_next_player()
+		
+	if !SHOW_RESULTS:
+		focus_on_next_player()
 	#lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % DataLoader.all_players[turn-1].usernamevar)
 	
-		
+func get_player(i):
+	var p = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
+	return p
+	
 func get_bonuses_winners():	
 	game_longest_word = ""
 	
 	for i in range(1,nplayers+1):
-		var player  = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
+		var player  = get_player(i)
 		if player.longest_word.length() > game_longest_word.length() :
 			longest_bonus_winner = i
 			game_longest_word = player.longest_word
 		if player.words_formed_by_player.size() > max_words_formed:
 			max_words_formed = player.words_formed_by_player.size()
 			max_words_bonus_winner = i
-	print("el jugador con la palabra mas larga es: ", longest_bonus_winner)
 	
-	print("el jugador con mas palabras formadas es: ", max_words_bonus_winner)
 			
 
 func get_winner():
@@ -147,12 +148,22 @@ func get_winner():
 		var player  = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
 		#player.calculate_points()
 		if player.longest_word.length() == game_longest_word.length():
+			player.n_scoreboxes.set_longest_bonus(true)
 			player.total_points += 5
+		else:
+			player.n_scoreboxes.set_longest_bonus(false)
+			
 		if player.words_formed_by_player.size() == max_words_formed:
+			player.n_scoreboxes.set_words_bonus(true)
 			player.total_points += 3
+		else:
+			player.n_scoreboxes.set_words_bonus(false)
 		if player.total_points > winner_score:
 			winner_score = player.total_points
 			winner = player
+	for i in range(1,nplayers+1):
+		var p = get_player(i)
+		p.n_scoreboxes.set_total_score(p.total_points)
 	lbl_turn.text = ("[center][color=WHITE][b]EL GANADOR ES %s[/b][/color][/center]" % winner.usernamevar)
 	# AQUI HACER ALGO PARA DETENER POR COMPLETO EL JUEGO Y QUE NO SE VUELVA A HACER FOCUS ON PLAYER
 	#QUEDANDOSE SOLO EL GAME_VIEW
@@ -171,7 +182,7 @@ func focus_on_player():
 			
 			print("turn_completed = ", turn_completed)
 			cont.size = grid.size
-			current_player = cont.get_node("SubViewport" + str(i) + "/MainScenePlayer" + str(i))
+			current_player = get_player(i)
 			current_player.position.x = 0
 			current_player.scale = focus_scale
 			current_player.set_editable_subboards(false)
@@ -195,14 +206,16 @@ func focus_on_player():
 			current_player.calculate_points()
 			if turn == nplayers:
 				await get_tree().create_timer(3).timeout
+				SHOW_RESULTS = true
 				get_winner()
+				
 			await get_tree().create_timer(3).timeout
 			go_back_to_game_view()
 			
 		if current_play_type == DataLoader.game_play_types.BRESK:
 			print("Colcoa la letra del dado Bresk")
 			alph_dice.show()
-			_on_alph_dice_thrown(alph_dice.result)
+			_on_alph_dice_thrown()
 			
 		if current_play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE:
 			print("Coloca letras")
@@ -230,6 +243,7 @@ func focus_on_next_player():
 func go_back_to_game_view():
 	
 	grid.columns = 2
+	
 	update_game()
 
 
@@ -244,7 +258,6 @@ func _on_bresk_dice_thrown(result):
 		go_back_to_game_view()
 	
 	elif result == "BRESK":
-		DataLoader.play_type = DataLoader.game_play_types.BRESK
 		current_play_type = DataLoader.game_play_types.BRESK
 		await get_tree().create_timer(3).timeout
 		alph_dice.show()
@@ -260,7 +273,6 @@ func _on_bresk_dice_thrown(result):
 			bresk_dice.result = result
 		read_n_letters(int(result))
 		first_choose_n_letters(int(result))
-		#read_n_letters(int(result))
 		
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar
@@ -345,11 +357,11 @@ func save_letter(letter,n):
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
 		$Button2.show()
 		go_back_to_game_view()
-	
+	DataLoader.play_type = DataLoader.game_play_types.SKIP
 func read_n_letters(n):
 	cont_letters = 0
 	var i = 0
-	letters_to_place = n
+	
 	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(n))
 	pass
 	
@@ -366,12 +378,14 @@ func handle_letter_placed(letter,n):
 	
 	
 	
-func _on_alph_dice_thrown(result):
-	DataLoader.play_type = DataLoader.game_play_types.BRESK
+func _on_alph_dice_thrown():
+	var result = alph_dice.result
+	
 	cont_letters = 0
 	print("Ha salido la letra ", result)
 	last_letter = result
 	DataLoader.next_letter = result
+	DataLoader.play_type = DataLoader.game_play_types.BRESK
 	current_player.n_scoreboard.note_new_letter(result, current_player.last_index)
 	current_player.update_index()
 	show_next_step("4")

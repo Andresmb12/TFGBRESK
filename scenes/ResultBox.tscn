@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://chafxjdjubkl"]
+[gd_scene load_steps=6 format=3 uid="uid://chafxjdjubkl"]
 
 [ext_resource type="Script" path="res://src/ResultBox.gd" id="1_mlhpg"]
 [ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="1_nycxl"]
@@ -15,6 +15,8 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_08m23"]
+
 [node name="Result" type="LineEdit"]
 clip_contents = true
 custom_minimum_size = Vector2(172, 113)
@@ -22,13 +24,15 @@ offset_right = 111.0
 offset_bottom = 111.0
 size_flags_stretch_ratio = 0.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_selected_color = Color(0, 0, 0, 0)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 1)
 theme_override_colors/caret_color = Color(0, 0, 0, 1)
 theme_override_constants/minimum_character_width = 0
 theme_override_fonts/font = ExtResource("1_nycxl")
 theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxEmpty_7rv54")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_08m23")
 alignment = 1
 max_length = 3
 caret_blink = true

@@ -10,7 +10,20 @@ extends Node2D
 func set_editable_board(order):
 	for n in scoreboxes.get_children():
 		n.editable = order
+func set_total_score(score):
+	numbers_array[2][0].text = str(score)
+func set_words_bonus(bonus):
+	if bonus:
+		numbers_array[1][0].text = str(3)
+	else:
+		numbers_array[1][0].text = "-"
 		
+func set_longest_bonus(bonus):
+	if bonus:
+		numbers_array[0][0].text = str(5)
+	else:
+		numbers_array[0][0].text = "-"
+	
 func _ready():
 	
 	pass # Replace with function body.

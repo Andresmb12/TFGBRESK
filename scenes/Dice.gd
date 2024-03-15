@@ -38,13 +38,17 @@ func roll_dice():
 			await get_tree().create_timer(wait_time).timeout
 			i = (i + 1) % dice_options.size()
 	result = option
+	
 	print("EL RESULTADO ES ", result)
 	dice_is_thrown = false
 	wait_time = 0.4
 	if dice_chosen == "bresk":
 		bresk_dice_thrown.emit(result)
 	if dice_chosen == "alphabet":
-		alph_dice_thrown.emit(result)
+		print("señal alhp dice enviada")
+		
+		alph_dice_thrown.emit()
+		
 			
 func _process(delta):
 	
