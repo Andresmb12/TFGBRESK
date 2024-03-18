@@ -37,6 +37,9 @@ func roll_dice():
 			dice.text = "[center]%s[/center]" % option
 			await get_tree().create_timer(wait_time).timeout
 			i = (i + 1) % dice_options.size()
+	i = randi() % dice_options.size()
+	option = dice_options[i]
+	dice.text = "[center]%s[/center]" % option
 	result = option
 	
 	print("EL RESULTADO ES ", result)

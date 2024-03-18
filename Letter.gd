@@ -5,6 +5,7 @@ signal letter_placed(letter)
 signal letter_entered(letter)
 
 func _ready():
+
 	pass
 	
 func validate_letters(your_string):
@@ -28,14 +29,14 @@ func _on_focus_entered():
 	if DataLoader.play_type == DataLoader.game_play_types.BRESK and text.is_empty():
 		text = DataLoader.next_letter
 		letter_placed.emit(text)
-		print("letra colocada en la casilla")
+		print("letra colocada en la casilla BRESK")
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		self.editable = false
 		
-	if DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and text.is_empty():
+	if DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and text.is_empty() :
 		text = DataLoader.next_letter
 		letter_placed.emit(text)
-		print("letra colocada en la casilla")
+		print("letra colocada en la casilla LETTER")
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		self.editable = false
 		pass

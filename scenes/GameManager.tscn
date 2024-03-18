@@ -32,6 +32,7 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
+visible = false
 clip_contents = true
 layout_direction = 1
 layout_mode = 0
@@ -54,9 +55,9 @@ disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
-size = Vector2i(638, 338)
+size = Vector2i(2, 2)
 size_2d_override_stretch = true
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="MainScenePlayer1" parent="GridContainer/svpcontainer1/SubViewport1" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -70,8 +71,8 @@ stretch = true
 [node name="SubViewport2" type="SubViewport" parent="GridContainer/svpcontainer2"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(637, 338)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -85,8 +86,8 @@ stretch = true
 [node name="SubViewport3" type="SubViewport" parent="GridContainer/svpcontainer3"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(638, 338)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -101,8 +102,8 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
-size = Vector2i(637, 338)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)

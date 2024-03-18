@@ -29,6 +29,7 @@ extends Control
 @onready var GAME_FINISHED = false
 @onready var SHOW_RESULTS = false
 @onready var game_longest_word
+@onready var index_letter_to_place
 @onready var max_words_formed = 0
 @onready var max_words_bonus_winner
 @onready var actions = {"0": "LO SENTIMOS! SALTAMOS TU TURNO", 
@@ -170,8 +171,6 @@ func get_winner():
 		
 		
 func focus_on_player():
-	print("llamada a focus_on_player , turno de ",turn)
-		
 	var root = get_tree().root
 	
 	grid.columns = 1
@@ -179,8 +178,7 @@ func focus_on_player():
 	for i in range(1,nplayers+1):
 		var cont = grid.get_node("svpcontainer" + str(i))
 		if(i == turn):
-			
-			print("turn_completed = ", turn_completed)
+
 			cont.size = grid.size
 			current_player = get_player(i)
 			current_player.position.x = 0
@@ -213,16 +211,15 @@ func focus_on_player():
 			go_back_to_game_view()
 			
 		if current_play_type == DataLoader.game_play_types.BRESK:
-			print("Colcoa la letra del dado Bresk")
 			alph_dice.show()
 			_on_alph_dice_thrown()
 			
 		if current_play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE:
-			print("Coloca letras")
 			cont_chosen_letters.show()
 			show_next_step("PlaceLetters")
 			
 			read_n_letters(int(bresk_dice.result))
+			print("llamada a enable en el IF")
 			enable_placing_letters(int(bresk_dice.result))
 
 	turn_completed += 1
@@ -289,7 +286,10 @@ func enable_placing_letters(n):
 	for i in range(1,n+1):
 		var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
 		var btn_i = cont_i.get_node("btn_letter" + str(i))
-		btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
+		var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
+		if !btn_i.is_connected("pressed",self.on_btn_letter_n_pressed):
+			btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
+	
 			
 #Contemplar en vez de usar n asi en las funciones usar el atributo result de BreskDice
 func note_letter_to_players(letter):
@@ -310,20 +310,23 @@ func manage_placing_letters(letter, n):
 	n_chosen_letters += 1
 	
 	if n_chosen_letters == n:
+		print("Ya se han elegido las letras")
 		done_choosing_letters(n) #Disable Letters Boxes Lineedits
+		print("llamada e enable en manage_placing")
 		enable_placing_letters(n)
 
 func on_btn_letter_n_pressed(i_button):
-
+	print("i_button= ",i_button )
 	var cont_letter_i = cont_chosen_letters.get_node("cont_letter" + str(i_button)).get_node("Letter" + str(i_button))
-	var btn_i = cont_chosen_letters.get_node("cont_letter" + str(i_button) + "/btn_letter" + str(i_button) )
+	var btn_i = get_button(i_button)
 	if !cont_letter_i.text.is_empty():
 		current_player.n_mainboard.set_editable_board(false)
 		#TRAS ESTA LINEA REALMENTE SE USA SIEMPRE EL GAME_PLAY_BRESK
 		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 		DataLoader.next_letter = cont_letter_i.text
-		btn_i.disconnect("pressed", self.on_btn_letter_n_pressed)
-		print("Se puede poner una letra")
+		#AQUI GUARDO EL INDICE DEL ULTIMO CONT LETTER PULSADO
+		index_letter_to_place = i_button
+		
 	
 	pass # Replace with function body.
 	
@@ -339,14 +342,18 @@ func first_choose_n_letters(n):
 		var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
 		i_letter.connect("letter_entered", self.manage_placing_letters.bind(n))
 		
-		
+func get_button(i):
+	return cont_chosen_letters.get_node("cont_letter" + str(i) + "/btn_letter" + str(i))
+	
+	
 func save_letter(letter,n):
-	print("last_index = ", last_index)
+	
 	cont_letters = cont_letters + 1
 	print("LETTER SAVED: ", letter)
-	print("cont_letters= ",cont_letters)
-	print("n = ", n)
-	
+	if get_button(index_letter_to_place).is_connected("pressed",on_btn_letter_n_pressed):
+		print("desconecto la letra ya usada")
+		get_button(index_letter_to_place).disconnect("pressed",on_btn_letter_n_pressed)
+		
 	if cont_letters == n:
 		#current_player.n_mainboard.disconnect("b_letter_entered", self.save_letter)
 		await get_tree().create_timer(0.23).timeout
@@ -354,10 +361,13 @@ func save_letter(letter,n):
 		print("Tablero desactivado")
 		await get_tree().create_timer(2).timeout
 		show_next_step("NextPlayer")
+		
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
+		
 		$Button2.show()
 		go_back_to_game_view()
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
+	
 func read_n_letters(n):
 	cont_letters = 0
 	var i = 0
@@ -393,10 +403,6 @@ func _on_alph_dice_thrown():
 	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(1))
 	
 	pass # Replace with function body.
-
-
-
-
 
 
 
