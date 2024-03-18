@@ -7,6 +7,7 @@ extends Control
 @onready var grid = $GridContainer
 @onready var current_player = $GridContainer/svpcontainer1/SubViewport1/MainScenePlayer1
 @onready var lbl_turn = $lbl_game_turn
+@onready var results_screen = $ResultsScreen
 @onready var last_letter
 @onready var letters_in_board = 0
 @onready var cont_letters = 0
@@ -22,8 +23,10 @@ extends Control
 @onready var cont_letter1 = $cont_chosen_letters/cont_letter1
 @onready var cont_letter2 = $cont_chosen_letters/cont_letter2
 @onready var cont_letter3 = $cont_chosen_letters/cont_letter3
+@onready var results_list = $ResultsScreen/results_list
 @onready var nplayers = DataLoader.nplayers
-@onready var players_set = DataLoader.all_players
+@onready var players_set 
+@onready var data_players = []
 @onready var turn : int = 1
 @onready var longest_bonus_winner = []
 @onready var GAME_FINISHED = false
@@ -44,7 +47,19 @@ var PlayersBoards: Dictionary
 var Scores: Array
 
 func _ready():
-	DataLoader.load_dictionary_from_file()
+	if DataLoader.game_players.is_empty():
+		players_set = DataLoader.all_players
+		nplayers = DataLoader.all_players.size()
+		nplayers = 2
+	else:
+		players_set = DataLoader.game_players
+	
+	for p in range(1,nplayers+1):
+		data_players.append(get_player(p))
+		print("Cargo al jugador: ", get_player(p).usernamevar)
+		print(data_players[p-1])
+	results_screen.hide()
+	#DataLoader.load_dictionary_from_file()
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
 	current_play_type = DataLoader.game_play_types.SKIP
 	grid.columns = 2
@@ -78,7 +93,7 @@ func show_next_step(action):
 	
 func update_game():
 	if(turn_completed == nplayers):
-		if letters_in_board == DataLoader.max_letters:
+		if letters_in_board == DataLoader.max_letters: #END OF GAME
 			turn = 0
 			GAME_FINISHED = true
 			current_play_type = DataLoader.game_play_types.COUNT
@@ -96,8 +111,7 @@ func update_game():
 	cont_chosen_letters.hide()
 	bresk_dice.hide()
 	alph_dice.hide()
-	#ARREGLAR QUE SE RESALTE EL JUGADOR CORRECTO DEL TURNO
-	#Y TAMBIEN EL LABEL DE ES EL TURNO DE
+
 	for i in range(1,nplayers+1):
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
 		if i == turn or GAME_FINISHED: #Difuminamos los tableros que no es su turno aun
@@ -166,10 +180,38 @@ func get_winner():
 		var p = get_player(i)
 		p.n_scoreboxes.set_total_score(p.total_points)
 	lbl_turn.text = ("[center][color=WHITE][b]EL GANADOR ES %s[/b][/color][/center]" % winner.usernamevar)
+	#show_results_screen()
 	# AQUI HACER ALGO PARA DETENER POR COMPLETO EL JUEGO Y QUE NO SE VUELVA A HACER FOCUS ON PLAYER
 	#QUEDANDOSE SOLO EL GAME_VIEW
 		
+
+func show_results_screen():
+	grid.hide()
+	cont_chosen_letters.hide()
+	$Dice2.hide()
+	$Dice1.hide()
+	$Button.hide()
+	$Button2.hide()
+	results_screen.show()
+	results_list.add_item("   JUGADOR    ")
+	results_list.add_item("NºPALABRAS")
+	results_list.add_item("  PALABRA MAS LARGA  ")
+	results_list.add_item("   TOTAL DE PUNTOS   ")
+	var aux = 5
+	var word = "ye"
+	for p in data_players:
 		
+		aux = aux + 2
+		p.longest_word = word
+		word = word + "ah"
+		p.total_points = aux * 2
+		p.words_formed_by_player = ["y", "a", "e"]
+		results_list.add_item(p.usernamevar)
+		results_list.add_item("      " + str(p.words_formed_by_player.size()))
+		results_list.add_item("      " + p.longest_word)
+		results_list.add_item("      " + str(p.total_points))
+		
+	
 func focus_on_player():
 	var root = get_tree().root
 	
@@ -217,7 +259,6 @@ func focus_on_player():
 		if current_play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE:
 			cont_chosen_letters.show()
 			show_next_step("PlaceLetters")
-			
 			read_n_letters(int(bresk_dice.result))
 			print("llamada a enable en el IF")
 			enable_placing_letters(int(bresk_dice.result))
@@ -285,10 +326,12 @@ func enable_placing_letters(n):
 	
 	for i in range(1,n+1):
 		var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
+		cont_i.modulate.a = 1
 		var btn_i = cont_i.get_node("btn_letter" + str(i))
 		var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
 		if !btn_i.is_connected("pressed",self.on_btn_letter_n_pressed):
 			btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
+			
 	
 			
 #Contemplar en vez de usar n asi en las funciones usar el atributo result de BreskDice
@@ -299,8 +342,6 @@ func note_letter_to_players(letter):
 		var player = grid.get_node("svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i) )
 		player.n_scoreboard.note_new_letter(letter, player.last_index)
 		player.update_index()
-		
-		
 		
 func manage_placing_letters(letter, n):
 	print("Señal recibida, n=",n)
@@ -344,14 +385,16 @@ func first_choose_n_letters(n):
 		
 func get_button(i):
 	return cont_chosen_letters.get_node("cont_letter" + str(i) + "/btn_letter" + str(i))
-	
+func get_letter(i):
+	return cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
 	
 func save_letter(letter,n):
 	
 	cont_letters = cont_letters + 1
 	print("LETTER SAVED: ", letter)
-	if get_button(index_letter_to_place).is_connected("pressed",on_btn_letter_n_pressed):
+	if  DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and get_button(index_letter_to_place).is_connected("pressed",on_btn_letter_n_pressed):
 		print("desconecto la letra ya usada")
+		cont_chosen_letters.get_node("cont_letter" + str(index_letter_to_place)).modulate.a = 0.5
 		get_button(index_letter_to_place).disconnect("pressed",on_btn_letter_n_pressed)
 		
 	if cont_letters == n:
@@ -360,6 +403,8 @@ func save_letter(letter,n):
 		current_player.set_editable_subboards(false)
 		print("Tablero desactivado")
 		await get_tree().create_timer(2).timeout
+		for i in range(1,4):
+			cont_chosen_letters.get_node("cont_letter" + str(i)).modulate.a = 1
 		show_next_step("NextPlayer")
 		
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
@@ -407,5 +452,6 @@ func _on_alph_dice_thrown():
 
 
 func _on_button_pressed():
-	focus_on_next_player()
+	
+	show_results_screen()
 	pass # Replace with function body.

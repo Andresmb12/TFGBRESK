@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cawqo7l54aw5t"]
+[gd_scene load_steps=11 format=3 uid="uid://cawqo7l54aw5t"]
 
 [ext_resource type="Script" path="res://scenes/GameManager.gd" id="1_lv1m6"]
 [ext_resource type="PackedScene" uid="uid://beqg8k0qbsbqm" path="res://scenes/MainPlayerScene.tscn" id="2_1ndxj"]
@@ -6,10 +6,14 @@
 [ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="4_mufjv"]
 [ext_resource type="PackedScene" uid="uid://crywaplhkqgtm" path="res://scenes/Letter.tscn" id="5_hcpsy"]
 [ext_resource type="StyleBox" uid="uid://b4rttf8bbdtmi" path="res://scenes/letters_chosen.tres" id="6_tlnfj"]
+[ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="7_v1dpy"]
 
 [sub_resource type="Theme" id="Theme_ce18h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oku76"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o2yk"]
+bg_color = Color(0, 0, 0, 0.509804)
 
 [node name="GameManager" type="Control"]
 layout_mode = 3
@@ -117,6 +121,7 @@ offset_bottom = 374.0
 text = "NEXT"
 
 [node name="Button2" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 1014.0
 offset_top = 587.0
@@ -125,6 +130,7 @@ offset_bottom = 639.0
 text = "NEXT"
 
 [node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
+visible = false
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
@@ -136,6 +142,7 @@ offset_bottom = 588.468
 scale = Vector2(0.7, 0.7)
 
 [node name="Dice2" parent="." instance=ExtResource("3_mkww0")]
+visible = false
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
@@ -162,6 +169,7 @@ text = "[center]TIRA LOS DADOS[/center]"
 fit_content = true
 
 [node name="cont_chosen_letters" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 1019.0
 offset_top = 40.0
@@ -245,6 +253,49 @@ offset_bottom = 63.0
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("4_mufjv")
 fit_content = true
+
+[node name="ResultsScreen" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Background" type="TextureRect" parent="ResultsScreen"]
+modulate = Color(1, 1, 1, 0.313726)
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("7_v1dpy")
+expand_mode = 1
+
+[node name="Results_lbl" type="RichTextLabel" parent="ResultsScreen"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 0
+offset_left = 368.0
+offset_top = 209.0
+offset_right = 954.0
+offset_bottom = 269.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/table_border = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o2yk")
+bbcode_enabled = true
+text = "[center] RESULTADOS DE LA PARTIDA [/center] "
+
+[node name="results_list" type="ItemList" parent="ResultsScreen"]
+custom_minimum_size = Vector2(60, 300)
+layout_mode = 0
+offset_left = 221.0
+offset_top = 289.0
+offset_right = 1125.0
+offset_bottom = 625.0
+theme_override_font_sizes/font_size = 18
+allow_search = false
+max_text_lines = 2
+auto_height = true
+text_overrun_behavior = 4
+max_columns = 4
+fixed_icon_size = Vector2i(18, 18)
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="go_back_to_game_view"]
