@@ -1,12 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://cawqo7l54aw5t"]
+[gd_scene load_steps=14 format=3 uid="uid://cawqo7l54aw5t"]
 
 [ext_resource type="Script" path="res://scenes/GameManager.gd" id="1_lv1m6"]
 [ext_resource type="PackedScene" uid="uid://beqg8k0qbsbqm" path="res://scenes/MainPlayerScene.tscn" id="2_1ndxj"]
+[ext_resource type="Texture2D" uid="uid://v0ip3n1k2d0h" path="res://images/eye-solid.svg" id="2_nhhsb"]
 [ext_resource type="PackedScene" uid="uid://b8t17ld0p75dm" path="res://scenes/Dado.tscn" id="3_mkww0"]
+[ext_resource type="Texture2D" uid="uid://dpgqpe8806lh1" path="res://images/trash-solid.svg" id="3_utkqo"]
 [ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="4_mufjv"]
 [ext_resource type="PackedScene" uid="uid://crywaplhkqgtm" path="res://scenes/Letter.tscn" id="5_hcpsy"]
 [ext_resource type="StyleBox" uid="uid://b4rttf8bbdtmi" path="res://scenes/letters_chosen.tres" id="6_tlnfj"]
 [ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="7_v1dpy"]
+[ext_resource type="Texture2D" uid="uid://cwjdma5ep6ipl" path="res://images/circle-left-solid.svg" id="10_cgjje"]
 
 [sub_resource type="Theme" id="Theme_ce18h"]
 
@@ -25,6 +28,8 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lv1m6")
+view_icon = ExtResource("2_nhhsb")
+delete_icon = ExtResource("3_utkqo")
 
 [node name="lbl_game_turn" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -36,7 +41,6 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
-visible = false
 clip_contents = true
 layout_direction = 1
 layout_mode = 0
@@ -59,9 +63,9 @@ disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
-size = Vector2i(2, 2)
+size = Vector2i(638, 338)
 size_2d_override_stretch = true
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="MainScenePlayer1" parent="GridContainer/svpcontainer1/SubViewport1" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -75,8 +79,8 @@ stretch = true
 [node name="SubViewport2" type="SubViewport" parent="GridContainer/svpcontainer2"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(637, 338)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -90,8 +94,8 @@ stretch = true
 [node name="SubViewport3" type="SubViewport" parent="GridContainer/svpcontainer3"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(638, 338)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -106,19 +110,20 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(637, 338)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 581.0
-offset_top = 312.0
-offset_right = 698.0
-offset_bottom = 374.0
-text = "NEXT"
+offset_left = 502.0
+offset_top = 285.0
+offset_right = 689.0
+offset_bottom = 428.0
+text = "VER 
+RESULTADOS"
 
 [node name="Button2" type="Button" parent="."]
 visible = false
@@ -255,6 +260,7 @@ theme_override_fonts/normal_font = ExtResource("4_mufjv")
 fit_content = true
 
 [node name="ResultsScreen" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -283,21 +289,35 @@ bbcode_enabled = true
 text = "[center] RESULTADOS DE LA PARTIDA [/center] "
 
 [node name="results_list" type="ItemList" parent="ResultsScreen"]
+clip_contents = false
 custom_minimum_size = Vector2(60, 300)
 layout_mode = 0
-offset_left = 221.0
-offset_top = 289.0
-offset_right = 1125.0
-offset_bottom = 625.0
+offset_left = 225.0
+offset_top = 305.0
+offset_right = 1090.0
+offset_bottom = 605.0
 theme_override_font_sizes/font_size = 18
 allow_search = false
 max_text_lines = 2
 auto_height = true
 text_overrun_behavior = 4
 max_columns = 4
-fixed_icon_size = Vector2i(18, 18)
+same_column_width = true
+fixed_icon_size = Vector2i(21, 21)
+
+[node name="back_to_results_btn" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 28.0
+offset_right = 100.0
+offset_bottom = 92.0
+texture_normal = ExtResource("10_cgjje")
+ignore_texture_size = true
+stretch_mode = 0
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="go_back_to_game_view"]
 [connection signal="bresk_dice_thrown" from="Dice1" to="." method="_on_bresk_dice_thrown"]
 [connection signal="alph_dice_thrown" from="Dice2" to="." method="_on_alph_dice_thrown"]
+[connection signal="item_clicked" from="ResultsScreen/results_list" to="." method="_on_results_list_icon_clicked"]
+[connection signal="pressed" from="back_to_results_btn" to="." method="_on_back_to_results_pressed"]

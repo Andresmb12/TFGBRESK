@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cwjdma5ep6ipl" path="res://images/circle-left-solid.svg" id="6_38sp1"]
 
 [node name="MainPlayerScene" type="Node2D"]
+position = Vector2(-32, 0)
 script = ExtResource("1_vp321")
 
 [node name="MainBoardRoot" parent="." instance=ExtResource("1_g2gpa")]
@@ -39,6 +40,7 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="TextureButton" type="TextureButton" parent="."]
+visible = false
 offset_left = 38.0
 offset_top = 28.0
 offset_right = 100.0

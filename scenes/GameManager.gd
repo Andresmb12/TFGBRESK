@@ -5,9 +5,12 @@ extends Control
 @onready var bresk_dice = $Dice1
 @onready var alph_dice = $Dice2
 @onready var grid = $GridContainer
+@onready var back_to_results = $back_to_results_btn
 @onready var current_player = $GridContainer/svpcontainer1/SubViewport1/MainScenePlayer1
 @onready var lbl_turn = $lbl_game_turn
 @onready var results_screen = $ResultsScreen
+@export var view_icon: Texture2D
+@export var delete_icon: Texture2D
 @onready var last_letter
 @onready var letters_in_board = 0
 @onready var cont_letters = 0
@@ -47,6 +50,7 @@ var PlayersBoards: Dictionary
 var Scores: Array
 
 func _ready():
+	$Button.hide()
 	if DataLoader.game_players.is_empty():
 		players_set = DataLoader.all_players
 		nplayers = DataLoader.all_players.size()
@@ -73,6 +77,7 @@ func _ready():
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
 		p_container.hide()
 	update_game()
+	#show_results_screen()
 	
 func clean_letters_boxes():
 	for i in range(1,4):
@@ -186,6 +191,7 @@ func get_winner():
 		
 
 func show_results_screen():
+	back_to_results.hide()
 	grid.hide()
 	cont_chosen_letters.hide()
 	$Dice2.hide()
@@ -193,43 +199,66 @@ func show_results_screen():
 	$Button.hide()
 	$Button2.hide()
 	results_screen.show()
-	results_list.add_item("   JUGADOR    ")
-	results_list.add_item("NºPALABRAS")
-	results_list.add_item("  PALABRA MAS LARGA  ")
-	results_list.add_item("   TOTAL DE PUNTOS   ")
+	
+func fill_results_table():
+	#results_screen.show()
+	results_list.add_item("               JUGADOR")
+	results_list.add_item("          NºPALABRAS")
+	results_list.add_item("   PALABRA MAS LARGA   ")
+	results_list.add_item("     PUNTOS TOTALES   ")
+	sort_players()
+	var prueba = false
 	var aux = 5
 	var word = "ye"
+	print("hay n jugadores n=", data_players.size())
 	for p in data_players:
-		
-		aux = aux + 2
-		p.longest_word = word
-		word = word + "ah"
-		p.total_points = aux * 2
-		p.words_formed_by_player = ["y", "a", "e"]
-		results_list.add_item(p.usernamevar)
-		results_list.add_item("      " + str(p.words_formed_by_player.size()))
-		results_list.add_item("      " + p.longest_word)
-		results_list.add_item("      " + str(p.total_points))
-		
+		if prueba:
+			aux = aux + 2
+			p.longest_word = word
+			word = "petardos"
+			p.total_points = aux * 2
+			p.words_formed_by_player = ["y", "a", "e"]
+			
+			results_list.add_item("       " + "ANDRES",view_icon)
+			results_list.add_item("                   " + str(15))
+			results_list.add_item("                " + p.longest_word)
+			results_list.add_item("                     " + str(p.total_points))
+		else:
+			
+			results_list.add_item("       " + p.usernamevar,view_icon)
+			results_list.add_item("                   " + str(p.words_formed_by_player.size()))
+			results_list.add_item("                " + p.longest_word)
+			results_list.add_item("                     " + str(p.total_points))
+
 	
-func focus_on_player():
+func compare_players(p1,p2):
+	return p2.total_points < p1.total_points
+	
+func sort_players():
+	data_players.sort_custom(compare_players)
+
+func make_focus(turn):
 	var root = get_tree().root
 	
 	grid.columns = 1
 	
 	for i in range(1,nplayers+1):
 		var cont = grid.get_node("svpcontainer" + str(i))
+		
 		if(i == turn):
-
+			print("se entra")
 			cont.size = grid.size
 			current_player = get_player(i)
 			current_player.position.x = 0
 			current_player.scale = focus_scale
 			current_player.set_editable_subboards(false)
-			
 		else:
 			cont.hide()
 			
+func focus_on_player():
+	
+	make_focus(turn)
+	
 	if turn_completed == 0 and !GAME_FINISHED: #New player rolls the dices
 		
 		clean_letters_boxes()
@@ -248,6 +277,7 @@ func focus_on_player():
 				await get_tree().create_timer(3).timeout
 				SHOW_RESULTS = true
 				get_winner()
+				$Button.show()
 				
 			await get_tree().create_timer(3).timeout
 			go_back_to_game_view()
@@ -453,5 +483,46 @@ func _on_alph_dice_thrown():
 
 func _on_button_pressed():
 	
+	fill_results_table()
 	show_results_screen()
 	pass # Replace with function body.
+
+
+func _on_results_list_icon_clicked(index, at_position, mouse_button_index):
+	print("se ha pulsado el icono: ", index)
+	var index_player
+	
+	results_screen.hide()
+	back_to_results.show()
+	
+	var cont
+	if index % 4 == 0 and index >= 4: #Icon clicked
+		index_player = index / 4 - 1
+		current_player = data_players[index_player]
+		print("el jugador que quiero mostrar es: ", current_player.get_name())
+		show_desired_player()
+	pass # Replace with function body.
+
+
+func _on_back_to_results_pressed():
+	show_results_screen()
+	pass # Replace with function body.
+
+func show_desired_player():
+	var cont
+	grid.columns = 1
+	grid.show()
+	for p in data_players:
+		cont = p.get_parent().get_parent()
+		cont.modulate.a = 1
+		if p == current_player:
+			print("el jugador que quiero mostrar es: ", current_player.get_name())
+			print("cont= ",cont.get_name())
+			cont.show()
+			cont.size = grid.size
+			current_player.position.x = 0
+			current_player.scale = focus_scale
+			current_player.set_editable_subboards(false)
+		else:
+			cont.hide()
+			

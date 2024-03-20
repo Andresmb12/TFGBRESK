@@ -25,6 +25,7 @@ func set_alphabet_dice():
 	dice_chosen = "alphabet"
 
 func _ready():
+	hide()
 	timer = Timer.new()
 	dice_is_thrown = false
 	pass
