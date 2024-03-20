@@ -361,6 +361,8 @@ func _on_bresk_dice_thrown(result):
 		first_choose_n_letters(int(result))
 		if current_player.is_bot:
 			bot_choose_letters(int(result))
+			await get_tree().create_timer(3).timeout
+			show_next_step(result)
 			
 		
 func bot_choose_letters(n):
@@ -372,9 +374,23 @@ func bot_choose_letters(n):
 		await get_tree().create_timer(2).timeout
 		
 		get_letter(i).text = chosen_letter
-		get_letter(i).letter_entered.emit(chosen_letter,n)
-		pass
-	pass
+		get_letter(i).letter_entered.emit(chosen_letter)
+
+func dummy_bot_place_letters(n):
+	var board = current_player.n_mainboard.letters_main_board
+	var letter
+	var placed = 0
+	for i in range(1,n+1):
+		letter = get_letter(i).text
+		await get_tree().create_timer(2.5).timeout
+		for row in range(8):
+			for col in range(8):
+				if current_player.get_letter(row,col).is_empty() and placed != n:
+					board[row][col].text = letter
+					DataLoader.next_letter = letter
+					placed += 1
+					save_letter(letter,n)
+					
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar
 func done_choosing_letters(n):
@@ -386,14 +402,16 @@ func done_choosing_letters(n):
 	current_player.n_mainboard.set_editable_board(false)
 
 func enable_placing_letters(n):
-	
-	for i in range(1,n+1):
-		var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
-		cont_i.modulate.a = 1
-		var btn_i = cont_i.get_node("btn_letter" + str(i))
-		var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
-		if !btn_i.is_connected("pressed",self.on_btn_letter_n_pressed):
-			btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
+	if current_player.is_bot:
+		dummy_bot_place_letters(n)
+	else:
+		for i in range(1,n+1):
+			var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
+			cont_i.modulate.a = 1
+			var btn_i = get_button(i)
+			var i_letter = get_letter(i)
+			if !btn_i.is_connected("pressed",self.on_btn_letter_n_pressed):
+				btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
 			
 	
 			
