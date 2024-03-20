@@ -18,12 +18,16 @@ extends Node
 @export var clickable: bool = false
 @export var add_to_back: bool = true
 
-@onready var all_players: Array = ["Algoritmo-1","Algoritmo-2","Algoritmo-3","Algoritmo-4"]
+@onready var all_players: Dictionary = { "Algoritmo-1": true,"Algoritmo-2": false,"Algoritmo-3" : false,"Algoritmo-4": false }
 @onready var nplayers: int = 4
-@onready var game_players : Array = Array()
+@onready var game_players : Dictionary = Dictionary()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
 @onready var current_player  = PlayerScene.instantiate()
 enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP, COUNT }
+@onready var alphabet = [
+	"A", "B", "C", "D", "E", "F", "G", "#","H", "I", "J", "K", "L", "M",
+	"N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"
+]
 @onready var play_type
 @onready var turn : int = 0
 @onready var max_letters = 10

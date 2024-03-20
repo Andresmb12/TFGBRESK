@@ -31,6 +31,7 @@ func _ready():
 	pass
 
 func roll_dice():
+	self.focus_mode = Control.FOCUS_CLICK
 	var i = 0
 	var option
 	while !dice_is_thrown:

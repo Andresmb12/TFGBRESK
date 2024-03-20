@@ -306,6 +306,7 @@ same_column_width = true
 fixed_icon_size = Vector2i(21, 21)
 
 [node name="back_to_results_btn" type="TextureButton" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 38.0
 offset_top = 28.0

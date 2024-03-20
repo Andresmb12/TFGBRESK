@@ -28,7 +28,7 @@ extends Control
 @onready var cont_letter3 = $cont_chosen_letters/cont_letter3
 @onready var results_list = $ResultsScreen/results_list
 @onready var nplayers = DataLoader.nplayers
-@onready var players_set 
+@onready var players_set : Dictionary
 @onready var data_players = []
 @onready var turn : int = 1
 @onready var longest_bonus_winner = []
@@ -43,24 +43,26 @@ extends Control
 "3": "ELIGE 3 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA",
 "4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"NextPlayer": "TURNO DEL SIGUIENTE JUGADOR", 
 "PlaceLetters": "COLOCA LAS LETRAS EN EL TABLERO", "7": "COLOCA LA LETRA EN EL TABLERO",
-"end": "PARTIDA ACABADA, COMIENZA EL RECUENTO"}
+"end": "PARTIDA ACABADA, COMIENZA EL RECUENTO", "throw": "tira el dado"}
 
-
-var PlayersBoards: Dictionary
-var Scores: Array
 
 func _ready():
 	$Button.hide()
+	$Button.show()
 	if DataLoader.game_players.is_empty():
 		players_set = DataLoader.all_players
 		nplayers = DataLoader.all_players.size()
 		nplayers = 2
 	else:
 		players_set = DataLoader.game_players
-	
+	var player
 	for p in range(1,nplayers+1):
 		data_players.append(get_player(p))
-		print("Cargo al jugador: ", get_player(p).usernamevar)
+		player = get_player(p)
+		player.set_player_name(players_set.keys()[p-1])
+		print("Cargo al jugador: ", player.usernamevar)
+		player.is_bot = players_set[player.usernamevar]
+		print("Es BOT?", player.is_bot)
 		print(data_players[p-1])
 	results_screen.hide()
 	#DataLoader.load_dictionary_from_file()
@@ -85,19 +87,21 @@ func clean_letters_boxes():
 		box.clear()
 		box.editable = true
 		cont_chosen_letters.get_node("cont_letter" + str(i)).hide()
+		
 
+	
 func show_next_step(action):
 	#current_player.modulate.a = 0.5
 	var next_action = actions[action]
-	next_step.text =  ("[center][color=WHITE][b]\n%s[/b][/color][/center]" % next_action)
+	next_step.text =  ("[center][color=WHITE][b]\n%s %s[/b][/color][/center]" % [current_player.usernamevar , next_action] )
 	next_step.show()
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(3).timeout
 	next_step.hide()
 	
 	current_player.modulate.a = 1
 	
 func update_game():
-	if(turn_completed == nplayers):
+	if(turn_completed == nplayers): #CHECK IF CURRENT PLAY IS FINISHED
 		if letters_in_board == DataLoader.max_letters: #END OF GAME
 			turn = 0
 			GAME_FINISHED = true
@@ -107,7 +111,7 @@ func update_game():
 			
 		print("TURNO COMPLETADO, NEXT PLAYER ROLLS THE DICE")
 		turn_completed = 0
-		turn = turn % nplayers + 1 #Saltamos al tiró el dado el turno
+		turn = turn % nplayers + 1 # We jump to the next player who se
 		
 	
 	print("UPDATE GAME, TURNO DE ", turn)
@@ -117,21 +121,18 @@ func update_game():
 	bresk_dice.hide()
 	alph_dice.hide()
 
+	# Here we show all the players and their boards
 	for i in range(1,nplayers+1):
 		var p_container = get_node("GridContainer/svpcontainer" + str(i))
-		if i == turn or GAME_FINISHED: #Difuminamos los tableros que no es su turno aun
+		if i == turn or GAME_FINISHED: # We highlight the board of the turn's player
 			p_container.modulate.a = 1
 		else:
 			p_container.modulate.a = 0.5
-		var player  = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
-		player.set_player_name(players_set[i-1])
-		#print("jugador configurado: ", player.usernamevar)
-		player.id_player = i
-		PlayersBoards[players_set[i-1]] = player
-		if nplayers == 2:
+		var player  = get_player(i)
+		
+		if nplayers == 2: # In this case I change the view
 			grid.columns = 1
 			player.position.x = grid.size.x / 4
-		
 		p_container.show()
 		player.scale = general_scale
 	print("DE MOMENTO SE HAN PUESTO DE LETRAS: ",letters_in_board)
@@ -207,7 +208,7 @@ func fill_results_table():
 	results_list.add_item("   PALABRA MAS LARGA   ")
 	results_list.add_item("     PUNTOS TOTALES   ")
 	sort_players()
-	var prueba = false
+	var prueba = true
 	var aux = 5
 	var word = "ye"
 	print("hay n jugadores n=", data_players.size())
@@ -244,11 +245,10 @@ func make_focus(turn):
 	
 	for i in range(1,nplayers+1):
 		var cont = grid.get_node("svpcontainer" + str(i))
-		
 		if(i == turn):
 			print("se entra")
 			cont.size = grid.size
-			current_player = get_player(i)
+			current_player = get_player(i) # IMP here I get CURRENT PLAYER
 			current_player.position.x = 0
 			current_player.scale = focus_scale
 			current_player.set_editable_subboards(false)
@@ -268,7 +268,18 @@ func focus_on_player():
 		bresk_dice.set_bresk_dice()
 		bresk_dice.roll_dice()
 		
+		if current_player.is_bot:
+			bresk_dice.focus_mode = Control.FOCUS_NONE
+			print("Juega ahora un BOT")
+			show_next_step("throw")
+			await get_tree().create_timer(3).timeout
+			
+			bresk_dice._on_button_pressed() # First he throws the dice
+			
+			
+		
 	else: #Next player just places letters
+			
 		if current_play_type == DataLoader.game_play_types.COUNT:
 			show_next_step("end")
 			await get_tree().create_timer(2).timeout
@@ -292,14 +303,14 @@ func focus_on_player():
 			read_n_letters(int(bresk_dice.result))
 			print("llamada a enable en el IF")
 			enable_placing_letters(int(bresk_dice.result))
+		
 
 	turn_completed += 1
 	turn = turn % nplayers +1
 	
 	
 	
-	
-		
+
 	
 func focus_on_next_player():
 	
@@ -332,6 +343,12 @@ func _on_bresk_dice_thrown(result):
 		alph_dice.set_alphabet_dice()
 		alph_dice.roll_dice()
 		letters_in_board += 1
+		
+		if current_player.is_bot: # Bot throws letters dice
+			alph_dice.focus_mode = Control.FOCUS_NONE
+			show_next_step("throw")
+			await get_tree().create_timer(3).timeout
+			alph_dice._on_button_pressed()
 		#throw second dice
 	else:
 		current_play_type =  DataLoader.game_play_types.LETTER_TO_CHOOSE
@@ -339,15 +356,31 @@ func _on_bresk_dice_thrown(result):
 		if letters_in_board + int(result) > DataLoader.max_letters:
 			result = str(DataLoader.max_letters - letters_in_board)
 			bresk_dice.result = result
-		read_n_letters(int(result))
-		first_choose_n_letters(int(result))
 		
+		read_n_letters(int(result)) # Allow to 
+		first_choose_n_letters(int(result))
+		if current_player.is_bot:
+			bot_choose_letters(int(result))
+			
+		
+func bot_choose_letters(n):
+	var chosen_letter
+	var index
+	for i in range(1,n+1):
+		index = randi() % DataLoader.alphabet.size()
+		chosen_letter = DataLoader.alphabet[i]
+		await get_tree().create_timer(2).timeout
+		
+		get_letter(i).text = chosen_letter
+		get_letter(i).letter_entered.emit(chosen_letter,n)
+		pass
+	pass
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar
 func done_choosing_letters(n):
 	for i in range(1,n+1):
 			var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
-			var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
+			var i_letter = get_letter(i)
 			i_letter.disconnect("letter_entered", self.manage_placing_letters)
 	print("Tablero desactivado")
 	current_player.n_mainboard.set_editable_board(false)
@@ -410,7 +443,7 @@ func first_choose_n_letters(n):
 		print("i = ",i)
 		cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
 		cont_i.show()
-		var i_letter = cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
+		var i_letter = get_letter(i)
 		i_letter.connect("letter_entered", self.manage_placing_letters.bind(n))
 		
 func get_button(i):
