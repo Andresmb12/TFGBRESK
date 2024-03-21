@@ -19,7 +19,7 @@ extends Node2D
 @onready var orient_target_word
 @onready var index_target_word
 @onready var space_in_line : int #Huecos que me quedan donde quiero formar la palabra
-@onready var pos_target_word
+@onready var pos_target_word : Vector2
 @export var mainboard: Array
 #Ahora desde la escena de cada jugador, dentro de mainboard, tengo acceso
 # a todas las casillas del tablero mediante mainboard[row][col].text
@@ -70,20 +70,20 @@ func count_words_horz():
 
 # Return how many empty cells are free on the desired orientation
 func get_space_in_line(pos, orient):
-	var col = pos.y + 1
-	var row = pos. x + 1
+	var col = (pos.y + 1) 
+	var row = (pos. x + 1) 
 	var done = false
 	var space = 0
-	if orient == "HORIZONTAL":
-		while col < BOARD_LIMIT and !done:
+	if orient == "HORIZONTAL" and (pos.y==0 or get_letter(row,pos.y-1)!= "#"):
+		while col <= BOARD_LIMIT and !done:
 			if get_letter(row,col).is_empty():
 				space += 1
 			else:
 				done = true
 			col += 1
 		done = true
-	if orient == "VERTICAL":
-		while row < BOARD_LIMIT and !done:
+	if orient == "VERTICAL" and (pos.x==0 or get_letter(pos.x-1,col)):
+		while row <= BOARD_LIMIT and !done:
 			if get_letter(row,col).is_empty():
 				space += 1
 			else:
@@ -169,31 +169,49 @@ func _on_texture_button_pressed():
 	calculate_points()
 	
 func smart_placing_letter(letter):
-	var i =  target_word.find(letter,word_in_progress.length())
+	if target_word.is_empty():
+		if letter != "#":
+			word_in_progress = letter
+		return -1
+	#print("word in progress: ")
+	var arr_indexes = DataLoader.find_occurrences(target_word,letter)
+	
 	var board = n_mainboard.letters_main_board
 	var placed = false
-	if i != -1:
+	if letter == target_letter:
+		index_target_word += 1
+	if !arr_indexes.is_empty():
 		print("Miro si la letra se puede poner en la palabra target")
-		if orient_target_word == "HORIZONTAL":
-			if board[pos_target_word.x][pos_target_word.y + i].is_empty():
-				board[pos_target_word.x][pos_target_word.y + i].text = letter
-				print("La letra me sirve y la pongo donde corresponde")
-				placed = true
-		if orient_target_word == "VERTICAL":
-			if board[pos_target_word.x + i][pos_target_word.y].is_empty():
-				board[pos_target_word.x + i][pos_target_word.y].text = letter
-				print("La letra me sirve y la pongo donde corresponde")
-				placed = true
+		for i in arr_indexes :
+			if orient_target_word == "HORIZONTAL":
+				if board[pos_target_word.x][pos_target_word.y + i].text.is_empty():
+					board[pos_target_word.x][pos_target_word.y + i].text = letter
+					print("La letra me sirve HORZ y la pongo donde corresponde")
+					word_in_progress += letter
+					placed = true
+					break
+			if orient_target_word == "VERTICAL":
+				if board[pos_target_word.x + i][pos_target_word.y].text.is_empty():
+					board[pos_target_word.x + i][pos_target_word.y].text = letter
+					print("La letra me sirve VERT y la pongo donde corresponde")
+					word_in_progress += letter
+					placed = true
+					break
 	if !placed: # I try to place it otherwhere that does not mess my word
 		for r in range(BOARD_LIMIT):
+			if placed:
+				break
 			for c in range(BOARD_LIMIT):
 				if (orient_target_word == "VERTICAL" and c != pos_target_word.y):
 					if board[r][c].text.is_empty():
 						board[r][c].text = letter
 						placed = true
+						break
 				if (orient_target_word == "HORIZONTAL" and r != pos_target_word.x):
 					if board[r][c].text.is_empty():
+						board[r][c].text = letter
 						placed = true
+						break
 		if placed:
 			print("Se ha colocado en el hueco libre que no molesta a la target word")
 			
@@ -208,31 +226,40 @@ func smart_choosing_letter(n=1):
 	var letter
 	var index
 	if target_word.is_empty():
+		print("todavia no hay target asi que cons aleatoria")
 		index =  randi() % SmartBots.consonants.size()
 		letter = SmartBots.consonants[index]
 		word_in_progress += letter
+		#index_target_word = 1
 		 
 	elif word_in_progress != target_word:
-		target_letter = target_word[index_target_word]
-		letter = target_letter
+		print("proxima palabra para formar el target")
+		var not_okay = true
+		while(not_okay):
+			letter = target_word[index_target_word]
+			print("target letter es", letter)
+			
+			if DataLoader.find_occurrences(target_word,letter).size() > DataLoader.find_occurrences(word_in_progress,letter).size():
+				not_okay = false
+			index_target_word = (index_target_word + 1) % target_word.length()
 		word_in_progress += letter
-		index_target_word += 1
-		
-		
+			
 	else: #If word in progress = target word, we place #
 		letter = SmartBots.space
 		target_word = ""
+		
 	return letter
 	
 func get_target_word():
-	var ver_space = get_space_in_line(pos_target_word,"HORIZONTAL")
-	var hor_space = get_space_in_line(pos_target_word,"VERTICAL")
+	var hor_space = get_space_in_line(pos_target_word,"HORIZONTAL")
+	var ver_space = get_space_in_line(pos_target_word,"VERTICAL")
 	var space = ver_space if (ver_space > hor_space) else hor_space
 	orient_target_word = "HORIZONTAL" if hor_space > ver_space else "VERTICAL"
+	print("orientacion: ",orient_target_word)
 	
-	print("Espacio libre a la ")
 	if word_in_progress.length() == 1:
 		target_word = get_desired_word(word_in_progress,space)
+		index_target_word = 1
 		print("Target Word = ", target_word)
 		pass
 #returns a word that start by starting letter and of the size specified

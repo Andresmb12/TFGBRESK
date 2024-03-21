@@ -211,7 +211,7 @@ func fill_results_table():
 	results_list.add_item("   PALABRA MAS LARGA   ")
 	results_list.add_item("     PUNTOS TOTALES   ")
 	sort_players()
-	var prueba = true
+	var prueba = false
 	var aux = 5
 	var word = "ye"
 	print("hay n jugadores n=", data_players.size())
@@ -385,8 +385,16 @@ func dummy_choose_a_letter():
 	var chosen_letter = DataLoader.alphabet[index]
 	return chosen_letter
 
-func dummy_bot_place_letters(n,choose = true):
+func dummy_placing_letters():
+	for row in range(8):
+			for col in range(8):
+				if current_player.get_letter(row,col).is_empty():
+					return Vector2(row,col)
+					
+	
+func bot_place_letters(n,choose = true):
 	var board = current_player.n_mainboard.letters_main_board
+	var pos
 	var letter
 	var placed = 1
 	for i in range(1,n+1):
@@ -396,14 +404,17 @@ func dummy_bot_place_letters(n,choose = true):
 			letter = DataLoader.next_letter
 			
 		await get_tree().create_timer(2.5).timeout
-		for row in range(8):
-			if(placed == i):
-				for col in range(8):
-					if current_player.get_letter(row,col).is_empty() and placed == i:
-						board[row][col].text = letter
-						DataLoader.next_letter = letter
-						placed += 1
-						save_letter(letter,n)
+		
+		if current_player.smart_placing_letter(letter) == -1:
+			pos = dummy_placing_letters()
+			print("posicion dummy elegida: ",pos)
+			current_player.pos_target_word = pos
+			current_player.get_target_word()
+			board[pos.x][pos.y].text = letter
+			DataLoader.next_letter = letter
+
+		
+		save_letter(letter,n)
 					
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar
@@ -417,7 +428,7 @@ func done_choosing_letters(n):
 
 func enable_placing_letters(n):
 	if current_player.is_bot:
-		dummy_bot_place_letters(n)
+		bot_place_letters(n)
 	else:
 		for i in range(1,n+1):
 			var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
@@ -544,7 +555,7 @@ func _on_alph_dice_thrown():
 	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(1))
 	if current_player.is_bot:
 		DataLoader.play_type = DataLoader.game_play_types.SKIP # I disable that the user can do anyth
-		dummy_bot_place_letters(1,false)
+		bot_place_letters(1,false)
 	
 	pass # Replace with function body.
 
