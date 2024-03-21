@@ -62,10 +62,13 @@ func _ready():
 		player.set_player_name(players_set.keys()[p-1])
 		print("Cargo al jugador: ", player.usernamevar)
 		player.is_bot = players_set[player.usernamevar]
+		if player.is_bot:
+			player.set_editable_subboards(false)
+			
 		print("Es BOT?", player.is_bot)
 		print(data_players[p-1])
 	results_screen.hide()
-	#DataLoader.load_dictionary_from_file()
+	DataLoader.load_dictionary_from_file()
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
 	current_play_type = DataLoader.game_play_types.SKIP
 	grid.columns = 2
@@ -368,28 +371,39 @@ func _on_bresk_dice_thrown(result):
 func bot_choose_letters(n):
 	var chosen_letter
 	var index
+	cont_chosen_letters.focus_mode = Control.FOCUS_NONE
 	for i in range(1,n+1):
-		index = randi() % DataLoader.alphabet.size()
-		chosen_letter = DataLoader.alphabet[i]
+		# chosen_letter = dummy_choose_a_letter()
+		chosen_letter = current_player.smart_choosing_letter()
 		await get_tree().create_timer(2).timeout
 		
 		get_letter(i).text = chosen_letter
 		get_letter(i).letter_entered.emit(chosen_letter)
 
-func dummy_bot_place_letters(n):
+func dummy_choose_a_letter():
+	var index = randi() % DataLoader.alphabet.size()
+	var chosen_letter = DataLoader.alphabet[index]
+	return chosen_letter
+
+func dummy_bot_place_letters(n,choose = true):
 	var board = current_player.n_mainboard.letters_main_board
 	var letter
-	var placed = 0
+	var placed = 1
 	for i in range(1,n+1):
-		letter = get_letter(i).text
+		if choose :
+			letter = get_letter(i).text
+		else:
+			letter = DataLoader.next_letter
+			
 		await get_tree().create_timer(2.5).timeout
 		for row in range(8):
-			for col in range(8):
-				if current_player.get_letter(row,col).is_empty() and placed != n:
-					board[row][col].text = letter
-					DataLoader.next_letter = letter
-					placed += 1
-					save_letter(letter,n)
+			if(placed == i):
+				for col in range(8):
+					if current_player.get_letter(row,col).is_empty() and placed == i:
+						board[row][col].text = letter
+						DataLoader.next_letter = letter
+						placed += 1
+						save_letter(letter,n)
 					
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar
@@ -454,6 +468,7 @@ func on_btn_letter_n_pressed(i_button):
 	
 func first_choose_n_letters(n):
 	cont_chosen_letters.show()
+	cont_chosen_letters.focus_mode = Control.FOCUS_CLICK
 	n_chosen_letters = 0
 	var cont_i
 	var btn_i
@@ -527,6 +542,9 @@ func _on_alph_dice_thrown():
 	show_next_step("4")
 	alph_dice.dice_is_thrown = false
 	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(1))
+	if current_player.is_bot:
+		DataLoader.play_type = DataLoader.game_play_types.SKIP # I disable that the user can do anyth
+		dummy_bot_place_letters(1,false)
 	
 	pass # Replace with function body.
 

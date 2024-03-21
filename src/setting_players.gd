@@ -79,8 +79,8 @@ func validate_n_players():
 		
 		disp_players.disabled = true
 		ready_bttn.disabled = false
+
 	else:
-		
 		disp_players.disabled = false
 		ready_bttn.disabled = true
 	
