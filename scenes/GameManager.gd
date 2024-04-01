@@ -98,7 +98,7 @@ func show_next_step(action):
 	var next_action = actions[action]
 	next_step.text =  ("[center][color=WHITE][b]\n%s %s[/b][/color][/center]" % [current_player.usernamevar , next_action] )
 	next_step.show()
-	await get_tree().create_timer(3).timeout
+	await get_tree().create_timer(2).timeout
 	next_step.hide()
 	
 	current_player.modulate.a = 1
@@ -275,7 +275,7 @@ func focus_on_player():
 			bresk_dice.focus_mode = Control.FOCUS_NONE
 			print("Juega ahora un BOT")
 			show_next_step("throw")
-			await get_tree().create_timer(3).timeout
+			await get_tree().create_timer(2).timeout
 			
 			bresk_dice._on_button_pressed() # First he throws the dice
 			
@@ -288,12 +288,12 @@ func focus_on_player():
 			await get_tree().create_timer(2).timeout
 			current_player.calculate_points()
 			if turn == nplayers:
-				await get_tree().create_timer(3).timeout
+				await get_tree().create_timer(2).timeout
 				SHOW_RESULTS = true
 				get_winner()
-				$Button.show()
+				#$Button.show()
 				
-			await get_tree().create_timer(3).timeout
+			await get_tree().create_timer(2).timeout
 			go_back_to_game_view()
 			
 		if current_play_type == DataLoader.game_play_types.BRESK:
@@ -375,6 +375,7 @@ func bot_choose_letters(n):
 	for i in range(1,n+1):
 		# chosen_letter = dummy_choose_a_letter()
 		chosen_letter = current_player.smart_choosing_letter()
+		print("Bot elige la letra: ", chosen_letter)
 		await get_tree().create_timer(2).timeout
 		
 		get_letter(i).text = chosen_letter
@@ -385,36 +386,58 @@ func dummy_choose_a_letter():
 	var chosen_letter = DataLoader.alphabet[index]
 	return chosen_letter
 
-func dummy_placing_letters():
-	for row in range(8):
-			for col in range(8):
-				if current_player.get_letter(row,col).is_empty():
-					return Vector2(row,col)
+
 					
 	
 func bot_place_letters(n,choose = true):
 	var board = current_player.n_mainboard.letters_main_board
 	var pos
 	var letter
+	var aux_letter
 	var placed = 1
 	for i in range(1,n+1):
 		if choose :
 			letter = get_letter(i).text
 		else:
 			letter = DataLoader.next_letter
-			
+
 		await get_tree().create_timer(2.5).timeout
 		
 		if current_player.smart_placing_letter(letter) == -1:
-			pos = dummy_placing_letters()
-			print("posicion dummy elegida: ",pos)
-			current_player.pos_target_word = pos
-			current_player.get_target_word()
-			board[pos.x][pos.y].text = letter
+			print("Bot place letters: No hay target word")
+			#pos = dummy_placing_letters()
+			if current_player.first_letter_placed and choose:
+				pos = current_player.choose_next_target_pos()
+				aux_letter = current_player.get_letter(pos.x,pos.y)
+				current_player.pos_target_word = pos
+				current_player.get_target_word(aux_letter)
+				if current_player.orient_target_word == "HORIZONTAL":
+					pos.y += 1
+				else:
+					pos.x += 1
+				
+			else:
+				pos = current_player.dummy_placing_letters()
+				aux_letter = letter
+				current_player.pos_target_word = pos
+				current_player.get_target_word(aux_letter, pos)
+				
+			print("posicion elegida: ",pos)
+			
+			print("letra por la que empieza letter: ", aux_letter)
+			print("Target word: ", current_player.target_word)
+			
+			#board[pos.x][pos.y].text = letter
 			DataLoader.next_letter = letter
-
-		
+			
+		elif current_player.target_word.length() == current_player.word_in_progress.length() and current_player.target_word.length()!=0:
+			current_player.word_in_progress = ""
+			print("Se reinicia word in progress")
 		save_letter(letter,n)
+		current_player.first_letter_placed = true
+	print("SE COMPRUEBA")
+	current_player.check_last_letter()
+	current_player.letter_chosen_by_me = false
 					
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar

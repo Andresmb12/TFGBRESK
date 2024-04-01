@@ -10,7 +10,6 @@ func set_editable_board(order):
 		n.editable = order
 		
 func note_new_letter(letter, pos):
-	print(pos)
 	letters_noted[pos.x][pos.y].text = letter
 		
 func _ready():
