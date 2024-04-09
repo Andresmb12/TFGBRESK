@@ -1,5 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://crywaplhkqgtm"]
 
+[ext_resource type="StyleBox" uid="uid://c0qxsu52d800" path="res://scenes/Letter.tres" id="1_6npoa"]
 [ext_resource type="Script" path="res://Letter.gd" id="1_55t8w"]
 
 [sub_resource type="SystemFont" id="SystemFont_2vw2l"]
@@ -16,8 +17,6 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0xrl1"]
-
 [node name="Letter" type="LineEdit"]
 clip_contents = true
 custom_minimum_size = Vector2(81, 81)
@@ -33,7 +32,7 @@ theme_override_fonts/font = SubResource("SystemFont_2vw2l")
 theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxEmpty_7rv54")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_0xrl1")
+theme_override_styles/read_only = ExtResource("1_6npoa")
 alignment = 1
 max_length = 1
 caret_blink = true

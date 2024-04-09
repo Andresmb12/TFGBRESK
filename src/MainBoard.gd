@@ -18,9 +18,36 @@ func send_letter_entered(letter):
 func set_editable_board(order):
 	for n in mainboard.get_children():
 		n.editable = order
+
+func highlight_letter(pos):
+	print("highlight: ",pos)
+	var my_stylebox = letters_main_board[0][0].get_theme_stylebox("read_only").duplicate()
+	for r in range(8):
+		for c in range(8):
+			if pos !=  Vector2(r,c) :
+				letters_main_board[r][c].remove_theme_stylebox_override("read_only")
+	await get_tree().create_timer(2).timeout
+	for r in range(8):
+		for c in range(8):
+			letters_main_board[r][c].add_theme_stylebox_override("read_only",my_stylebox)
+	
+	await get_tree().create_timer(2).timeout
 		
-func handle_letter_placed(letter):
+		
+func handle_letter_placed(letter, letter_node):
+	
 	letter_placed.emit(letter)
+	var my_stylebox = letter_node.get_theme_stylebox("read_only").duplicate()
+	
+	for n in mainboard.get_children():
+		if n != letter_node:
+			n.remove_theme_stylebox_override("read_only")
+			
+	await get_tree().create_timer(1.5).timeout
+	for n in mainboard.get_children():
+		n.add_theme_stylebox_override("read_only", my_stylebox)
+		
+	await get_tree().create_timer(2).timeout
 		
 func _ready():
 	mainboard.set_process_input(false)

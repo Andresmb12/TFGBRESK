@@ -48,7 +48,7 @@ extends Control
 
 func _ready():
 	$Button.hide()
-	$Button.show()
+	#$Button.show()
 	if DataLoader.game_players.is_empty():
 		players_set = DataLoader.all_players
 		nplayers = DataLoader.all_players.size()
@@ -96,7 +96,7 @@ func clean_letters_boxes():
 func show_next_step(action):
 	#current_player.modulate.a = 0.5
 	var next_action = actions[action]
-	next_step.text =  ("[center][color=WHITE][b]\n%s %s[/b][/color][/center]" % [current_player.usernamevar , next_action] )
+	next_step.text =  ("[center][color=WHITE][b]\n%s \n %s[/b][/color][/center]" % [next_action, current_player.usernamevar ] )
 	next_step.show()
 	await get_tree().create_timer(2).timeout
 	next_step.hide()
@@ -406,17 +406,16 @@ func bot_place_letters(n,choose = true):
 			
 			letter = DataLoader.next_letter
 			
-		if current_player.target_word == "":
+		if current_player.target_word == "": #CHECK THIS IF
 			pos = current_player.dummy_placing_letters()
 			
 			aux_letter = letter
 			current_player.pos_target_word = pos
 			current_player.get_target_word(aux_letter, pos)
-		await get_tree().create_timer(1).timeout
 		
 		if !current_player.first_letter_placed and !choose and n==1:
 			pos = current_player.dummy_placing_letters()
-			current_player.n_mainboard.letters_main_board[pos.x][pos.y].text = letter
+			current_player.place_letter(letter,pos)
 			if letter != "#":
 				print("word in progress modified")
 				current_player.word_in_progress += letter
@@ -427,7 +426,7 @@ func bot_place_letters(n,choose = true):
 		
 
 		DataLoader.next_letter = letter
-			
+		await get_tree().create_timer(2).timeout
 		save_letter(letter,n)
 		current_player.first_letter_placed = true
 					

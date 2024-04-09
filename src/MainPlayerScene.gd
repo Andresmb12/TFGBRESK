@@ -30,13 +30,17 @@ extends Node2D
 
 func get_letter(row,col):
 	return n_mainboard.letters_main_board[row][col].text
-	
+func get_cell(row,col):
+	return n_mainboard.letters_main_board[row][col]
 func set_score(points, row, col):
 	n_mainboard.letters_main_board[row][col].text = str(points)
 	
 func place_letter(letter, pos):
+	print("PLACE LETTER")
+	await get_tree().create_timer(1.5).timeout
 	n_mainboard.letters_main_board[pos.x][pos.y].text = letter
-
+	n_mainboard.highlight_letter(pos)
+	await get_tree().create_timer(2).timeout
 
 func count_words_horz():
 	var points = 0
@@ -197,8 +201,8 @@ func smart_placing_letter(letter):
 		copy_target_word = target_word
 	
 	if letter == "#" and first_letter_placed and target_word.is_empty():
-		var rand = dummy_placing_letters()
-		board[rand.x][rand.y].text = letter
+		var rand_pos = dummy_placing_letters()
+		place_letter(letter,rand_pos)
 		
 		placed = true
 	print("la posicion es ", pos_target_word)
@@ -209,7 +213,8 @@ func smart_placing_letter(letter):
 		for i in arr_indexes :
 			if orient_target_word == "HORIZONTAL":
 				if board[pos_target_word.x][pos_target_word.y + i].text.is_empty():
-					board[pos_target_word.x][pos_target_word.y + i].text = letter
+					#board[pos_target_word.x][pos_target_word.y + i].text = letter
+					place_letter(letter,Vector2(pos_target_word.x,pos_target_word.y + i) )
 					print("La letra me sirve HORZ y la pongo donde corresponde")
 					if !letter_chosen_by_me:
 						word_in_progress += letter
@@ -222,7 +227,7 @@ func smart_placing_letter(letter):
 					break
 			if orient_target_word == "VERTICAL":
 				if board[pos_target_word.x + i][pos_target_word.y].text.is_empty():
-					board[pos_target_word.x + i][pos_target_word.y].text = letter
+					place_letter(letter,Vector2(pos_target_word.x + i,pos_target_word.y) )
 					print("La letra me sirve VERT y la pongo donde corresponde")
 					if !letter_chosen_by_me:
 						word_in_progress += letter
@@ -242,12 +247,12 @@ func smart_placing_letter(letter):
 			for c in range(BOARD_LIMIT):
 				if (orient_target_word == "VERTICAL" and c != pos_target_word.y):
 					if board[r][c].text.is_empty():
-						board[r][c].text = letter
+						place_letter(letter,Vector2(r,c))
 						placed = true
 						break
 				if (orient_target_word == "HORIZONTAL" and r != pos_target_word.x):
 					if board[r][c].text.is_empty():
-						board[r][c].text = letter
+						place_letter(letter,Vector2(r,c))
 						placed = true
 						break
 		if placed:

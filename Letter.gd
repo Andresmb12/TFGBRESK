@@ -28,13 +28,13 @@ func _on_text_changed(new_text):
 func _on_focus_entered():
 	if DataLoader.play_type == DataLoader.game_play_types.BRESK and text.is_empty():
 		text = DataLoader.next_letter
-		letter_placed.emit(text)
+		letter_placed.emit(text,self)
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		self.editable = false
 		
 	if DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and text.is_empty() :
 		text = DataLoader.next_letter
-		letter_placed.emit(text)
+		letter_placed.emit(text,self)
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		self.editable = false
 		pass
