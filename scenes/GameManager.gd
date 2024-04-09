@@ -66,7 +66,7 @@ func _ready():
 			player.set_editable_subboards(false)
 			
 		print("Es BOT?", player.is_bot)
-		print(data_players[p-1])
+		
 	results_screen.hide()
 	DataLoader.load_dictionary_from_file()
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
@@ -132,13 +132,13 @@ func update_game():
 		else:
 			p_container.modulate.a = 0.5
 		var player  = get_player(i)
-		
+		player.letter_chosen_by_me = false
 		if nplayers == 2: # In this case I change the view
 			grid.columns = 1
 			player.position.x = grid.size.x / 4
 		p_container.show()
 		player.scale = general_scale
-	print("DE MOMENTO SE HAN PUESTO DE LETRAS: ",letters_in_board)
+	
 		
 	if !SHOW_RESULTS:
 		focus_on_next_player()
@@ -249,7 +249,6 @@ func make_focus(turn):
 	for i in range(1,nplayers+1):
 		var cont = grid.get_node("svpcontainer" + str(i))
 		if(i == turn):
-			print("se entra")
 			cont.size = grid.size
 			current_player = get_player(i) # IMP here I get CURRENT PLAYER
 			current_player.position.x = 0
@@ -282,7 +281,7 @@ func focus_on_player():
 			
 		
 	else: #Next player just places letters
-			
+		
 		if current_play_type == DataLoader.game_play_types.COUNT:
 			show_next_step("end")
 			await get_tree().create_timer(2).timeout
@@ -304,7 +303,6 @@ func focus_on_player():
 			cont_chosen_letters.show()
 			show_next_step("PlaceLetters")
 			read_n_letters(int(bresk_dice.result))
-			print("llamada a enable en el IF")
 			enable_placing_letters(int(bresk_dice.result))
 		
 
@@ -317,7 +315,6 @@ func focus_on_player():
 	
 func focus_on_next_player():
 	
-	print("SIGUIENTE JUGADOR")
 	await get_tree().create_timer(2).timeout
 	focus_on_player()
 	pass # Replace with function body.
@@ -361,8 +358,10 @@ func _on_bresk_dice_thrown(result):
 			bresk_dice.result = result
 		
 		read_n_letters(int(result)) # Allow to 
+		current_player.letter_chosen_by_me = true
 		first_choose_n_letters(int(result))
 		if current_player.is_bot:
+			
 			bot_choose_letters(int(result))
 			await get_tree().create_timer(3).timeout
 			show_next_step(result)
@@ -372,14 +371,16 @@ func bot_choose_letters(n):
 	var chosen_letter
 	var index
 	cont_chosen_letters.focus_mode = Control.FOCUS_NONE
+	
 	for i in range(1,n+1):
 		# chosen_letter = dummy_choose_a_letter()
 		chosen_letter = current_player.smart_choosing_letter()
 		print("Bot elige la letra: ", chosen_letter)
-		await get_tree().create_timer(2).timeout
+		await get_tree().create_timer(1).timeout
 		
 		get_letter(i).text = chosen_letter
 		get_letter(i).letter_entered.emit(chosen_letter)
+	
 
 func dummy_choose_a_letter():
 	var index = randi() % DataLoader.alphabet.size()
@@ -395,49 +396,40 @@ func bot_place_letters(n,choose = true):
 	var letter
 	var aux_letter
 	var placed = 1
+	
+	
 	for i in range(1,n+1):
 		if choose :
 			letter = get_letter(i).text
+			
 		else:
+			
 			letter = DataLoader.next_letter
-
-		await get_tree().create_timer(2.5).timeout
+			
+		if current_player.target_word == "":
+			pos = current_player.dummy_placing_letters()
+			
+			aux_letter = letter
+			current_player.pos_target_word = pos
+			current_player.get_target_word(aux_letter, pos)
+		await get_tree().create_timer(1).timeout
 		
-		if current_player.smart_placing_letter(letter) == -1:
-			print("Bot place letters: No hay target word")
-			#pos = dummy_placing_letters()
-			if current_player.first_letter_placed and choose:
-				pos = current_player.choose_next_target_pos()
-				aux_letter = current_player.get_letter(pos.x,pos.y)
-				current_player.pos_target_word = pos
-				current_player.get_target_word(aux_letter)
-				if current_player.orient_target_word == "HORIZONTAL":
-					pos.y += 1
-				else:
-					pos.x += 1
-				
-			else:
-				pos = current_player.dummy_placing_letters()
-				aux_letter = letter
-				current_player.pos_target_word = pos
-				current_player.get_target_word(aux_letter, pos)
-				
-			print("posicion elegida: ",pos)
+		if !current_player.first_letter_placed and !choose and n==1:
+			pos = current_player.dummy_placing_letters()
+			current_player.n_mainboard.letters_main_board[pos.x][pos.y].text = letter
+			if letter != "#":
+				print("word in progress modified")
+				current_player.word_in_progress += letter
+				current_player.first_letter_placed = true
+		else:
+			current_player.smart_placing_letter(letter)
 			
-			print("letra por la que empieza letter: ", aux_letter)
-			print("Target word: ", current_player.target_word)
+		
+
+		DataLoader.next_letter = letter
 			
-			#board[pos.x][pos.y].text = letter
-			DataLoader.next_letter = letter
-			
-		elif current_player.target_word.length() == current_player.word_in_progress.length() and current_player.target_word.length()!=0:
-			current_player.word_in_progress = ""
-			print("Se reinicia word in progress")
 		save_letter(letter,n)
 		current_player.first_letter_placed = true
-	print("SE COMPRUEBA")
-	current_player.check_last_letter()
-	current_player.letter_chosen_by_me = false
 					
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar
@@ -473,8 +465,8 @@ func note_letter_to_players(letter):
 		player.update_index()
 		
 func manage_placing_letters(letter, n):
-	print("Señal recibida, n=",n)
-	print("Letra elegida =", letter)
+	
+	#print("Letra elegida =", letter)
 	
 	note_letter_to_players(letter)
 	n_chosen_letters += 1
@@ -482,11 +474,10 @@ func manage_placing_letters(letter, n):
 	if n_chosen_letters == n:
 		print("Ya se han elegido las letras")
 		done_choosing_letters(n) #Disable Letters Boxes Lineedits
-		print("llamada e enable en manage_placing")
 		enable_placing_letters(n)
 
 func on_btn_letter_n_pressed(i_button):
-	print("i_button= ",i_button )
+	
 	var cont_letter_i = cont_chosen_letters.get_node("cont_letter" + str(i_button)).get_node("Letter" + str(i_button))
 	var btn_i = get_button(i_button)
 	if !cont_letter_i.text.is_empty():
@@ -507,7 +498,7 @@ func first_choose_n_letters(n):
 	var cont_i
 	var btn_i
 	for i in range(1,n+1):
-		print("i = ",i)
+		
 		cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
 		cont_i.show()
 		var i_letter = get_letter(i)
@@ -523,7 +514,7 @@ func save_letter(letter,n):
 	cont_letters = cont_letters + 1
 	print("LETTER SAVED: ", letter)
 	if  DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and get_button(index_letter_to_place).is_connected("pressed",on_btn_letter_n_pressed):
-		print("desconecto la letra ya usada")
+		
 		cont_chosen_letters.get_node("cont_letter" + str(index_letter_to_place)).modulate.a = 0.5
 		get_button(index_letter_to_place).disconnect("pressed",on_btn_letter_n_pressed)
 		
@@ -592,7 +583,6 @@ func _on_button_pressed():
 
 
 func _on_results_list_icon_clicked(index, at_position, mouse_button_index):
-	print("se ha pulsado el icono: ", index)
 	var index_player
 	
 	results_screen.hide()
@@ -602,7 +592,7 @@ func _on_results_list_icon_clicked(index, at_position, mouse_button_index):
 	if index % 4 == 0 and index >= 4: #Icon clicked
 		index_player = index / 4 - 1
 		current_player = data_players[index_player]
-		print("el jugador que quiero mostrar es: ", current_player.get_name())
+		
 		show_desired_player()
 	pass # Replace with function body.
 
@@ -619,8 +609,7 @@ func show_desired_player():
 		cont = p.get_parent().get_parent()
 		cont.modulate.a = 1
 		if p == current_player:
-			print("el jugador que quiero mostrar es: ", current_player.get_name())
-			print("cont= ",cont.get_name())
+			
 			cont.show()
 			cont.size = grid.size
 			current_player.position.x = 0

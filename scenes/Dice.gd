@@ -1,10 +1,10 @@
 extends Control
 
 @onready var dice = $TextureRect/dice_lbl
-@onready var bresk = [ "3", "2", "3", "BRESK"]
+@onready var bresk = [ "1", "2", "3", "BRESK"]
 @onready var alphabet = [
 	"A", "B", "C", "D", "E", "F", "G", "#","H", "I", "J", "K", "L", "M",
-	"N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"
+	"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"
 ]
 @onready var dice_options
 @onready var dice_chosen
