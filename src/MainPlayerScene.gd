@@ -20,6 +20,7 @@ extends Node2D
 @onready var letter_chosen_by_me : bool
 @onready var target_letter
 @onready var orient_target_word
+@onready var orient_copy_target_word
 @onready var index_target_word
 @onready var space_in_line : int #Huecos que me quedan donde quiero formar la palabra
 @onready var pos_target_word : Vector2
@@ -199,8 +200,10 @@ func smart_placing_letter(letter):
 			word_in_progress += letter
 		print("copy is empty")
 		copy_target_word = target_word
+		orient_copy_target_word = orient_target_word
 	
 	if letter == "#" and first_letter_placed and target_word.is_empty():
+		print("we place separator here")
 		var rand_pos = dummy_placing_letters()
 		place_letter(letter,rand_pos)
 		
@@ -208,10 +211,11 @@ func smart_placing_letter(letter):
 	print("la posicion es ", pos_target_word)
 	
 	var arr_indexes = DataLoader.find_occurrences(copy_target_word,letter)
+	print("orient copy = ",orient_copy_target_word)
 	if !arr_indexes.is_empty():
 		print("ocurrencias: ", arr_indexes)
 		for i in arr_indexes :
-			if orient_target_word == "HORIZONTAL":
+			if orient_copy_target_word == "HORIZONTAL":
 				if board[pos_target_word.x][pos_target_word.y + i].text.is_empty():
 					#board[pos_target_word.x][pos_target_word.y + i].text = letter
 					place_letter(letter,Vector2(pos_target_word.x,pos_target_word.y + i) )
@@ -225,7 +229,7 @@ func smart_placing_letter(letter):
 					placed = true
 					#index_target_word = (index_target_word + 1) % target_word.length()
 					break
-			if orient_target_word == "VERTICAL":
+			if orient_copy_target_word == "VERTICAL":
 				if board[pos_target_word.x + i][pos_target_word.y].text.is_empty():
 					place_letter(letter,Vector2(pos_target_word.x + i,pos_target_word.y) )
 					print("La letra me sirve VERT y la pongo donde corresponde")
@@ -245,12 +249,12 @@ func smart_placing_letter(letter):
 			if placed :
 				break
 			for c in range(BOARD_LIMIT):
-				if (orient_target_word == "VERTICAL" and c != pos_target_word.y):
+				if (orient_copy_target_word == "VERTICAL" and c != pos_target_word.y):
 					if board[r][c].text.is_empty():
 						place_letter(letter,Vector2(r,c))
 						placed = true
 						break
-				if (orient_target_word == "HORIZONTAL" and r != pos_target_word.x):
+				if (orient_copy_target_word == "HORIZONTAL" and r != pos_target_word.x):
 					if board[r][c].text.is_empty():
 						place_letter(letter,Vector2(r,c))
 						placed = true
@@ -269,13 +273,19 @@ func smart_placing_letter(letter):
 
 func check_last_letter():
 	print("counter placed vale: ",counter_placed)
-	if counter_placed >= copy_target_word.length():
+	if counter_placed >= copy_target_word.length() and target_word.length() > 0:
 		print("Se cambia la pos target")
 		pos_target_word = choose_next_target_pos()
-		word_in_progress = target_word[0]
-		copy_target_word = target_word
-		counter_placed = 1
-		print("Se resetea copy word")
+		if pos_target_word == Vector2(-1,-1):
+			target_word = ""
+			copy_target_word = ""
+			
+		else:
+			word_in_progress = target_word[0]
+			copy_target_word = target_word
+			orient_copy_target_word = orient_target_word
+			counter_placed = 1
+			print("Se resetea copy word")
 		
 		
 		
@@ -299,6 +309,7 @@ func choose_next_target_pos():
 						print("candidate = ", candidate)
 						best_next_target = candidate
 						aux_pos = Vector2(r,c)
+
 	else:
 		print("letra en sitio random")
 		aux_pos = dummy_placing_letters()
@@ -307,7 +318,8 @@ func choose_next_target_pos():
 	print("La mejor pos para empezar una palabra es: ", aux_pos)
 	print("Con puntuacion: ", best_next_target)
 	if best_next_target == 0:
-		return Vector2(-1,-1)
+		aux_pos = Vector2(-1,-1)
+		
 	return aux_pos
 			
 func dummy_placing_letters():
@@ -320,12 +332,14 @@ func smart_choosing_letter(n=1):
 	var letter
 	var index
 	var chosen = false
-	if target_word.is_empty() :
+	if target_letter == "#":
+		return "#"
+	if target_word.is_empty() and copy_target_word.is_empty():
 		
 		index = randi() % SmartBots.consonants.size()
 		letter = SmartBots.consonants[index]
 		word_in_progress += letter
-		
+		print("se intenta crear target word")
 		get_target_word(letter, pos_target_word)
 		copy_target_word = target_word
 		counter_placed = 1
@@ -342,6 +356,7 @@ func smart_choosing_letter(n=1):
 			letter = target_word[index_target_word]
 			print("target letter es", letter)
 			if DataLoader.find_occurrences(target_word,letter).size() > DataLoader.find_occurrences(word_in_progress,letter).size():
+				print("se elige letra aqui, word in progress: ", word_in_progress)
 				not_okay = false
 				
 			if !target_word.is_empty():
@@ -357,9 +372,14 @@ func smart_choosing_letter(n=1):
 		print("PALABRA ACABADA")
 		
 		var aux = choose_next_target_pos()
-		
+		print("aux = ", aux)
 		if first_letter_placed and aux == Vector2(-1,-1): #Not possible to form a 8 letter word
-			return "#"
+			print("we place separator")
+			target_word = ""
+			#pos_target_word = dummy_placing_letters()
+			
+			target_letter = "#"
+			
 		if first_letter_placed and aux != Vector2(-1,-1):
 			var l = get_letter(aux.x, aux.y)
 			#
@@ -371,6 +391,8 @@ func smart_choosing_letter(n=1):
 				target_letter = target_word[index_target_word]
 				word_in_progress = target_word[0]
 				letter = target_letter
+			else:
+				word_in_progress += letter #I add the word 
 		# ULTIMAS LINEAS
 		#return smart_choosing_letter()
 	
@@ -382,6 +404,9 @@ func get_target_word(letter, pos):
 	var ver_space = get_space_in_line(pos,"VERTICAL")
 	var space = ver_space if (ver_space > hor_space) else hor_space
 	orient_target_word = "HORIZONTAL" if hor_space > ver_space else "VERTICAL"
+	if copy_target_word.is_empty():
+		orient_copy_target_word = orient_target_word
+		copy_target_word = target_word
 	print("orientacion: ",orient_target_word)
 
 	target_word = get_desired_word(letter,space)

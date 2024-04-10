@@ -127,12 +127,11 @@ text = "VER
 RESULTADOS"
 
 [node name="Button2" type="Button" parent="."]
-visible = false
 layout_mode = 0
-offset_left = 1014.0
-offset_top = 587.0
-offset_right = 1165.0
-offset_bottom = 639.0
+offset_left = 525.0
+offset_top = 365.0
+offset_right = 676.0
+offset_bottom = 417.0
 text = "NEXT"
 
 [node name="Dice1" parent="." instance=ExtResource("3_mkww0")]

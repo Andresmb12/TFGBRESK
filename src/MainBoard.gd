@@ -22,8 +22,8 @@ func set_editable_board(order):
 func highlight_letter(pos):
 	print("highlight: ",pos)
 	var my_stylebox = letters_main_board[0][0].get_theme_stylebox("read_only").duplicate()
-	for r in range(8):
-		for c in range(8):
+	for r in range(9):
+		for c in range(9):
 			if pos !=  Vector2(r,c) :
 				letters_main_board[r][c].remove_theme_stylebox_override("read_only")
 	await get_tree().create_timer(2).timeout
