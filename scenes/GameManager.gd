@@ -392,10 +392,7 @@ func bot_place_letters(n,choose = true):
 	
 	var pos
 	var letter
-	var aux_letter
-	
-	
-	
+
 	for i in range(1,n+1):
 		if choose :
 			letter = get_letter(i).text

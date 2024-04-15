@@ -2,7 +2,7 @@ extends Node
 
 var vowels = ["A", "E", "I", "O", "U"]
 var consonants = [ "B", "C", "D", "F", "G","H", "J", "K", "L", "M", 
-"N", "Ñ", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z" ]
+"N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z" ]
 var space = "#"
 # Called when the node enters the scene tree for the first time.
 func _ready():

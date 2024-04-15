@@ -26,7 +26,7 @@ var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
 enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP, COUNT }
 @onready var alphabet = [
 	"A", "B", "C", "D", "E", "F", "G", "#","H", "I", "J", "K", "L", "M",
-	"N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"
+	"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"
 ]
 @onready var play_type
 @onready var turn : int = 0
