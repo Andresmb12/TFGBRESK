@@ -31,7 +31,7 @@ func highlight_letter(pos):
 		for c in range(8):
 			letters_main_board[r][c].add_theme_stylebox_override("read_only",my_stylebox)
 	
-	await get_tree().create_timer(2).timeout
+	#await get_tree().create_timer(2).timeout
 		
 		
 func handle_letter_placed(letter, letter_node):
