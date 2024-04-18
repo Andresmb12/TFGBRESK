@@ -19,6 +19,7 @@ extends Node2D
 @onready var copy_target_word : String = ""
 @onready var letter_chosen_by_me : bool
 @onready var target_letter
+@onready var placed : bool = false
 @onready var orient_target_word
 @onready var orient_copy_target_word
 @onready var index_target_word
@@ -196,15 +197,29 @@ func check_word_while_placing():
 		
 func smart_placing_letter(letter):
 	
+	if letter == "Ñ":
+		letter = "N"
 	var board = n_mainboard.letters_main_board
-	var placed = false
-	
-	if choose_next_target_pos() == Vector2(-1,-1) and copy_target_word.length() == word_in_progress.length() and copy_target_word.length() > 0:
-		var rand_pos = dummy_placing_letters() #last change
-		place_letter(letter,rand_pos)
-		print("todo el pescao vendio")
-		pass
-	if copy_target_word.is_empty() and letter != "#" and pos_target_word!= Vector2(-1,-1) and get_letter(pos_target_word.x,pos_target_word.y).is_empty():
+	placed = false
+	if !placed and target_word.is_empty() and copy_target_word.is_empty() and !first_letter_placed and letter != "#":
+		pos_target_word = Vector2(0,0)
+		place_letter(letter,pos_target_word)
+		get_target_word(letter, pos_target_word)
+		word_in_progress += letter
+		counter_placed = 1
+		copy_target_word = target_word
+		orient_copy_target_word = orient_target_word
+		placed = true
+		print("primera TW generada")
+		
+	#if !placed and choose_next_target_pos() == Vector2(-1,-1) and copy_target_word.length() == word_in_progress.length() and copy_target_word.length() > 0:
+		#var rand_pos = dummy_placing_letters() #last change
+		#place_letter(letter,rand_pos)
+		#print("todo el pescao vendio")
+		#placed = true
+		#pass
+		
+	if !placed and copy_target_word.is_empty() and letter != "#" and pos_target_word!= Vector2(-1,-1) and get_letter(pos_target_word.x,pos_target_word.y).is_empty():
 		place_letter(letter, pos_target_word)
 		print("se crea nueva target word")
 		get_target_word(letter, pos_target_word)
@@ -214,6 +229,49 @@ func smart_placing_letter(letter):
 		orient_copy_target_word = orient_target_word
 		placed = true
 		
+	place_without_tw_in_sight(letter)
+		
+	if !placed and copy_target_word.is_empty() and !target_word.is_empty():
+		#if letter != "#":
+			#word_in_progress += letter
+		print("copy is empty: ",word_in_progress)
+		copy_target_word = target_word
+		orient_copy_target_word = orient_target_word
+	
+	place_and_separate(letter)
+		
+	print("la posicion es ", pos_target_word)
+	
+	place_in_word(letter)
+	
+	place_without_messing(letter)
+	
+
+func place_and_separate(letter):
+	if !placed and letter == "#" and first_letter_placed and target_word.is_empty():
+		print("we place separator here")
+		var rand_pos = dummy_placing_letters()
+		word_in_progress = "" #AQUI
+		copy_target_word = ""
+		place_letter(letter,rand_pos)
+		print("se evalua ",rand_pos)
+		print("hay un ", get_letter(rand_pos.x, rand_pos.y))
+		var aux_target_hor = check_line(rand_pos,"HORIZONTAL")
+		print("en hor hay ", aux_target_hor)
+		var aux_target_ver = check_line(rand_pos,"VERTICAL")
+		print("en ver hay ", aux_target_ver)
+		if aux_target_ver > aux_target_hor:
+			orient_target_word = "VERTICAL"
+			pos_target_word.x = rand_pos.x + 1
+			pos_target_word.y = rand_pos.y
+		else:
+			orient_target_word = "HORIZONTAL"
+			pos_target_word.x = rand_pos.x
+			pos_target_word.y = rand_pos.y + 1
+		print("pos target changed")
+		placed = true
+		
+func place_without_tw_in_sight(letter):
 	if !placed and copy_target_word.is_empty() and letter != "#" and (pos_target_word == Vector2(-1,-1) or target_letter == "#"):
 		var rand_pos = choose_next_target_pos()
 		if rand_pos != Vector2(-1,-1) and !get_letter(rand_pos.x,rand_pos.y).is_empty() and get_letter(rand_pos.x, rand_pos.y)!="#":
@@ -229,63 +287,35 @@ func smart_placing_letter(letter):
 			rand_pos = choose_next_target_pos()
 			if rand_pos != Vector2(-1,-1):
 				pos_target_word = rand_pos
+				
+				print("update pos_target = ", pos_target_word)
 			placed = true
-		
-		
-	if  !placed and copy_target_word.is_empty() and !target_word.is_empty():
-		#if letter != "#":
-			#word_in_progress += letter
-		print("copy is empty: ",word_in_progress)
-		copy_target_word = target_word
-		orient_copy_target_word = orient_target_word
-	
-	if !placed and letter == "#" and first_letter_placed and target_word.is_empty():
-		print("we place separator here")
-		var rand_pos = dummy_placing_letters()
-		word_in_progress = "" #AQUI
-		copy_target_word = ""
-		
-		place_letter(letter,rand_pos)
-		
-		print("se evalua ",rand_pos)
-		print("hay un ", get_letter(rand_pos.x, rand_pos.y))
-		var aux_target_hor = check_line(rand_pos,"HORIZONTAL")
-		print("en hor hay ", aux_target_hor)
-		var aux_target_ver = check_line(rand_pos,"VERTICAL")
-		print("en ver hay ", aux_target_ver)
-		if aux_target_ver > aux_target_hor:
-			orient_target_word = "VERTICAL"
-			pos_target_word.x = rand_pos.x + 1
-			pos_target_word.y = rand_pos.y
-		else:
-			orient_target_word = "HORIZONTAL"
-			pos_target_word.x = rand_pos.x
-			pos_target_word.y = rand_pos.y + 1
-		print("pos target updated")
-		placed = true
-		
-	print("la posicion es ", pos_target_word)
-	
+			
+			
+func place_in_word(letter):
 	var arr_indexes = DataLoader.find_occurrences(copy_target_word,letter)
-	
+	var board = n_mainboard.letters_main_board
 	if !arr_indexes.is_empty() and !placed:
 		
 		for i in arr_indexes :
 			if orient_copy_target_word == "HORIZONTAL":
 				if board[pos_target_word.x][pos_target_word.y + i].text.is_empty():
-					#board[pos_target_word.x][pos_target_word.y + i].text = letter
 					place_letter(letter,Vector2(pos_target_word.x,pos_target_word.y + i) )
 					print("La letra me sirve HORZ y la pongo donde corresponde")
 					 # prueba
+					
 					if !letter_chosen_by_me:
 						word_in_progress += letter
 						print("Se añade una letra de otro tio ",word_in_progress)
 						check_word_while_placing()
 						
+					elif word_in_progress.length() == 1:
+						print("UPDATE")
+						word_in_progress += letter	
+					counter_placed += 1	
 					check_last_letter()
-					counter_placed += 1
+					
 					placed = true
-					#index_target_word = (index_target_word + 1) % target_word.length()
 					break
 			if orient_copy_target_word == "VERTICAL":
 				if board[pos_target_word.x + i][pos_target_word.y].text.is_empty():
@@ -297,16 +327,22 @@ func smart_placing_letter(letter):
 						print("Se añade una letra de otro tio ",word_in_progress)
 						check_word_while_placing()
 					
-					check_last_letter()
+					elif word_in_progress.length() == 1:
+						print("update")	
+						word_in_progress += letter
 					counter_placed += 1 # prueba
+					
+					check_last_letter()
+					
 					placed = true
-					#index_target_word = (index_target_word + 1) % target_word.length()
 					break
-		
-	# I try to place it otherwhere that does not mess my word
+	
 	print("copy target word es: ", copy_target_word)
 	print("word in progress vale: ", word_in_progress)
-	
+
+
+func place_without_messing(letter):
+	var board = n_mainboard.letters_main_board
 	if !placed and word_in_progress.length() < copy_target_word.length(): 
 		for r in range(BOARD_LIMIT):
 			if placed :
@@ -324,7 +360,8 @@ func smart_placing_letter(letter):
 						break
 		if placed:
 			print("Se ha colocado en el hueco libre que no molesta a la target word")
-			
+
+
 func check_line(pos, orient):
 	#calculate if it's better to start word down vertically or right horizontally
 	var col = (pos.y) 
@@ -363,6 +400,7 @@ func check_last_letter():
 	var aux_pos
 	# me falta el caso en el que se acaba la palabra pero aun no se sabe prox target word
 	
+		
 	if target_letter == "#" and counter_placed >= copy_target_word.length():
 			target_word = ""
 			copy_target_word = ""
@@ -379,19 +417,25 @@ func check_last_letter():
 		
 	elif counter_placed >= copy_target_word.length() and target_word.length() > 0:
 		print("Se cambia la pos target")
+		print("target letter es :", target_letter)
+		
 		aux_pos = choose_next_target_pos()
 		if aux_pos != Vector2(-1,-1):
 			if word_in_progress[0] != target_word[0]:
 				word_in_progress = target_word[0]
+				print("UPDATE")
+				
 			copy_target_word = target_word
 			orient_copy_target_word = orient_target_word
 			counter_placed = 1
 			pos_target_word = aux_pos #last
 			print("Se resetea copy word")
+			print("y WP vale ",word_in_progress)
 		else:
 			target_word = ""
 			word_in_progress = ""
 			print("vaciamos todo")
+			copy_target_word = ""# new
 			target_letter = "#"
 	elif word_in_progress.length() == copy_target_word.length() and target_word.is_empty():
 		print("last case")
@@ -442,6 +486,101 @@ func dummy_placing_letters():
 				if get_letter(row,col).is_empty():
 					return Vector2(row,col)
 					
+func choose_without_target_word():
+	var aux_letter
+	var letter
+	var index
+		
+	print("se intenta crear target word")
+	print("se intenta con la pos target: ", pos_target_word)
+	aux_letter = get_letter(pos_target_word.x, pos_target_word.y)
+	
+	if (word_in_progress.is_empty() or word_in_progress==aux_letter) and aux_letter!= null and choose_next_target_pos() != Vector2(-1,-1) :
+		print("target word generada con la letra que habia")
+		get_target_word(aux_letter, pos_target_word)
+		word_in_progress += aux_letter
+		counter_placed = 1
+		print("target word = ", target_word)
+		
+	elif choose_next_target_pos() != Vector2(-1,-1) and target_word.length() == word_in_progress.length(): #last change
+		index = randi() % SmartBots.consonants.size()
+		letter = SmartBots.consonants[index]
+		print("target word generada con letra random:")
+		get_target_word(letter, pos_target_word)
+		word_in_progress += letter
+		copy_target_word = target_word
+		counter_placed = 1
+		print("target word generada con letra random: ", target_word)
+	elif target_word.is_empty() and word_in_progress.is_empty() and choose_next_target_pos() == Vector2(-1,-1):
+		index = randi() % SmartBots.consonants.size()
+		letter = SmartBots.consonants[index]
+		print("letra random y a seguir")
+	
+	return letter
+	#index_target_word = 1
+
+func choose_letter_from_target():
+	var letter
+	print("target word LENGTH= ", target_word.length())
+	print("word progress LENGTH= ", word_in_progress.length())
+	var not_okay = true
+	while(not_okay):
+		
+		letter = target_word[index_target_word]
+		print("target letter es", letter)
+		if DataLoader.find_occurrences(target_word,letter).size() > DataLoader.find_occurrences(word_in_progress,letter).size():
+			print("se elige letra aqui, word in progress: ", word_in_progress)
+			not_okay = false
+			
+		if !target_word.is_empty():
+			index_target_word = (index_target_word + 1) % target_word.length()
+			
+	word_in_progress += letter
+
+	print("word in progress es: ", word_in_progress)
+	print("la letra a devilver es: ", letter)
+	return letter
+	
+func choose_when_word_finished(letter):
+	print("PALABRA ACABADA")
+	target_word = ""
+	var aux = choose_next_target_pos()
+	print("aux = ", aux)
+	
+	if first_letter_placed and (aux == Vector2(-1,-1) or aux == pos_target_word): #Not possible to form a 8 letter word
+		print("we place separator")
+		target_letter = "#"
+	
+	if first_letter_placed and aux != Vector2(-1,-1) and aux != pos_target_word: #and counter_placed == copy_target_word.length() and counter_placed > 0:
+		var l = get_letter(aux.x, aux.y)
+		# cuando se ha acabado la palabra, se piensa la proxima
+		get_target_word(l,aux)
+		print("ahora target word es: ", target_word)
+		
+		if letter == null:
+			#esto está mal creo, problemas con index_target_WORD
+			target_letter = target_word[index_target_word]
+			print("word in progress now= ", word_in_progress)
+			letter = target_letter
+			
+		else:
+			target_letter = letter
+			print("se entra aqui de choose letters")
+			index_target_word = (index_target_word + 1) % target_word.length()
+			print("WP VALE AQUI: ", word_in_progress)
+			
+	return letter	
+
+func choose_from_next_target():
+	var letter
+	target_letter = target_word[index_target_word]
+	print("word in progress now= ", word_in_progress)
+	letter = target_letter
+	print("letter a elegir: ",letter)
+	print("index es ", index_target_word)
+	index_target_word = (index_target_word + 1) % target_word.length()
+	return letter
+		
 func smart_choosing_letter(n=1):
 	var letter
 	var aux_letter
@@ -452,94 +591,18 @@ func smart_choosing_letter(n=1):
 		word_in_progress = ""
 		return "#"
 	
-	if target_word.is_empty():
+	if target_word.is_empty(): # probar and copy target vacia para el problema de las palabras n=2:
+		letter = choose_without_target_word() 
 		
-		print("se intenta crear target word")
-		print("se intenta con la pos target: ", pos_target_word)
-		aux_letter = get_letter(pos_target_word.x, pos_target_word.y)
-		
-		if word_in_progress.is_empty() and aux_letter!= null and pos_target_word != Vector2(0,0) :
-			print("target word generada con la letra que habia")
-			get_target_word(aux_letter, pos_target_word)
-			word_in_progress += aux_letter
-			counter_placed = 1
-			print("target word = ", target_word)
-		if choose_next_target_pos() != Vector2(-1,-1) and target_word.length() == word_in_progress.length(): #last change
-			index = randi() % SmartBots.consonants.size()
-			letter = SmartBots.consonants[index]
-			print("target word generada con letra random:")
-			get_target_word(letter, pos_target_word)
-			word_in_progress += letter
-			copy_target_word = target_word
-			counter_placed = 1
-			print("target word generada con letra random: ", target_word)
-		elif target_word.is_empty() and word_in_progress.is_empty():
-			index = randi() % SmartBots.consonants.size()
-			letter = SmartBots.consonants[index]
-			print("letra random y a seguir")
-		#index_target_word = 1
-		 
 	if letter == null and word_in_progress.length() != target_word.length() and !target_word.is_empty():
-		
-		print("target word LENGTH= ", target_word.length())
-		print("word progress LENGTH= ", word_in_progress.length())
-		var not_okay = true
-		while(not_okay):
-			
-			letter = target_word[index_target_word]
-			print("target letter es", letter)
-			if DataLoader.find_occurrences(target_word,letter).size() > DataLoader.find_occurrences(word_in_progress,letter).size():
-				print("se elige letra aqui, word in progress: ", word_in_progress)
-				not_okay = false
-				
-			if !target_word.is_empty():
-				index_target_word = (index_target_word + 1) % target_word.length()
-				
-		word_in_progress += letter
-	
-		print("word in progress es: ", word_in_progress)
-		print("la letra a devilver es: ", letter)
+		letter = choose_letter_from_target()
 		
 	# tengo problema aqui de que acaba la palabra y no piensa en la nueva
-	if word_in_progress.length() == target_word.length() and target_word.length() > 0:
-		print("PALABRA ACABADA")
-		target_word = ""
-		
-		var aux = choose_next_target_pos()
-		print("aux = ", aux)
-		
-		if first_letter_placed and (aux == Vector2(-1,-1) or aux == pos_target_word): #Not possible to form a 8 letter word
-			print("we place separator")
-			#pos_target_word = dummy_placing_letters()
+	if word_in_progress.length() == target_word.length() and target_word.length() > 0 and target_word == copy_target_word:
+		letter = choose_when_word_finished(letter)
 
-			target_letter = "#"
-		
-		if first_letter_placed and aux != Vector2(-1,-1): #and counter_placed == copy_target_word.length() and counter_placed > 0:
-			var l = get_letter(aux.x, aux.y)
-			# cuando se ha acabado la palabra, se piensa la proxima
-			get_target_word(l,aux)
-			print("ahora target word es: ", target_word)
-			
-			if letter == null:
-				#esto está mal creo, problemas con index_target_WORD
-				target_letter = target_word[index_target_word]
-				word_in_progress = target_word[0]
-				pos_target_word = choose_next_target_pos()
-				counter_placed = 1
-				print("word in progress now= ", word_in_progress)
-				letter = target_letter
-			else:
-				target_letter = letter
-				print("se entra aqui de choose letters")
-				#pos_target_word = choose_next_target_pos()
-				word_in_progress = target_word[0]
-				#copy_target_word = target_word last change
-				#counter_placed = 1
-				pass
-				# word_in_progress += letter #I add the word 
-				# prueba 
-				#word_in_progress
-		# ULTIMAS LINEAS
+	if letter == null and target_word != copy_target_word and !target_word.is_empty():
+		letter = choose_from_next_target()
 		#return smart_choosing_letter()
 	
 	return letter

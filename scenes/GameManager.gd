@@ -52,7 +52,7 @@ func _ready():
 	if DataLoader.game_players.is_empty():
 		players_set = DataLoader.all_players
 		nplayers = DataLoader.all_players.size()
-		nplayers = 2
+		nplayers = 2 # test
 	else:
 		players_set = DataLoader.game_players
 	var player
@@ -63,6 +63,7 @@ func _ready():
 		print("Cargo al jugador: ", player.usernamevar)
 		player.is_bot = players_set[player.usernamevar]
 		if player.is_bot:
+			pass
 			player.set_editable_subboards(false) #test bot
 			
 		print("Es BOT?", player.is_bot)
@@ -392,7 +393,7 @@ func bot_place_letters(n,choose = true):
 	
 	var pos
 	var letter
-
+	await get_tree().create_timer(1.5).timeout
 	for i in range(1,n+1):
 		if choose :
 			letter = get_letter(i).text
@@ -401,21 +402,23 @@ func bot_place_letters(n,choose = true):
 			
 			letter = DataLoader.next_letter
 			
-		if !current_player.first_letter_placed and !choose and n==1:
-			pos = current_player.dummy_placing_letters()
-			current_player.place_letter(letter,pos)
-			if letter != "#":
-				print("word in progress modified")
-				current_player.word_in_progress += letter
-				current_player.first_letter_placed = true
-		else:
-			current_player.smart_placing_letter(letter)
+		#if !current_player.first_letter_placed and !choose and n==1:
+			#pos = current_player.dummy_placing_letters()
+			#current_player.place_letter(letter,pos)
+			#if letter != "#":
+			#	print("word in progress modified")
+				
+				#current_player.word_in_progress += letter
+			#	current_player.first_letter_placed = true
+		
+		current_player.smart_placing_letter(letter)
 			
 		
 		DataLoader.next_letter = letter
 		await get_tree().create_timer(2).timeout
 		save_letter(letter,n)
-		current_player.first_letter_placed = true
+		if letter != "#":
+			current_player.first_letter_placed = true
 					
 #Cuando ya se han elegido las 3 letras , entonces se pueden colocar
 #y ya no se pueden cambiar
@@ -464,7 +467,7 @@ func on_btn_letter_n_pressed(i_button):
 	
 	var cont_letter_i = cont_chosen_letters.get_node("cont_letter" + str(i_button)).get_node("Letter" + str(i_button))
 	if !cont_letter_i.text.is_empty(): 
-		current_player.n_mainboard.set_editable_board(false) #test
+		#current_player.n_mainboard.set_editable_board(false) #test
 		#TRAS ESTA LINEA REALMENTE SE USA SIEMPRE EL GAME_PLAY_BRESK
 		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 		DataLoader.next_letter = cont_letter_i.text
@@ -513,7 +516,7 @@ func save_letter(letter,n):
 		
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
 		
-		# $Button2.show()
+		#$Button2.show()
 		go_back_to_game_view() #TEST
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
 	

@@ -18,8 +18,8 @@ extends Node
 @export var clickable: bool = false
 @export var add_to_back: bool = true
 
-@onready var all_players: Dictionary = { "Algoritmo-1": true,"Algoritmo 2": false,"Algoritmo-3" : false,"Algoritmo-4": false }
-@onready var nplayers: int = 4
+@onready var all_players: Dictionary = { "Algoritmo-1": true,"Algoritmo 2": true,"Algoritmo-3" : false,"Algoritmo-4": false }
+@onready var nplayers: int = 2
 @onready var game_players : Dictionary = Dictionary()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
 @onready var current_player  = PlayerScene.instantiate()
