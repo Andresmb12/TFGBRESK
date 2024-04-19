@@ -119,7 +119,7 @@ func update_game():
 		
 	
 	print("UPDATE GAME, TURNO DE ", turn)
-	show_next_step("NextPlayer")
+	#show_next_step("NextPlayer")
 	
 	cont_chosen_letters.hide()
 	bresk_dice.hide()
@@ -290,7 +290,7 @@ func focus_on_player():
 				await get_tree().create_timer(2).timeout
 				SHOW_RESULTS = true
 				get_winner()
-				#$Button.show()
+				$Button.show()
 				
 			await get_tree().create_timer(2).timeout
 			go_back_to_game_view() # test
@@ -401,19 +401,9 @@ func bot_place_letters(n,choose = true):
 		else:
 			
 			letter = DataLoader.next_letter
-			
-		#if !current_player.first_letter_placed and !choose and n==1:
-			#pos = current_player.dummy_placing_letters()
-			#current_player.place_letter(letter,pos)
-			#if letter != "#":
-			#	print("word in progress modified")
-				
-				#current_player.word_in_progress += letter
-			#	current_player.first_letter_placed = true
 		
 		current_player.smart_placing_letter(letter)
 			
-		
 		DataLoader.next_letter = letter
 		await get_tree().create_timer(2).timeout
 		save_letter(letter,n)
@@ -512,7 +502,7 @@ func save_letter(letter,n):
 		await get_tree().create_timer(2).timeout
 		for i in range(1,4):
 			cont_chosen_letters.get_node("cont_letter" + str(i)).modulate.a = 1
-		show_next_step("NextPlayer")
+		#show_next_step("NextPlayer")
 		
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
 		
@@ -532,7 +522,7 @@ func handle_letter_placed(letter,n):
 	if n_placed_letters == n:
 		print("Letra colocada: ",letter)
 		current_player.n_mainboard.disconnect("letter_placed", self.handle_letter_placed)
-		show_next_step("NextPlayer")
+		#show_next_step("NextPlayer")
 		#await get_tree().create_timer(4).timeout
 		go_back_to_game_view() #test
 		#$Button2.show()

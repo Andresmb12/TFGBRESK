@@ -127,6 +127,7 @@ text = "VER
 RESULTADOS"
 
 [node name="Button2" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 525.0
 offset_top = 365.0

@@ -309,7 +309,7 @@ func place_in_word(letter):
 						print("Se añade una letra de otro tio ",word_in_progress)
 						check_word_while_placing()
 						
-					elif word_in_progress.length() == 1:
+					elif word_in_progress.length() > 0 and word_in_progress.length() < 3: # test
 						print("UPDATE")
 						word_in_progress += letter	
 					counter_placed += 1	
@@ -327,7 +327,7 @@ func place_in_word(letter):
 						print("Se añade una letra de otro tio ",word_in_progress)
 						check_word_while_placing()
 					
-					elif word_in_progress.length() == 1:
+					elif word_in_progress.length() > 0 and word_in_progress.length() < 3:
 						print("update")	
 						word_in_progress += letter
 					counter_placed += 1 # prueba
@@ -421,9 +421,9 @@ func check_last_letter():
 		
 		aux_pos = choose_next_target_pos()
 		if aux_pos != Vector2(-1,-1):
-			if word_in_progress[0] != target_word[0]:
-				word_in_progress = target_word[0]
-				print("UPDATE")
+			#if word_in_progress[0] != target_word[0]: #test
+			word_in_progress = target_word[0]
+			print("UPDATE")
 				
 			copy_target_word = target_word
 			orient_copy_target_word = orient_target_word
@@ -494,8 +494,14 @@ func choose_without_target_word():
 	print("se intenta crear target word")
 	print("se intenta con la pos target: ", pos_target_word)
 	aux_letter = get_letter(pos_target_word.x, pos_target_word.y)
-	
-	if (word_in_progress.is_empty() or word_in_progress==aux_letter) and aux_letter!= null and choose_next_target_pos() != Vector2(-1,-1) :
+	if aux_letter.is_empty():
+		index = randi() % SmartBots.consonants.size()
+		letter = SmartBots.consonants[index]
+		print("letra random y ya tiramos")
+		get_target_word(letter,pos_target_word)
+		#word_in_progress = letter
+		counter_placed = 1
+	elif (word_in_progress.is_empty() or word_in_progress==aux_letter) and aux_letter!= null and choose_next_target_pos() != Vector2(-1,-1) :
 		print("target word generada con la letra que habia")
 		get_target_word(aux_letter, pos_target_word)
 		word_in_progress += aux_letter

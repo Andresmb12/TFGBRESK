@@ -12,8 +12,7 @@ position = Vector2(-32, 0)
 script = ExtResource("1_vp321")
 
 [node name="MainBoardRoot" parent="." instance=ExtResource("1_g2gpa")]
-position = Vector2(-140, 38)
-scale = Vector2(0.85, 0.85)
+position = Vector2(-240, -2)
 
 [node name="ScoreBoardRoot" parent="." instance=ExtResource("3_31luk")]
 position = Vector2(546, 67)
