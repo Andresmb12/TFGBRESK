@@ -64,7 +64,8 @@ func _ready():
 		player.is_bot = players_set[player.usernamevar]
 		if player.is_bot:
 			pass
-			player.set_editable_subboards(false) #test bot
+			if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+				player.set_editable_subboards(false) #test bot
 			
 		print("Es BOT?", player.is_bot)
 		
@@ -253,7 +254,8 @@ func make_focus():
 			current_player = get_player(i) # IMP here I get CURRENT PLAYER
 			current_player.position.x = 0
 			current_player.scale = focus_scale
-			current_player.set_editable_subboards(false) #test
+			if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+				current_player.set_editable_subboards(false) #test
 		else:
 			cont.hide()
 			
@@ -274,7 +276,7 @@ func focus_on_player():
 			bresk_dice.focus_mode = Control.FOCUS_NONE
 			print("Juega ahora un BOT")
 			show_next_step("throw")
-			await get_tree().create_timer(2).timeout
+			await get_tree().create_timer(1.5).timeout
 			
 			bresk_dice._on_button_pressed() # First he throws the dice
 			
@@ -293,7 +295,10 @@ func focus_on_player():
 				$Button.show()
 				
 			await get_tree().create_timer(2).timeout
-			go_back_to_game_view() # test
+			if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+				go_back_to_game_view() # test
+			else:
+				$Button2.show()
 			
 		if current_play_type == DataLoader.game_play_types.BRESK:
 			alph_dice.show()
@@ -352,7 +357,8 @@ func _on_bresk_dice_thrown(result):
 		#throw second dice
 	else:
 		current_play_type =  DataLoader.game_play_types.LETTER_TO_CHOOSE
-		current_player.n_mainboard.set_editable_board(false) # test
+		if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+			current_player.n_mainboard.set_editable_board(false) # test
 		if letters_in_board + int(result) > DataLoader.max_letters:
 			result = str(DataLoader.max_letters - letters_in_board)
 			bresk_dice.result = result
@@ -417,7 +423,8 @@ func done_choosing_letters(n):
 			var i_letter = get_letter(i)
 			i_letter.disconnect("letter_entered", self.manage_placing_letters)
 	print("Tablero desactivado")
-	current_player.n_mainboard.set_editable_board(false) #test
+	if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+		current_player.n_mainboard.set_editable_board(false) #test
 
 func enable_placing_letters(n):
 	if current_player.is_bot:
@@ -425,11 +432,15 @@ func enable_placing_letters(n):
 	else:
 		for i in range(1,n+1):
 			var cont_i = cont_chosen_letters.get_node("cont_letter" + str(i))
-			cont_i.modulate.a = 1
-			var btn_i = get_button(i)
-			if !btn_i.is_connected("pressed",self.on_btn_letter_n_pressed):
-				btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
-			
+			if i == 1:
+				cont_i.modulate.a = 1
+			else:
+				cont_i.modulate.a = 0.5
+		#	var btn_i = get_button(i)
+		#	if !btn_i.is_connected("pressed",self.on_btn_letter_n_pressed):
+		#		btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
+		DataLoader.next_letter = get_letter(1).text
+		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 	
 			
 #Contemplar en vez de usar n asi en las funciones usar el atributo result de BreskDice
@@ -447,6 +458,8 @@ func manage_placing_letters(letter, n):
 	
 	note_letter_to_players(letter)
 	n_chosen_letters += 1
+	if n_chosen_letters < 3:
+		get_letter(n_chosen_letters+1).grab_focus()
 	
 	if n_chosen_letters == n:
 		print("Ya se han elegido las letras")
@@ -455,9 +468,10 @@ func manage_placing_letters(letter, n):
 
 func on_btn_letter_n_pressed(i_button):
 	
-	var cont_letter_i = cont_chosen_letters.get_node("cont_letter" + str(i_button)).get_node("Letter" + str(i_button))
+	var cont_letter_i = get_letter(i_button)
 	if !cont_letter_i.text.is_empty(): 
-		#current_player.n_mainboard.set_editable_board(false) #test
+		if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+			current_player.n_mainboard.set_editable_board(false) 
 		#TRAS ESTA LINEA REALMENTE SE USA SIEMPRE EL GAME_PLAY_BRESK
 		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 		DataLoader.next_letter = cont_letter_i.text
@@ -469,8 +483,9 @@ func on_btn_letter_n_pressed(i_button):
 	
 func first_choose_n_letters(n):
 	cont_chosen_letters.show()
-	cont_chosen_letters.focus_mode = Control.FOCUS_CLICK
+	cont_chosen_letters.focus_mode = Control.FOCUS_ALL
 	n_chosen_letters = 0
+	get_letter(1).grab_focus()
 	var cont_i
 	
 	for i in range(1,n+1):
@@ -488,16 +503,29 @@ func get_letter(i):
 func save_letter(letter,n):
 	
 	cont_letters = cont_letters + 1
-	print("LETTER SAVED: ", letter)
-	if  DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and get_button(index_letter_to_place).is_connected("pressed",on_btn_letter_n_pressed):
+	DataLoader.next_letter = ""
+	if cont_letters < n:
+		 #Still letters to place
+		print("se intenta")
+		DataLoader.next_letter = get_letter(cont_letters+1).text
+		print("proxima letra a colocar: ", DataLoader.next_letter)
+		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
+		cont_chosen_letters.get_node("cont_letter" + str(cont_letters+1)).modulate.a = 1
+		for i in range(1,n+1):
+			if i != cont_letters + 1:
+				cont_chosen_letters.get_node("cont_letter" + str(i)).modulate.a = 0.5
+		DataLoader.play_type = DataLoader.game_play_types.SKIP
+	#if  DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and get_button(index_letter_to_place).is_connected("pressed",on_btn_letter_n_pressed):
 		
-		cont_chosen_letters.get_node("cont_letter" + str(index_letter_to_place)).modulate.a = 0.5
-		get_button(index_letter_to_place).disconnect("pressed",on_btn_letter_n_pressed)
-		
+	#	cont_chosen_letters.get_node("cont_letter" + str(index_letter_to_place)).modulate.a = 0.5
+		# get_button(index_letter_to_place).disconnect("pressed",on_btn_letter_n_pressed)
+	
 	if cont_letters == n:
+		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		#current_player.n_mainboard.disconnect("b_letter_entered", self.save_letter)
 		await get_tree().create_timer(0.23).timeout
-		current_player.set_editable_subboards(false) #test
+		if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+			current_player.set_editable_subboards(false) #test
 		print("Tablero desactivado")
 		await get_tree().create_timer(2).timeout
 		for i in range(1,4):
@@ -506,16 +534,20 @@ func save_letter(letter,n):
 		
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
 		
-		#$Button2.show()
-		go_back_to_game_view() #TEST
-	DataLoader.play_type = DataLoader.game_play_types.SKIP
+		if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+			go_back_to_game_view() #TEST
+		else:
+			$Button2.show()
+			
+		DataLoader.play_type = DataLoader.game_play_types.SKIP
 	
 func read_n_letters(n):
 	cont_letters = 0
-	
 	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(n))
-	pass
 	
+	pass
+
+		
 func handle_letter_placed(letter,n):
 	
 	n_placed_letters += 1
@@ -524,8 +556,10 @@ func handle_letter_placed(letter,n):
 		current_player.n_mainboard.disconnect("letter_placed", self.handle_letter_placed)
 		#show_next_step("NextPlayer")
 		#await get_tree().create_timer(4).timeout
-		go_back_to_game_view() #test
-		#$Button2.show()
+		if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+			go_back_to_game_view() #test
+		else:
+			$Button2.show()
 	
 	
 	
@@ -588,7 +622,8 @@ func show_desired_player():
 			cont.size = grid.size
 			current_player.position.x = 0
 			current_player.scale = focus_scale
-			current_player.set_editable_subboards(false) #test
+			if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
+				current_player.set_editable_subboards(false) #test
 		else:
 			cont.hide()
 			

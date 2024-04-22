@@ -41,6 +41,7 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
+visible = false
 clip_contents = true
 layout_direction = 1
 layout_mode = 0
@@ -63,9 +64,9 @@ disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
-size = Vector2i(638, 338)
+size = Vector2i(2, 2)
 size_2d_override_stretch = true
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="MainScenePlayer1" parent="GridContainer/svpcontainer1/SubViewport1" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -79,8 +80,8 @@ stretch = true
 [node name="SubViewport2" type="SubViewport" parent="GridContainer/svpcontainer2"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(637, 338)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -94,8 +95,8 @@ stretch = true
 [node name="SubViewport3" type="SubViewport" parent="GridContainer/svpcontainer3"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(638, 338)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -110,8 +111,8 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
-size = Vector2i(637, 338)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.47, 0.47)
@@ -175,7 +176,6 @@ text = "[center]TIRA LOS DADOS[/center]"
 fit_content = true
 
 [node name="cont_chosen_letters" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 1019.0
 offset_top = 40.0
@@ -188,6 +188,7 @@ size_flags_horizontal = 4
 
 [node name="Letter1" parent="cont_chosen_letters/cont_letter1" instance=ExtResource("5_hcpsy")]
 layout_mode = 2
+focus_neighbor_right = NodePath("../../cont_letter2/Letter2")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
 theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
@@ -198,6 +199,7 @@ theme_override_styles/read_only = ExtResource("6_tlnfj")
 caret_force_displayed = true
 
 [node name="btn_letter1" type="Button" parent="cont_chosen_letters/cont_letter1"]
+visible = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "SELECT"
@@ -211,6 +213,8 @@ size_flags_horizontal = 4
 
 [node name="Letter2" parent="cont_chosen_letters/cont_letter2" instance=ExtResource("5_hcpsy")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../cont_letter1/Letter1")
+focus_neighbor_right = NodePath("../../cont_letter3/Letter3")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
 theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
@@ -218,9 +222,11 @@ theme_override_colors/caret_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = ExtResource("6_tlnfj")
 theme_override_styles/focus = ExtResource("6_tlnfj")
 theme_override_styles/read_only = ExtResource("6_tlnfj")
+caret_blink = false
 caret_force_displayed = true
 
 [node name="btn_letter2" type="Button" parent="cont_chosen_letters/cont_letter2"]
+visible = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "SELECT"
@@ -234,6 +240,7 @@ size_flags_horizontal = 4
 
 [node name="Letter3" parent="cont_chosen_letters/cont_letter3" instance=ExtResource("5_hcpsy")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../cont_letter2/Letter2")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
 theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
@@ -241,9 +248,11 @@ theme_override_colors/caret_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = ExtResource("6_tlnfj")
 theme_override_styles/focus = ExtResource("6_tlnfj")
 theme_override_styles/read_only = ExtResource("6_tlnfj")
+caret_blink = false
 caret_force_displayed = true
 
 [node name="btn_letter3" type="Button" parent="cont_chosen_letters/cont_letter3"]
+visible = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "SELECT"

@@ -31,11 +31,13 @@ func _on_focus_entered():
 		letter_placed.emit(text,self)
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		self.editable = false
-		
-	if DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and text.is_empty() :
+	
+	if DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and text.is_empty() and !DataLoader.next_letter.is_empty():
 		text = DataLoader.next_letter
 		letter_placed.emit(text,self)
-		DataLoader.play_type = DataLoader.game_play_types.SKIP
+		
+		# DataLoader.play_type = DataLoader.game_play_types.SKIP
+		print("se pone en SKIP")
 		self.editable = false
 		pass
 		

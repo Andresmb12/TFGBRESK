@@ -18,7 +18,7 @@ extends Node
 @export var clickable: bool = false
 @export var add_to_back: bool = true
 
-@onready var all_players: Dictionary = { "Algoritmo-1": true,"Algoritmo 2": true,"Algoritmo-3" : false,"Algoritmo-4": false }
+@onready var all_players: Dictionary = { "Bot Pro 1": false,"Bot Pro 2": false,"Algoritmo-3" : false,"Algoritmo-4": false }
 @onready var nplayers: int = 2
 @onready var game_players : Dictionary = Dictionary()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
@@ -31,6 +31,8 @@ enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP, COUNT }
 @onready var play_type
 @onready var turn : int = 0
 @onready var max_letters = 64
+enum GAME_MODES {TEST, REAL}
+@onready var current_game_mode = GAME_MODES.REAL
 @onready var next_letter
 @onready var fade_out_options = SceneManager.create_options(fade_out_speed, fade_out_pattern, fade_out_smoothness, fade_out_inverted)
 @onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)

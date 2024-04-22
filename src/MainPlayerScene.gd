@@ -309,7 +309,7 @@ func place_in_word(letter):
 						print("Se añade una letra de otro tio ",word_in_progress)
 						check_word_while_placing()
 						
-					elif word_in_progress.length() > 0 and word_in_progress.length() < 3: # test
+					elif word_in_progress.length() > 0 and word_in_progress.length() < 3:
 						print("UPDATE")
 						word_in_progress += letter	
 					counter_placed += 1	
@@ -428,7 +428,7 @@ func check_last_letter():
 			copy_target_word = target_word
 			orient_copy_target_word = orient_target_word
 			counter_placed = 1
-			pos_target_word = aux_pos #last
+			pos_target_word = aux_pos 
 			print("Se resetea copy word")
 			print("y WP vale ",word_in_progress)
 		else:
@@ -508,7 +508,7 @@ func choose_without_target_word():
 		counter_placed = 1
 		print("target word = ", target_word)
 		
-	elif choose_next_target_pos() != Vector2(-1,-1) and target_word.length() == word_in_progress.length(): #last change
+	elif choose_next_target_pos() != Vector2(-1,-1) and target_word.length() == word_in_progress.length():
 		index = randi() % SmartBots.consonants.size()
 		letter = SmartBots.consonants[index]
 		print("target word generada con letra random:")
