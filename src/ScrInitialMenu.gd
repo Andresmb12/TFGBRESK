@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 
 # Called when the node enters the scene tree for the first time.
@@ -9,9 +9,9 @@ func _ready():
 	
 func configure_buttons():
 	
-	$PlayButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]JUGAR[/b][/color][/center]")
-	$ExitButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]SALIR[/b][/color][/center]")
-	$RulesButtonMenu/TextureButton/TextButton.append_text("[center][color=BLACK][b]REGLAS[/b][/color][/center]")
+	$PlayButtonMenu/TextButton.append_text("[center][color=BLACK][b]JUGAR[/b][/color][/center]")
+	$ExitButtonMenu/TextButton.append_text("[center][color=BLACK][b]SALIR[/b][/color][/center]")
+	$RulesButtonMenu/TextButton.append_text("[center][color=BLACK][b]REGLAS[/b][/color][/center]")
 
 
 

@@ -4,36 +4,71 @@
 [ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="1_hhh3t"]
 [ext_resource type="PackedScene" uid="uid://b4l3qihcljqoc" path="res://scenes/MenuButton.tscn" id="3_jy02p"]
 
-[node name="InitialMenuContainer" type="Node2D"]
+[node name="InitialMenuContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_right = 1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_721m2")
 
 [node name="Background" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.392157)
-clip_contents = true
-offset_right = 1276.0
-offset_bottom = 718.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.002
+anchor_right = 1.0
+anchor_bottom = 1.003
+offset_left = 0.556
+offset_top = 2.0
+offset_right = -2.00012
+offset_bottom = -0.153992
 texture = ExtResource("1_hhh3t")
 expand_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="PlayButtonMenu" parent="." instance=ExtResource("3_jy02p")]
-offset_left = 160.0
-offset_top = -5.0
-offset_right = 168.0
-offset_bottom = 3.0
+layout_mode = 1
+anchor_left = 0.395
+anchor_top = 0.359
+anchor_right = 0.61
+anchor_bottom = 0.515
+offset_left = 0.189972
+offset_top = 0.237976
+offset_right = 102.02
+offset_bottom = 42.1899
 scale = Vector2(0.8, 0.8)
 
 [node name="ExitButtonMenu" parent="." instance=ExtResource("3_jy02p")]
-offset_left = 160.0
-offset_top = 144.0
-offset_right = 160.0
-offset_bottom = 144.0
+layout_mode = 1
+anchor_left = 0.398
+anchor_top = 0.584
+anchor_right = 0.608
+anchor_bottom = 0.726
+offset_left = 0.355957
+offset_top = -0.312042
+offset_right = 100.694
+offset_bottom = 37.752
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 
 [node name="RulesButtonMenu" parent="." instance=ExtResource("3_jy02p")]
-offset_left = 160.0
-offset_top = 290.0
-offset_right = 160.0
-offset_bottom = 290.0
+layout_mode = 1
+anchor_left = 0.399
+anchor_top = 0.798
+anchor_right = 0.609
+anchor_bottom = 0.94
+offset_left = 0.0779724
+offset_top = 0.0359497
+offset_right = 100.416
+offset_bottom = 38.0999
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 
 [connection signal="pressed" from="PlayButtonMenu" to="." method="_on_play_button_menu_pressed"]

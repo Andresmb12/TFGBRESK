@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cawqo7l54aw5t"]
+[gd_scene load_steps=16 format=3 uid="uid://cawqo7l54aw5t"]
 
 [ext_resource type="Script" path="res://scenes/GameManager.gd" id="1_lv1m6"]
 [ext_resource type="PackedScene" uid="uid://beqg8k0qbsbqm" path="res://scenes/MainPlayerScene.tscn" id="2_1ndxj"]
@@ -10,6 +10,7 @@
 [ext_resource type="StyleBox" uid="uid://b4rttf8bbdtmi" path="res://scenes/letters_chosen.tres" id="6_tlnfj"]
 [ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="7_v1dpy"]
 [ext_resource type="Texture2D" uid="uid://cwjdma5ep6ipl" path="res://images/circle-left-solid.svg" id="10_cgjje"]
+[ext_resource type="Texture2D" uid="uid://bcu7c30k2duy6" path="res://images/circle-xmark-solid.svg" id="11_uwu75"]
 
 [sub_resource type="Theme" id="Theme_ce18h"]
 
@@ -17,6 +18,8 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o2yk"]
 bg_color = Color(0, 0, 0, 0.509804)
+
+[sub_resource type="Theme" id="Theme_bg6ye"]
 
 [node name="GameManager" type="Control"]
 layout_mode = 3
@@ -32,22 +35,33 @@ view_icon = ExtResource("2_nhhsb")
 delete_icon = ExtResource("3_utkqo")
 
 [node name="lbl_game_turn" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_left = 377.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.293
+anchor_right = 0.745
+anchor_bottom = 0.057
+offset_left = 0.201996
 offset_top = 2.0
-offset_right = 958.0
-offset_bottom = 41.0
+offset_right = -0.0700684
+offset_bottom = -0.0970039
+grow_horizontal = 2
+grow_vertical = 2
 bbcode_enabled = true
 fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
-visible = false
 clip_contents = true
 layout_direction = 1
-layout_mode = 0
-offset_top = 39.0
-offset_right = 1280.0
-offset_bottom = 720.0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.053
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.213001
+offset_right = -6.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
 auto_translate = false
 theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 5
@@ -64,12 +78,12 @@ disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
-size = Vector2i(2, 2)
+size = Vector2i(958, 509)
 size_2d_override_stretch = true
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="MainScenePlayer1" parent="GridContainer/svpcontainer1/SubViewport1" instance=ExtResource("2_1ndxj")]
-scale = Vector2(0.47, 0.47)
+scale = Vector2(0.6, 0.6)
 
 [node name="svpcontainer2" type="SubViewportContainer" parent="GridContainer"]
 layout_mode = 2
@@ -80,11 +94,11 @@ stretch = true
 [node name="SubViewport2" type="SubViewport" parent="GridContainer/svpcontainer2"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(957, 509)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
-scale = Vector2(0.47, 0.47)
+scale = Vector2(0.6, 0.6)
 
 [node name="svpcontainer3" type="SubViewportContainer" parent="GridContainer"]
 layout_mode = 2
@@ -95,11 +109,11 @@ stretch = true
 [node name="SubViewport3" type="SubViewport" parent="GridContainer/svpcontainer3"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(958, 508)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
-scale = Vector2(0.47, 0.47)
+scale = Vector2(0.6, 0.6)
 
 [node name="svpcontainer4" type="SubViewportContainer" parent="GridContainer"]
 layout_mode = 2
@@ -111,53 +125,64 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(957, 508)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
-scale = Vector2(0.47, 0.47)
+scale = Vector2(0.6, 0.6)
 
 [node name="Button" type="Button" parent="."]
 visible = false
-layout_mode = 0
-offset_left = 502.0
-offset_top = 285.0
-offset_right = 689.0
-offset_bottom = 428.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.39
+anchor_top = 0.395
+anchor_right = 0.536
+anchor_bottom = 0.594
+offset_left = 0.459991
+offset_top = 0.204987
+offset_right = -0.296021
+offset_bottom = -0.274017
 text = "VER 
 RESULTADOS"
 
 [node name="Button2" type="Button" parent="."]
 visible = false
-layout_mode = 0
-offset_left = 525.0
-offset_top = 365.0
-offset_right = 676.0
-offset_bottom = 417.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.408
+anchor_top = 0.5
+anchor_right = 0.526
+anchor_bottom = 0.578
+offset_left = 0.311951
+offset_top = 4.5
+offset_right = -0.436035
+offset_bottom = 0.261993
 text = "NEXT"
 
 [node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
 visible = false
 layout_mode = 1
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 1056.0
-offset_top = 251.0
-offset_right = 1296.12
-offset_bottom = 588.468
+anchor_left = 0.821
+anchor_top = 0.348
+anchor_right = 0.952
+anchor_bottom = 0.676
+offset_left = 0.19397
+offset_top = 0.09198
+offset_right = 71.848
+offset_bottom = 101.072
 scale = Vector2(0.7, 0.7)
 
 [node name="Dice2" parent="." instance=ExtResource("3_mkww0")]
-visible = false
 layout_mode = 1
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 1056.0
-offset_top = 251.0
-offset_right = 1296.12
-offset_bottom = 588.468
+anchor_left = 0.821
+anchor_top = 0.348
+anchor_right = 0.952
+anchor_bottom = 0.676
+offset_left = 0.19397
+offset_top = 0.09198
+offset_right = 71.848
+offset_bottom = 101.072
 scale = Vector2(0.7, 0.7)
 
 [node name="lbl_next_step" type="RichTextLabel" parent="."]
@@ -176,11 +201,18 @@ text = "[center]TIRA LOS DADOS[/center]"
 fit_content = true
 
 [node name="cont_chosen_letters" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 1019.0
-offset_top = 40.0
-offset_right = 1270.0
-offset_bottom = 190.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.792
+anchor_top = 0.055
+anchor_right = 0.988
+anchor_bottom = 0.264
+offset_left = 0.487915
+offset_top = 0.344997
+offset_right = -0.567993
+offset_bottom = -0.343994
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="cont_letter1" type="VBoxContainer" parent="cont_chosen_letters"]
 layout_mode = 2
@@ -196,6 +228,7 @@ theme_override_colors/caret_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = ExtResource("6_tlnfj")
 theme_override_styles/focus = ExtResource("6_tlnfj")
 theme_override_styles/read_only = ExtResource("6_tlnfj")
+virtual_keyboard_enabled = true
 caret_force_displayed = true
 
 [node name="btn_letter1" type="Button" parent="cont_chosen_letters/cont_letter1"]
@@ -222,6 +255,7 @@ theme_override_colors/caret_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = ExtResource("6_tlnfj")
 theme_override_styles/focus = ExtResource("6_tlnfj")
 theme_override_styles/read_only = ExtResource("6_tlnfj")
+virtual_keyboard_enabled = true
 caret_blink = false
 caret_force_displayed = true
 
@@ -248,6 +282,7 @@ theme_override_colors/caret_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = ExtResource("6_tlnfj")
 theme_override_styles/focus = ExtResource("6_tlnfj")
 theme_override_styles/read_only = ExtResource("6_tlnfj")
+virtual_keyboard_enabled = true
 caret_blink = false
 caret_force_displayed = true
 
@@ -260,36 +295,55 @@ icon_alignment = 1
 vertical_icon_alignment = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_left = 1003.0
-offset_top = 6.0
-offset_right = 1271.0
-offset_bottom = 63.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.521
+anchor_right = 0.996
+anchor_bottom = 0.391
+offset_left = -0.446045
+offset_top = 1.0
+offset_right = 0.703857
+offset_bottom = 0.328979
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("4_mufjv")
 fit_content = true
 
 [node name="ResultsScreen" type="Control" parent="."]
 visible = false
-anchors_preset = 0
-offset_right = 1280.0
-offset_bottom = 720.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -6.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="ResultsScreen"]
 modulate = Color(1, 1, 1, 0.313726)
-layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("7_v1dpy")
 expand_mode = 1
 
 [node name="Results_lbl" type="RichTextLabel" parent="ResultsScreen"]
 custom_minimum_size = Vector2(50, 60)
-layout_mode = 0
-offset_left = 368.0
-offset_top = 209.0
-offset_right = 954.0
-offset_bottom = 269.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.287
+anchor_top = 0.29
+anchor_right = 0.745
+anchor_bottom = 0.374
+offset_left = 0.640015
+offset_top = 0.199982
+offset_right = 0.399902
+offset_bottom = -0.279999
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_colors/table_border = Color(0, 0, 0, 1)
@@ -301,11 +355,16 @@ text = "[center] RESULTADOS DE LA PARTIDA [/center] "
 [node name="results_list" type="ItemList" parent="ResultsScreen"]
 clip_contents = false
 custom_minimum_size = Vector2(60, 300)
-layout_mode = 0
-offset_left = 225.0
-offset_top = 305.0
-offset_right = 1090.0
-offset_bottom = 605.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.176
+anchor_top = 0.424
+anchor_right = 0.852
+anchor_bottom = 0.84
+offset_left = -0.280014
+offset_top = -0.280029
+offset_right = -0.560059
+offset_bottom = 0.199951
 theme_override_font_sizes/font_size = 18
 allow_search = false
 max_text_lines = 2
@@ -317,12 +376,33 @@ fixed_icon_size = Vector2i(21, 21)
 
 [node name="back_to_results_btn" type="TextureButton" parent="."]
 visible = false
-layout_mode = 0
-offset_left = 38.0
-offset_top = 28.0
-offset_right = 100.0
-offset_bottom = 92.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03
+anchor_top = 0.039
+anchor_right = 0.078
+anchor_bottom = 0.128
+offset_left = -0.580002
+offset_top = -0.119001
+offset_right = -0.307999
+offset_bottom = -0.288002
 texture_normal = ExtResource("10_cgjje")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ExitButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.918
+anchor_top = 0.022
+anchor_right = 0.974
+anchor_bottom = 0.114
+offset_left = 0.931885
+offset_top = 0.217999
+offset_right = -0.924072
+offset_bottom = -0.234009
+theme = SubResource("Theme_bg6ye")
+texture_normal = ExtResource("11_uwu75")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -332,3 +412,4 @@ stretch_mode = 0
 [connection signal="alph_dice_thrown" from="Dice2" to="." method="_on_alph_dice_thrown"]
 [connection signal="item_clicked" from="ResultsScreen/results_list" to="." method="_on_results_list_icon_clicked"]
 [connection signal="pressed" from="back_to_results_btn" to="." method="_on_back_to_results_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]

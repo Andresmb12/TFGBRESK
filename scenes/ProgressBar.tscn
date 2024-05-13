@@ -30,11 +30,18 @@ expand_mode = 1
 autostart = true
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
-layout_mode = 0
-offset_left = 261.0
-offset_top = 413.0
-offset_right = 1056.0
-offset_bottom = 523.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.137
+anchor_top = 0.471
+anchor_right = 0.887
+anchor_bottom = 0.622
+offset_left = -0.417938
+offset_top = 0.067688
+offset_right = -0.537842
+offset_bottom = -0.490234
+grow_horizontal = 2
+grow_vertical = 2
 value = 5.0
 nine_patch_stretch = true
 texture_under = ExtResource("3_2yhw3")
@@ -43,16 +50,14 @@ texture_progress = ExtResource("4_xxe2b")
 [node name="lblTimeRemaining" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.48
-anchor_top = 0.634
-anchor_right = 0.558
-anchor_bottom = 0.681
-offset_left = -0.559998
-offset_top = 0.226044
-offset_right = 3.22394
-offset_bottom = -0.19101
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 619.0
+offset_top = 542.0
+offset_right = -550.16
+offset_bottom = -449.92
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 34
+theme_override_font_sizes/font_size = 54
 text = "45"
 horizontal_alignment = 1
 

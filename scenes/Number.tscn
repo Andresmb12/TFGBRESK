@@ -35,6 +35,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_66wng")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_w576q")
 alignment = 1
 max_length = 1
+virtual_keyboard_enabled = false
 caret_blink = true
 script = ExtResource("1_dq13w")
 

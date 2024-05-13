@@ -8,12 +8,14 @@ extends Node2D
 func set_editable_board(order):
 	for n in scoreboard.get_children():
 		n.editable = order
+		n.focus_mode = Control.FOCUS_NONE
 		
 func note_new_letter(letter, pos):
 	letters_noted[pos.x][pos.y].text = letter
 		
 func _ready():
 	
+	set_editable_board(false)
 	pass # Replace with function body.
 	var used_rect = scoreboard.get_used_rect()
 

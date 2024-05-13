@@ -39,8 +39,11 @@ func set_score(points, row, col):
 	
 func place_letter(letter, pos):
 	print("PLACE LETTER")
+	
 	#await get_tree().create_timer(1,5).timeout
 	n_mainboard.letters_main_board[pos.x][pos.y].text = letter
+	n_mainboard.letters_main_board[pos.x][pos.y].release_focus()
+	
 	n_mainboard.highlight_letter(pos)
 	#await get_tree().create_timer(2).timeout
 	#probar si este es el problema
@@ -151,7 +154,9 @@ func disable_score_cells():
 		n_mainboard.letters_main_board[i][8].focus_mode = Control.FOCUS_NONE 
 		n_mainboard.letters_main_board[8][i].focus_mode = Control.FOCUS_NONE
   
-
+func set_focus_mainboard(order):
+	n_mainboard.set_focus_board(order)
+	
 func set_editable_subboards(order):
 	n_mainboard.set_editable_board(order)
 	n_scoreboard.set_editable_board(order)

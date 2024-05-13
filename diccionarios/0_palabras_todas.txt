@@ -46279,6 +46279,7 @@ cochee
 cocheeis
 cocheen
 cochees
+cochecito
 cocheo
 cocheo
 cochera
@@ -151540,6 +151541,7 @@ sofaldo
 sofera
 sofero
 sofi
+sofia
 sofiana
 sofiano
 sofion
@@ -168911,7 +168913,7 @@ welter
 western
 whisky
 wifi
-wi fi
+wifi
 wincha
 windsurf
 wok

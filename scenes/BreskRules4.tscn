@@ -8,63 +8,103 @@
 
 [node name="BreskRules4" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = -3.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_d8ceo")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.588235)
-layout_mode = 0
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 1278.0
-offset_bottom = 720.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 6.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_fxn8k")
 expand_mode = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 modulate = Color(0.00392157, 0.00392157, 0.00392157, 1)
 clip_contents = false
-layout_mode = 0
-offset_left = 537.0
-offset_top = 71.0
-offset_right = 818.0
-offset_bottom = 111.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.42
+anchor_top = 0.068
+anchor_right = 0.652
+anchor_bottom = 0.129
+offset_left = -0.460022
+offset_top = -0.100006
+offset_right = 0.723999
+offset_bottom = 0.324997
 theme_override_fonts/normal_font = SubResource("SystemFont_dwf1h")
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
 text = "REGLAS DE BRESK"
 scroll_active = false
 
 [node name="BackMenuButton4" type="Button" parent="."]
-layout_mode = 0
-offset_left = 63.0
-offset_top = 52.0
-offset_right = 294.0
-offset_bottom = 122.0
-theme_override_font_sizes/font_size = 28
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.022
+anchor_top = 0.048
+anchor_right = 0.183
+anchor_bottom = 0.163
+offset_left = -0.0860023
+offset_top = 0.399998
+offset_right = -0.0790405
+offset_bottom = -0.225006
+theme_override_font_sizes/font_size = 35
 text = "VOLVER A MENU"
 
-[node name="Breskrules4" type="Sprite2D" parent="."]
-position = Vector2(644, 413)
-scale = Vector2(0.768, 0.7)
+[node name="Breskrules4" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.286
+anchor_top = 0.21
+anchor_right = 0.748
+anchor_bottom = 0.895
+offset_left = 0.88208
+offset_top = 0.249985
+offset_right = 76.076
+offset_bottom = 53.8749
+scale = Vector2(0.919842, 0.931962)
 texture = ExtResource("3_y2pu1")
 
 [node name="BackButtonRules4" type="Button" parent="."]
-layout_mode = 0
-offset_left = 62.0
-offset_top = 603.0
-offset_right = 218.0
-offset_bottom = 676.0
-theme_override_font_sizes/font_size = 28
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03
+anchor_top = 0.841
+anchor_right = 0.165
+anchor_bottom = 0.937
+offset_left = 4.61
+offset_top = -0.0750122
+offset_right = 0.35498
+offset_bottom = -0.275024
+theme_override_font_sizes/font_size = 35
 text = "ATRÁS"
 
 [node name="NextButtonRules4" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1065.0
-offset_top = 610.0
-offset_right = 1249.0
-offset_bottom = 682.0
-theme_override_font_sizes/font_size = 28
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.801
+anchor_top = 0.835
+anchor_right = 0.944
+anchor_bottom = 0.935
+offset_left = 0.68689
+offset_top = 0.374939
+offset_right = 0.12793
+offset_bottom = -0.125061
+theme_override_font_sizes/font_size = 35
 text = "SIGUIENTE"
 
 [connection signal="pressed" from="BackMenuButton4" to="." method="_on_back_menu1_button_pressed"]

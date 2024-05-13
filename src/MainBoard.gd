@@ -18,7 +18,14 @@ func send_letter_entered(letter):
 func set_editable_board(order):
 	for n in mainboard.get_children():
 		n.editable = order
-
+		
+func set_focus_board(order):
+	for n in mainboard.get_children():
+		if order:
+			n.focus_mode = Control.FOCUS_CLICK
+		else:
+			n.focus_mode = Control.FOCUS_NONE
+		
 func highlight_letter(pos):
 	print("highlight: ",pos)
 	var my_stylebox = letters_main_board[0][0].get_theme_stylebox("read_only").duplicate()
@@ -39,9 +46,11 @@ func highlight_letter(pos):
 func handle_letter_placed(letter, letter_node):
 	
 	letter_placed.emit(letter)
+	DisplayServer.virtual_keyboard_hide()
+	#letter_node.release_focus()
 	await get_tree().create_timer(0.1).timeout
 	var my_stylebox = letter_node.get_theme_stylebox("read_only").duplicate()
-	
+	DisplayServer.virtual_keyboard_hide()
 	for n in mainboard.get_children():
 		if n != letter_node:
 			n.remove_theme_stylebox_override("read_only")
@@ -50,8 +59,9 @@ func handle_letter_placed(letter, letter_node):
 	DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 	for n in mainboard.get_children():
 		n.add_theme_stylebox_override("read_only", my_stylebox)
-	
+	DisplayServer.virtual_keyboard_hide()
 	await get_tree().create_timer(2).timeout
+	DisplayServer.virtual_keyboard_hide()
 		
 func _ready():
 	mainboard.set_process_input(false)

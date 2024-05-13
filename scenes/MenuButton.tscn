@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4l3qihcljqoc"]
+[gd_scene load_steps=5 format=3 uid="uid://b4l3qihcljqoc"]
 
 [ext_resource type="Script" path="res://src/MenuButton.gd" id="1_k2r7c"]
 [ext_resource type="Texture2D" uid="uid://diyduna0nbity" path="res://images/redbutton.png" id="1_q4eyb"]
-[ext_resource type="Script" path="res://src/ButtonScript.gd" id="3_uq2nm"]
 
 [sub_resource type="Theme" id="Theme_x2v1t"]
 
@@ -10,39 +9,34 @@
 font_italic = true
 subpixel_positioning = 0
 
-[node name="ButtonMenu" type="Button" node_paths=PackedStringArray("textButton")]
-anchors_preset = -1
-anchor_left = 0.337
-anchor_top = 0.424
-anchor_right = 0.618
-anchor_bottom = 0.617
-offset_left = -431.36
-offset_top = -305.28
-offset_right = -783.04
-offset_bottom = -436.24
-mouse_filter = 1
-script = ExtResource("1_k2r7c")
-textButton = NodePath("TextureButton/TextButton")
-
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="TextureButton" type="TextureButton"]
 layout_direction = 1
-layout_mode = 0
-offset_left = 430.0
-offset_top = 310.0
-offset_right = 790.0
-offset_bottom = 447.0
+anchors_preset = -1
+anchor_left = 0.336
+anchor_top = 0.431
+anchor_right = 0.617
+anchor_bottom = 0.621
+offset_left = -0.0800171
+offset_top = -0.320007
+offset_right = 0.239929
+offset_bottom = -0.120026
 mouse_filter = 1
 texture_normal = ExtResource("1_q4eyb")
 ignore_texture_size = true
 stretch_mode = 0
-script = ExtResource("3_uq2nm")
+script = ExtResource("1_k2r7c")
 
-[node name="TextButton" type="RichTextLabel" parent="TextureButton"]
-layout_mode = 0
-offset_left = 36.0
-offset_top = 31.0
-offset_right = 323.0
-offset_bottom = 111.0
+[node name="TextButton" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.237
+anchor_top = 0.316
+anchor_right = 0.769
+anchor_bottom = 0.705
+offset_left = 0.017952
+offset_top = -0.0663681
+offset_right = -0.17688
+offset_bottom = 0.0330505
 mouse_filter = 1
 theme = SubResource("Theme_x2v1t")
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
@@ -52,5 +46,5 @@ theme_override_font_sizes/bold_font_size = 52
 bbcode_enabled = true
 scroll_active = false
 
-[connection signal="mouse_entered" from="TextureButton" to="." method="_on_texture_button_mouse_entered"]
-[connection signal="mouse_exited" from="TextureButton" to="." method="_on_texture_button_mouse_exited"]
+[connection signal="mouse_entered" from="." to="." method="interpolate_properties"]
+[connection signal="mouse_exited" from="." to="." method="restore_properties"]

@@ -8,54 +8,85 @@
 
 [node name="BreskRules5" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 5.15979
+offset_bottom = -3.0
 script = ExtResource("1_ajgau")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.588235)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.005
 offset_left = 3.0
 offset_top = 3.0
-offset_right = 1278.0
-offset_bottom = 720.0
+offset_right = 2.0
+offset_bottom = -0.38501
 texture = ExtResource("2_k18k2")
 expand_mode = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 modulate = Color(0.00392157, 0.00392157, 0.00392157, 1)
 clip_contents = false
-layout_mode = 0
-offset_left = 537.0
-offset_top = 71.0
-offset_right = 818.0
-offset_bottom = 111.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.403
+anchor_top = 0.059
+anchor_right = 0.683
+anchor_bottom = 0.139
+offset_left = -0.954041
+offset_top = 0.456997
+offset_right = 0.00598145
+offset_bottom = 0.296982
 theme_override_fonts/normal_font = SubResource("SystemFont_dwf1h")
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 45
 bbcode_enabled = true
 text = "REGLAS DE BRESK"
 scroll_active = false
 
 [node name="BackMenuButton5" type="Button" parent="."]
-layout_mode = 0
-offset_left = 63.0
-offset_top = 52.0
-offset_right = 294.0
-offset_bottom = 122.0
-theme_override_font_sizes/font_size = 28
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.033
+anchor_top = 0.048
+anchor_right = 0.206
+anchor_bottom = 0.171
+offset_left = -0.293999
+offset_top = 0.304001
+offset_right = 0.891968
+offset_bottom = -0.167007
+theme_override_font_sizes/font_size = 35
 text = "VOLVER A MENU"
 
-[node name="Breskrules5" type="Sprite2D" parent="."]
-position = Vector2(680, 414)
-scale = Vector2(0.971841, 0.964035)
+[node name="Breskrules5" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.269
+anchor_top = 0.182
+anchor_right = 0.786
+anchor_bottom = 0.901
+offset_left = -13.287
+offset_top = -0.0140076
+offset_right = -279.478
+offset_bottom = -204.377
+scale = Vector2(1.3829, 1.35921)
 texture = ExtResource("3_wh3sr")
 
 [node name="BackButtonRules5" type="Button" parent="."]
-layout_mode = 0
-offset_left = 62.0
-offset_top = 603.0
-offset_right = 218.0
-offset_bottom = 676.0
-theme_override_font_sizes/font_size = 28
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.039
+anchor_top = 0.858
+anchor_right = 0.186
+anchor_bottom = 0.961
+offset_left = -0.802002
+offset_top = -0.06604
+offset_right = 0.251984
+offset_bottom = 0.00292969
+theme_override_font_sizes/font_size = 38
 text = "ATRÁS"
 
 [connection signal="pressed" from="BackMenuButton5" to="." method="_on_back_menu1_button_pressed"]

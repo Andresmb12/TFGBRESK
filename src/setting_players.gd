@@ -1,20 +1,35 @@
-extends Node2D
+extends Control
 
 @export var players_available: OptionButton
 @export var delete_icon: Texture2D
-@onready var nick_cont = $nickname_ctnr
+
 @onready var ready_bttn = $ReadyButton
 @onready var players_list = $VBoxContainer/ItemList
 @onready var disp_players = $disp_players_btn
 # Called when the node enters the scene tree for the first time.
 
-
+func hide_new_player_fields():
+	$lne_input.clear()
+	$lne_input.hide()
+	$confirm_btn.hide()
+	$input_nicknm_te.hide()
+	
+func show_new_player_fields():
+	$lne_input.show()
+	$confirm_btn.show()
+	$input_nicknm_te.show()
+	$lne_input.grab_focus()
+	
 func _ready():
-	nick_cont.hide()
+	
+	hide_new_player_fields()
 	disp_players.disabled = true
 	ready_bttn.disabled = true
+	$nplayers_sbox.get_line_edit().connect("focus_entered",self._on_nplayers_sbox_focus_entered)
+
 	for p in DataLoader.all_players:
 		players_available.add_item(p)
+		
 
 
 
@@ -24,7 +39,7 @@ func _process(delta):
 
 
 func _on_check_box_toggled(toggled_on):
-	
+	$CheckBox.icon
 	$nplayers_sbox.editable = !toggled_on
 	
 	if(toggled_on):
@@ -50,12 +65,12 @@ func show_players_list():
 	
 
 func _on_confirm_new_player_btn_pressed():
-	var player_name = nick_cont.get_node("lne_input").text.to_upper()
+	var player_name =$lne_input.text.to_upper()
 	if player_name.length() > 0:
 		DataLoader.game_players[player_name] = false
 		disp_players.selected = -1
-		nick_cont.get_node("lne_input").clear()
-		nick_cont.hide()
+		hide_new_player_fields()
+		
 		update_players_settings()
 		
 		
@@ -67,10 +82,11 @@ func update_players_settings():
 func _on_option_button_item_selected(index):
 	
 	if index == 0:
-		nick_cont.show()
+		show_new_player_fields()
+		
 	else:
 		DataLoader.game_players[players_available.get_item_text(index)] = true
-		nick_cont.hide()
+		hide_new_player_fields()
 		update_players_settings()
 
 func validate_n_players():
@@ -98,9 +114,13 @@ func _on_item_list_item_clicked(index, at_position, mouse_button_index):
 		validate_n_players()
 	
 
-
-
 func _on_ready_button_pressed():
 	
 	DataLoader._next_scene = "GameManager"
 	SceneManager.no_effect_change_scene("ProgressBar")
+
+
+
+func _on_exit_button_pressed():
+	get_tree().quit()
+	pass # Replace with function body.

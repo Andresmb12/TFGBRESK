@@ -9,6 +9,7 @@ func _ready():
 	pass # Replace with function body.
 
 func is_vowel(letter):
+	OS.get_cache_dir()
 	return letter in vowels
 	
 func is_consonant(letter):

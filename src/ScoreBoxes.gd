@@ -6,10 +6,13 @@ extends Node2D
 @onready var numbers_array = []
 @export var v_scores : Array = Array()
 # Called when the node enters the scene tree for the first time.
-
+func _ready():
+	set_editable_board(false)
+	
 func set_editable_board(order):
 	for n in scoreboxes.get_children():
 		n.editable = order
+		n.focus_mode = Control.FOCUS_NONE
 func set_total_score(score):
 	numbers_array[2][0].text = str(score)
 func set_words_bonus(bonus):

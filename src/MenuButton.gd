@@ -1,4 +1,4 @@
-extends Control
+extends TextureButton
 #MenuButton Script
 
 # Called when the node enters the scene tree for the first time.
@@ -27,4 +27,8 @@ func _on_texture_button_mouse_entered():
 
 func _on_texture_button_mouse_exited():
 	restore_properties()
+	pass # Replace with function body.
+
+
+func _on_focus_entered():
 	pass # Replace with function body.

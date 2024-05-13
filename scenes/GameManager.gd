@@ -18,8 +18,9 @@ extends Control
 @onready var turn_completed = 0
 @onready var n_chosen_letters = 0
 @onready var n_placed_letters = 0
-@onready var general_scale = Vector2(0.47, 0.47)
-@onready var focus_scale = Vector2(0.85, 0.85)
+@onready var phone_scale = Vector2(0.7,0.7)
+@onready var general_scale = Vector2(0.6, 0.6)
+@onready var focus_scale = Vector2(1.2, 1.2)
 @onready var last_index = Vector2(0,0)
 @onready var current_play_type
 @onready var cont_chosen_letters = $cont_chosen_letters
@@ -47,12 +48,13 @@ extends Control
 
 
 func _ready():
+	
 	$Button.hide()
 	#$Button.show()
 	if DataLoader.game_players.is_empty():
 		players_set = DataLoader.all_players
 		nplayers = DataLoader.all_players.size()
-		nplayers = 2 # test
+		nplayers = 4 # test
 	else:
 		players_set = DataLoader.game_players
 	var player
@@ -139,7 +141,10 @@ func update_game():
 			grid.columns = 1
 			player.position.x = grid.size.x / 4
 		p_container.show()
-		player.scale = general_scale
+		if DataLoader.platform == "Android":
+			player.scale = phone_scale
+		else:
+			player.scale = general_scale
 	
 		
 	if !SHOW_RESULTS:
@@ -371,19 +376,22 @@ func _on_bresk_dice_thrown(result):
 			bot_choose_letters(int(result))
 			await get_tree().create_timer(2).timeout
 			show_next_step(result)
+		else:
+			DataLoader.choosing_letters = true
 			
 		
 func bot_choose_letters(n):
 	var chosen_letter
 	cont_chosen_letters.focus_mode = Control.FOCUS_NONE
-	
+	cont_chosen_letters.grab_focus()
 	for i in range(1,n+1):
 		# chosen_letter = dummy_choose_a_letter()
 		chosen_letter = current_player.smart_choosing_letter()
 		print("Bot elige la letra: ", chosen_letter)
 		await get_tree().create_timer(1).timeout
-		
+		#get_letter(i).disabled = true
 		get_letter(i).text = chosen_letter
+		
 		get_letter(i).letter_entered.emit(chosen_letter)
 	
 
@@ -425,8 +433,10 @@ func done_choosing_letters(n):
 	print("Tablero desactivado")
 	if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
 		current_player.n_mainboard.set_editable_board(false) #test
+	
 
 func enable_placing_letters(n):
+	
 	if current_player.is_bot:
 		bot_place_letters(n)
 	else:
@@ -454,17 +464,21 @@ func note_letter_to_players(letter):
 		
 func manage_placing_letters(letter, n):
 	
-	#print("Letra elegida =", letter)
-	
 	note_letter_to_players(letter)
 	n_chosen_letters += 1
-	if n_chosen_letters < 3:
+	
+	if n_chosen_letters < 3 and !current_player.is_bot:
 		get_letter(n_chosen_letters+1).grab_focus()
+		
 	
 	if n_chosen_letters == n:
+
 		print("Ya se han elegido las letras")
+		DataLoader.choosing_letters = false
+		
 		done_choosing_letters(n) #Disable Letters Boxes Lineedits
 		enable_placing_letters(n)
+	
 
 func on_btn_letter_n_pressed(i_button):
 	
@@ -508,6 +522,7 @@ func save_letter(letter,n):
 		 #Still letters to place
 		print("se intenta")
 		DataLoader.next_letter = get_letter(cont_letters+1).text
+		#get_letter(cont_letters+1).release_focus()
 		print("proxima letra a colocar: ", DataLoader.next_letter)
 		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 		cont_chosen_letters.get_node("cont_letter" + str(cont_letters+1)).modulate.a = 1
@@ -521,6 +536,7 @@ func save_letter(letter,n):
 		# get_button(index_letter_to_place).disconnect("pressed",on_btn_letter_n_pressed)
 	
 	if cont_letters == n:
+		
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
 		#current_player.n_mainboard.disconnect("b_letter_entered", self.save_letter)
 		await get_tree().create_timer(0.23).timeout
@@ -551,6 +567,7 @@ func read_n_letters(n):
 func handle_letter_placed(letter,n):
 	
 	n_placed_letters += 1
+	
 	if n_placed_letters == n:
 		print("Letra colocada: ",letter)
 		current_player.n_mainboard.disconnect("letter_placed", self.handle_letter_placed)
@@ -627,3 +644,8 @@ func show_desired_player():
 		else:
 			cont.hide()
 			
+
+
+func _on_exit_button_pressed():
+	get_tree().quit()
+	pass # Replace with function body.
