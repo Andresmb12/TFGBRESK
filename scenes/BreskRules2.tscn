@@ -63,8 +63,17 @@ offset_bottom = 0.146988
 theme_override_font_sizes/font_size = 35
 text = "VOLVER A MENU"
 
-[node name="Breskrules1" type="Sprite2D" parent="."]
-position = Vector2(1115, 587.236)
+[node name="Breskrules1" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.537
+anchor_top = 0.337
+anchor_right = 1.219
+anchor_bottom = 1.355
+offset_left = -0.286011
+offset_top = 0.0670013
+offset_right = -113.882
+offset_bottom = 31.305
 scale = Vector2(1.1504, 0.958205)
 texture = ExtResource("3_kyait")
 

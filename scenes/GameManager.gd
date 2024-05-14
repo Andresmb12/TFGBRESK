@@ -41,7 +41,7 @@ extends Control
 @onready var max_words_bonus_winner
 @onready var actions = {"0": "LO SENTIMOS! SALTAMOS TU TURNO", 
 "1": "ELIGE 1 LETRA Y LUEGO \nCOLOCALA EN EL TABLERO","2": "ELIGE 2 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO",
-"3": "ELIGE 3 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO", "BRESK": "TIRA EL DADO Y COLOCA UNA LETRA",
+"3": "ELIGE 3 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO", "bresk": "TIRA EL DADO Y COLOCA UNA LETRA",
 "4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"NextPlayer": "TURNO DEL SIGUIENTE JUGADOR", 
 "PlaceLetters": "COLOCA LAS LETRAS EN EL TABLERO", "7": "COLOCA LA LETRA EN EL TABLERO",
 "end": "PARTIDA ACABADA, COMIENZA EL RECUENTO", "throw": "tira el dado"}
@@ -54,7 +54,7 @@ func _ready():
 	if DataLoader.game_players.is_empty():
 		players_set = DataLoader.all_players
 		nplayers = DataLoader.all_players.size()
-		nplayers = 4 # test
+		nplayers = 2 # test
 	else:
 		players_set = DataLoader.game_players
 	var player
@@ -346,7 +346,7 @@ func _on_bresk_dice_thrown(result):
 		turn_completed = 0
 		go_back_to_game_view()
 	
-	elif result == "BRESK":
+	elif result == "bresk":
 		current_play_type = DataLoader.game_play_types.BRESK
 		await get_tree().create_timer(2).timeout
 		alph_dice.show()

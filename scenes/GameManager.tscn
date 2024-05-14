@@ -26,7 +26,7 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 6.0
+offset_right = 1.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -78,7 +78,7 @@ disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
-size = Vector2i(958, 509)
+size = Vector2i(955, 509)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
@@ -94,7 +94,7 @@ stretch = true
 [node name="SubViewport2" type="SubViewport" parent="GridContainer/svpcontainer2"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(957, 509)
+size = Vector2i(955, 509)
 render_target_update_mode = 4
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
@@ -109,7 +109,7 @@ stretch = true
 [node name="SubViewport3" type="SubViewport" parent="GridContainer/svpcontainer3"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(958, 508)
+size = Vector2i(955, 508)
 render_target_update_mode = 4
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
@@ -125,7 +125,7 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
-size = Vector2i(957, 508)
+size = Vector2i(955, 508)
 render_target_update_mode = 4
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
@@ -159,31 +159,6 @@ offset_top = 4.5
 offset_right = -0.436035
 offset_bottom = 0.261993
 text = "NEXT"
-
-[node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
-visible = false
-layout_mode = 1
-anchor_left = 0.821
-anchor_top = 0.348
-anchor_right = 0.952
-anchor_bottom = 0.676
-offset_left = 0.19397
-offset_top = 0.09198
-offset_right = 71.848
-offset_bottom = 101.072
-scale = Vector2(0.7, 0.7)
-
-[node name="Dice2" parent="." instance=ExtResource("3_mkww0")]
-layout_mode = 1
-anchor_left = 0.821
-anchor_top = 0.348
-anchor_right = 0.952
-anchor_bottom = 0.676
-offset_left = 0.19397
-offset_top = 0.09198
-offset_right = 71.848
-offset_bottom = 101.072
-scale = Vector2(0.7, 0.7)
 
 [node name="lbl_next_step" type="RichTextLabel" parent="."]
 visible = false
@@ -406,10 +381,34 @@ texture_normal = ExtResource("11_uwu75")
 ignore_texture_size = true
 stretch_mode = 0
 
+[node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
+layout_mode = 1
+anchor_left = 0.785
+anchor_top = 0.404
+anchor_right = 0.967
+anchor_bottom = 0.728
+offset_left = -4.98511
+offset_top = 0.27597
+offset_right = 151.393
+offset_bottom = 150.032
+scale = Vector2(0.7, 0.7)
+
+[node name="Dice2" parent="." instance=ExtResource("3_mkww0")]
+layout_mode = 1
+anchor_left = 0.782
+anchor_top = 0.401
+anchor_right = 0.967
+anchor_bottom = 0.727
+offset_left = 0.777832
+offset_top = 0.518982
+offset_right = 151.393
+offset_bottom = 151.113
+scale = Vector2(0.7, 0.7)
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="go_back_to_game_view"]
-[connection signal="bresk_dice_thrown" from="Dice1" to="." method="_on_bresk_dice_thrown"]
-[connection signal="alph_dice_thrown" from="Dice2" to="." method="_on_alph_dice_thrown"]
 [connection signal="item_clicked" from="ResultsScreen/results_list" to="." method="_on_results_list_icon_clicked"]
 [connection signal="pressed" from="back_to_results_btn" to="." method="_on_back_to_results_pressed"]
 [connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="bresk_dice_thrown" from="Dice1" to="." method="_on_bresk_dice_thrown"]
+[connection signal="alph_dice_thrown" from="Dice2" to="." method="_on_alph_dice_thrown"]

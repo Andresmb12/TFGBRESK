@@ -9,7 +9,7 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 
 func hide_new_player_fields():
-	$lne_input.clear()
+	#$lne_input.clear()
 	$lne_input.hide()
 	$confirm_btn.hide()
 	$input_nicknm_te.hide()
@@ -22,10 +22,12 @@ func show_new_player_fields():
 	
 func _ready():
 	
-	hide_new_player_fields()
+	$lne_input.hide()
+	$confirm_btn.hide()
+	$input_nicknm_te.hide()
 	disp_players.disabled = true
 	ready_bttn.disabled = true
-	$nplayers_sbox.get_line_edit().connect("focus_entered",self._on_nplayers_sbox_focus_entered)
+	#$nplayers_sbox.get_line_edit().connect("focus_entered",self._on_nplayers_sbox_focus_entered)
 
 	for p in DataLoader.all_players:
 		players_available.add_item(p)
@@ -69,6 +71,7 @@ func _on_confirm_new_player_btn_pressed():
 	if player_name.length() > 0:
 		DataLoader.game_players[player_name] = false
 		disp_players.selected = -1
+		
 		hide_new_player_fields()
 		
 		update_players_settings()
@@ -91,7 +94,7 @@ func _on_option_button_item_selected(index):
 
 func validate_n_players():
 	
-	if DataLoader.game_players.keys().size() == DataLoader.nplayers:
+	if players_list.item_count / 2 == DataLoader.nplayers:
 		
 		disp_players.disabled = true
 		ready_bttn.disabled = false
@@ -104,10 +107,8 @@ func validate_n_players():
 func _on_item_list_item_clicked(index, at_position, mouse_button_index):
 	
 	if index % 2 == 0: #Trash Icon Selected
-		if(index > 0):
-			DataLoader.game_players.erase(players_available.get_item_text(index-1))
-		else:
-			DataLoader.game_players.erase(players_available.get_item_text(index))
+		
+		DataLoader.game_players.erase(players_list.get_item_text(index+1))
 		print(DataLoader.game_players)
 		players_list.remove_item(index) #I delete the player and the icon
 		players_list.remove_item(index)

@@ -73,28 +73,28 @@ _data = {
 }
 
 [node name="Intro" type="Control"]
-clip_contents = true
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
+anchor_right = 0.999
 anchor_bottom = 1.0
 offset_left = -1.0
-offset_bottom = -3.0
+offset_right = 0.919922
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = SubResource("5")
 metadata/_edit_use_anchors_ = true
 
-[node name="Sprite2D" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
+clip_contents = true
 layout_mode = 1
 anchors_preset = -1
 anchor_top = -0.001
-anchor_right = 1.0
+anchor_right = 1.006
 anchor_bottom = 1.0
-offset_top = 0.074
-offset_right = -978.92
-offset_bottom = -284.0
-scale = Vector2(2.04043, 1.3566)
+offset_top = 0.077
+offset_right = 0.552002
+offset_bottom = -1.00305
 texture = ExtResource("1")
 expand_mode = 1
 
@@ -102,16 +102,17 @@ expand_mode = 1
 material = SubResource("4")
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.003
+anchor_right = 2.059
+anchor_bottom = 1.371
 offset_left = 1.0
-offset_bottom = -0.231079
+offset_right = -2020.57
+offset_bottom = -393.623
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
+root_node = NodePath("../TextureRect")
 libraries = {
 "": SubResource("AnimationLibrary_d0f2g")
 }

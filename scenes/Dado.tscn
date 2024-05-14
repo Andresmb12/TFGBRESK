@@ -1,80 +1,93 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8t17ld0p75dm"]
+[gd_scene load_steps=11 format=3 uid="uid://b8t17ld0p75dm"]
 
 [ext_resource type="Script" path="res://scenes/Dice.gd" id="1_x6yee"]
 [ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="2_vvbf8"]
+[ext_resource type="FontFile" uid="uid://dcuwn2wgs5ff2" path="res://Noto_Sans_JP/static/NotoSansJP-Black.ttf" id="3_055ek"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_t174h"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_67rda"]
 
-[node name="DadoRoot" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s2sq1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k7dts"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eq8tl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a3lap"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sr6c7"]
+
+[node name="Dice" type="Control"]
 clip_contents = true
 layout_mode = 3
-anchor_right = 0.187
-anchor_bottom = 0.468
-offset_right = -0.360016
-offset_bottom = 0.039978
+anchor_right = 0.26
+anchor_bottom = 0.463
+offset_right = 0.799957
+offset_bottom = -0.0400391
 focus_mode = 1
 script = ExtResource("1_x6yee")
+metadata/_edit_horizontal_guides_ = [140.0]
 
 [node name="Dado" type="TextureRect" parent="."]
 modulate = Color(0, 0, 0, 1)
 clip_contents = true
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.992
-anchor_bottom = 0.659
-offset_right = -0.0880127
-offset_bottom = -0.0830078
+anchor_right = 1.0
+anchor_bottom = 1.0
 focus_mode = 1
-mouse_filter = 2
 texture = SubResource("CanvasTexture_t174h")
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 236.0
-offset_right = 227.0
-offset_bottom = 299.0
-focus_mode = 0
-mouse_filter = 2
-theme_override_fonts/font = ExtResource("2_vvbf8")
-text = "TIRA EL DADO"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 visibility_layer = 2
-clip_contents = true
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.092
-anchor_top = 0.065
-anchor_right = 0.891
-anchor_bottom = 0.605
-offset_left = 0.0119972
-offset_top = 0.0949974
-offset_right = 5.05099
-offset_bottom = 0.11499
-mouse_filter = 2
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+offset_right = -3.05176e-05
+offset_bottom = -3.05176e-05
 texture = SubResource("CanvasTexture_67rda")
 
-[node name="dice_lbl" type="RichTextLabel" parent="TextureRect"]
+[node name="dice_lbl" type="RichTextLabel" parent="."]
 light_mask = 4
 visibility_layer = 4
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.026
-anchor_top = 0.198
-anchor_right = 0.958
-anchor_bottom = 0.879
-offset_left = -2.966
-offset_top = -3.036
-offset_right = 4.02199
-offset_bottom = 0.0219879
-mouse_filter = 2
+anchor_left = 0.102
+anchor_top = 0.294
+anchor_right = 0.894
+anchor_bottom = 0.648
+offset_right = -163.0
+offset_bottom = -73.0
+scale = Vector2(1.7, 1.7)
+mouse_filter = 1
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 60
+theme_override_fonts/normal_font = ExtResource("3_055ek")
+theme_override_font_sizes/normal_font_size = 70
 bbcode_enabled = true
+text = "[center]bresk[/center]"
 fit_content = true
 scroll_active = false
 
-[connection signal="focus_entered" from="." to="." method="_on_button_pressed"]
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = -1.0
+offset_bottom = -1.0
+focus_mode = 0
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("2_vvbf8")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_s2sq1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_k7dts")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_eq8tl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_a3lap")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sr6c7")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" path="res://src/bresk_rules.gd" id="1_m5baa"]
 [ext_resource type="Texture2D" uid="uid://x34iv8m58u04" path="res://images/possiblemenuphoto1.png" id="2_v1sp6"]
+[ext_resource type="FontFile" uid="uid://dcuwn2wgs5ff2" path="res://Noto_Sans_JP/static/NotoSansJP-Black.ttf" id="3_jampn"]
 [ext_resource type="Texture2D" uid="uid://clad7i8jxyxac" path="res://images/breskrules2.png" id="3_r178d"]
-
-[sub_resource type="SystemFont" id="SystemFont_dwf1h"]
 
 [node name="BreskRules3" type="Control"]
 layout_mode = 3
@@ -34,16 +33,16 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.4
 anchor_top = 0.069
-anchor_right = 0.602
+anchor_right = 0.62
 anchor_bottom = 0.131
-offset_left = -0.600037
-offset_top = -0.313004
-offset_right = -0.248169
+offset_left = -0.599915
+offset_top = -0.312996
+offset_right = -0.879883
 offset_bottom = -0.0870056
-theme_override_fonts/normal_font = SubResource("SystemFont_dwf1h")
+theme_override_fonts/normal_font = ExtResource("3_jampn")
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-text = "REGLAS DE BRESK"
+text = "[center]REGLAS DE BRESK"
 scroll_active = false
 
 [node name="BackMenuButton3" type="Button" parent="."]
