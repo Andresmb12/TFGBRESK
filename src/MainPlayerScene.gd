@@ -332,7 +332,7 @@ func place_in_word(letter):
 						print("Se añade una letra de otro tio ",word_in_progress)
 						check_word_while_placing()
 					
-					elif word_in_progress.length() > 0 and word_in_progress.length() < 3:
+					elif word_in_progress.length() > 0 and word_in_progress.length() < 3 and target_word!=copy_target_word:
 						print("update")	
 						word_in_progress += letter
 					counter_placed += 1 # prueba
@@ -527,6 +527,8 @@ func choose_without_target_word():
 		letter = SmartBots.consonants[index]
 		print("letra random y a seguir")
 	
+	if letter == null:
+		print("falla 1")
 	return letter
 	#index_target_word = 1
 
@@ -561,6 +563,9 @@ func choose_when_word_finished(letter):
 	if first_letter_placed and (aux == Vector2(-1,-1) or aux == pos_target_word): #Not possible to form a 8 letter word
 		print("we place separator")
 		target_letter = "#"
+		if letter == null:
+			print("devolvemos separador")
+			letter = "#"
 	
 	if first_letter_placed and aux != Vector2(-1,-1) and aux != pos_target_word: #and counter_placed == copy_target_word.length() and counter_placed > 0:
 		var l = get_letter(aux.x, aux.y)
@@ -615,7 +620,8 @@ func smart_choosing_letter(n=1):
 	if letter == null and target_word != copy_target_word and !target_word.is_empty():
 		letter = choose_from_next_target()
 		#return smart_choosing_letter()
-	
+	if letter == null:
+		print("falla ultimo")
 	return letter
 	
 func get_target_word(letter, pos):
@@ -640,10 +646,11 @@ func get_target_word(letter, pos):
 func get_desired_word(starting_letter,size):
 	print("encontrar una palabra que empieza por: ", starting_letter)
 	print("y tiene de letras: ", size)
+	print("se busca entre x palabras: ", DataLoader.bot_dictionary.keys().size())
 	var word_found = ""
 	var found = false
 	while !found and size > 1:
-		for w in DataLoader.spanish_dictionary.keys():
+		for w in DataLoader.bot_dictionary.keys():
 			if w.length() == size and w.find(starting_letter) == 0 :
 				word_found = w
 				found = true

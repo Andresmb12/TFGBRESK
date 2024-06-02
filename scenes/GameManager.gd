@@ -40,11 +40,11 @@ extends Control
 @onready var max_words_formed = 0
 @onready var max_words_bonus_winner
 @onready var actions = {"0": "LO SENTIMOS! SALTAMOS TU TURNO", 
-"1": "ELIGE 1 LETRA Y LUEGO \nCOLOCALA EN EL TABLERO","2": "ELIGE 2 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO",
-"3": "ELIGE 3 LETRAS Y LUEGO \nCOLOCALAS EN EL TABLERO", "bresk": "TIRA EL DADO Y COLOCA UNA LETRA",
+"1": "ELIGE 1 LETRA Y \nCOLOCALA EN EL TABLERO","2": "ELIGE 2 LETRAS Y  \nCOLOCALAS EN EL TABLERO",
+"3": "ELIGE 3 LETRAS Y \nCOLOCALAS EN EL TABLERO", "bresk": "TIRA EL DADO Y COLOCA UNA LETRA",
 "4": "PULSA EN UNA CASILLA PARA COLOCAR LA LETRA" ,"NextPlayer": "TURNO DEL SIGUIENTE JUGADOR", 
 "PlaceLetters": "COLOCA LAS LETRAS EN EL TABLERO", "7": "COLOCA LA LETRA EN EL TABLERO",
-"end": "PARTIDA ACABADA, COMIENZA EL RECUENTO", "throw": "tira el dado"}
+"end": "PARTIDA ACABADA, COMIENZA EL RECUENTO", "throw": "Lanza el dado"}
 
 
 func _ready():
@@ -73,6 +73,7 @@ func _ready():
 		
 	results_screen.hide()
 	DataLoader.load_dictionary_from_file()
+	DataLoader.load_bot_words_from_file()
 	DataLoader.play_type = DataLoader.game_play_types.SKIP
 	current_play_type = DataLoader.game_play_types.SKIP
 	grid.columns = 2
@@ -100,10 +101,13 @@ func clean_letters_boxes():
 func show_next_step(action):
 	#current_player.modulate.a = 0.5
 	var next_action = actions[action]
-	next_step.text =  ("[center][color=WHITE][b]\n%s \n %s[/b][/color][/center]" % [next_action, current_player.usernamevar ] )
+	if next_action == "NextPlayer":
+		next_step.text =  ("[center]%s[/center]" % [next_action] )
+	else:
+		next_step.text =  ("[center]%s \n %s[/center]" % [next_action, current_player.usernamevar ] )
 	next_step.show()
 	await get_tree().create_timer(2).timeout
-	next_step.hide()
+	#next_step.hide()
 	
 	current_player.modulate.a = 1
 	
@@ -122,7 +126,7 @@ func update_game():
 		
 	
 	print("UPDATE GAME, TURNO DE ", turn)
-	#show_next_step("NextPlayer")
+	show_next_step("NextPlayer")
 	
 	cont_chosen_letters.hide()
 	bresk_dice.hide()
@@ -274,6 +278,7 @@ func focus_on_player():
 		bresk_dice.dice_is_thrown = false
 		alph_dice.dice_is_thrown = false
 		bresk_dice.show()
+		show_next_step("throw")
 		bresk_dice.set_bresk_dice()
 		bresk_dice.roll_dice()
 		
@@ -546,7 +551,7 @@ func save_letter(letter,n):
 		await get_tree().create_timer(2).timeout
 		for i in range(1,4):
 			cont_chosen_letters.get_node("cont_letter" + str(i)).modulate.a = 1
-		#show_next_step("NextPlayer")
+		show_next_step("NextPlayer")
 		
 		current_player.n_mainboard.disconnect("letter_placed", self.save_letter)
 		

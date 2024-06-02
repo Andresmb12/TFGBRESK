@@ -9,7 +9,7 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 
 func hide_new_player_fields():
-	#$lne_input.clear()
+	$lne_input.clear()
 	$lne_input.hide()
 	$confirm_btn.hide()
 	$input_nicknm_te.hide()
@@ -21,17 +21,22 @@ func show_new_player_fields():
 	$lne_input.grab_focus()
 	
 func _ready():
-	
+	$nplayers_sbox.get_line_edit().grab_focus()	
 	$lne_input.hide()
 	$confirm_btn.hide()
 	$input_nicknm_te.hide()
 	disp_players.disabled = true
 	ready_bttn.disabled = true
+	
 	#$nplayers_sbox.get_line_edit().connect("focus_entered",self._on_nplayers_sbox_focus_entered)
 
 	for p in DataLoader.all_players:
 		players_available.add_item(p)
-		
+	
+	$nplayers_sbox.get_line_edit().grab_focus()	
+	$nplayers_sbox.get_line_edit().set_caret_force_displayed ( true )
+	$nplayers_sbox.get_line_edit().set_caret_mid_grapheme_enabled ( true )
+	$nplayers_sbox.get_line_edit().set_caret_blink_enabled (true)
 
 
 
@@ -48,9 +53,11 @@ func _on_check_box_toggled(toggled_on):
 		DataLoader.nplayers = $nplayers_sbox.value
 		if  DataLoader.game_players.keys().size() == DataLoader.nplayers:
 			ready_bttn.disabled = false
+		disp_players.show_popup()
 		
 	else:
 		ready_bttn.disabled = true
+		$nplayers_sbox.get_line_edit().grab_focus()
 	
 	if DataLoader.game_players.keys().size() < DataLoader.nplayers:
 		disp_players.disabled = !toggled_on

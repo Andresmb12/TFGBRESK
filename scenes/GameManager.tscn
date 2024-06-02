@@ -1,18 +1,46 @@
-[gd_scene load_steps=16 format=3 uid="uid://cawqo7l54aw5t"]
+[gd_scene load_steps=17 format=3 uid="uid://cawqo7l54aw5t"]
 
 [ext_resource type="Script" path="res://scenes/GameManager.gd" id="1_lv1m6"]
 [ext_resource type="PackedScene" uid="uid://beqg8k0qbsbqm" path="res://scenes/MainPlayerScene.tscn" id="2_1ndxj"]
 [ext_resource type="Texture2D" uid="uid://v0ip3n1k2d0h" path="res://images/eye-solid.svg" id="2_nhhsb"]
 [ext_resource type="PackedScene" uid="uid://b8t17ld0p75dm" path="res://scenes/Dado.tscn" id="3_mkww0"]
 [ext_resource type="Texture2D" uid="uid://dpgqpe8806lh1" path="res://images/trash-solid.svg" id="3_utkqo"]
-[ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="4_mufjv"]
+[ext_resource type="FontFile" uid="uid://dcuwn2wgs5ff2" path="res://Noto_Sans_JP/static/NotoSansJP-Black.ttf" id="5_2ffwf"]
 [ext_resource type="PackedScene" uid="uid://crywaplhkqgtm" path="res://scenes/Letter.tscn" id="5_hcpsy"]
 [ext_resource type="StyleBox" uid="uid://b4rttf8bbdtmi" path="res://scenes/letters_chosen.tres" id="6_tlnfj"]
 [ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="7_v1dpy"]
 [ext_resource type="Texture2D" uid="uid://cwjdma5ep6ipl" path="res://images/circle-left-solid.svg" id="10_cgjje"]
 [ext_resource type="Texture2D" uid="uid://bcu7c30k2duy6" path="res://images/circle-xmark-solid.svg" id="11_uwu75"]
 
+[sub_resource type="FontFile" id="FontFile_xpgng"]
+cache/0/36/0/ascent = 0.0
+cache/0/36/0/descent = 0.0
+cache/0/36/0/underline_position = 0.0
+cache/0/36/0/underline_thickness = 0.0
+cache/0/36/0/scale = 1.0
+cache/0/36/0/kerning_overrides/36/0 = Vector2(0, 0)
+cache/0/36/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/36/0/kerning_overrides/41/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/36/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/41/0 = Vector2(0, 0)
+cache/0/41/0/ascent = 0.0
+cache/0/41/0/descent = 0.0
+cache/0/41/0/underline_position = 0.0
+cache/0/41/0/underline_thickness = 0.0
+cache/0/41/0/scale = 1.0
+cache/0/41/0/kerning_overrides/36/0 = Vector2(0, 0)
+cache/0/41/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/41/0/kerning_overrides/41/0 = Vector2(0, 0)
+
 [sub_resource type="Theme" id="Theme_ce18h"]
+default_font = SubResource("FontFile_xpgng")
+default_font_size = 36
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oku76"]
 
@@ -35,6 +63,7 @@ view_icon = ExtResource("2_nhhsb")
 delete_icon = ExtResource("3_utkqo")
 
 [node name="lbl_game_turn" type="RichTextLabel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.293
@@ -50,6 +79,7 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
+visible = false
 clip_contents = true
 layout_direction = 1
 layout_mode = 1
@@ -78,9 +108,9 @@ disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
-size = Vector2i(955, 509)
+size = Vector2i(2, 2)
 size_2d_override_stretch = true
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="MainScenePlayer1" parent="GridContainer/svpcontainer1/SubViewport1" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -94,8 +124,8 @@ stretch = true
 [node name="SubViewport2" type="SubViewport" parent="GridContainer/svpcontainer2"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(955, 509)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -109,8 +139,8 @@ stretch = true
 [node name="SubViewport3" type="SubViewport" parent="GridContainer/svpcontainer3"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(955, 508)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -125,8 +155,8 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
-size = Vector2i(955, 508)
-render_target_update_mode = 4
+size = Vector2i(2, 2)
+render_target_update_mode = 0
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -161,18 +191,23 @@ offset_bottom = 0.261993
 text = "NEXT"
 
 [node name="lbl_next_step" type="RichTextLabel" parent="."]
-visible = false
-layout_mode = 0
-offset_left = 482.0
-offset_top = 192.0
-offset_right = 867.0
-offset_bottom = 287.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.773
+anchor_top = 0.21
+anchor_right = 0.971
+anchor_bottom = 0.293
+offset_left = 0.0668945
+offset_top = -0.0100098
+offset_right = 2.70886
+offset_bottom = 0.266998
 theme = SubResource("Theme_ce18h")
-theme_override_fonts/normal_font = ExtResource("4_mufjv")
-theme_override_font_sizes/normal_font_size = 20
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_2ffwf")
+theme_override_font_sizes/normal_font_size = 31
 theme_override_styles/normal = SubResource("StyleBoxFlat_oku76")
 bbcode_enabled = true
-text = "[center]TIRA LOS DADOS[/center]"
+text = "[center]LANZA EL DADO[/center]"
 fit_content = true
 
 [node name="cont_chosen_letters" type="HBoxContainer" parent="."]
@@ -269,24 +304,7 @@ text = "SELECT"
 icon_alignment = 1
 vertical_icon_alignment = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.521
-anchor_right = 0.996
-anchor_bottom = 0.391
-offset_left = -0.446045
-offset_top = 1.0
-offset_right = 0.703857
-offset_bottom = 0.328979
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("4_mufjv")
-fit_content = true
-
 [node name="ResultsScreen" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
