@@ -18,7 +18,8 @@ extends Node
 @export var clickable: bool = false
 @export var add_to_back: bool = true
 
-@onready var all_players: Dictionary = { "Bot Pro 1": true,"Bot Pro 2": true,"Algoritmo-3" : false,"Algoritmo-4": false }
+@onready var all_players: Dictionary = { "Bot Avanzado-1" : true, "Bot Principiante-1" : true,"Bot Pro-1": true,"Bot Avanzado-2": true, "Bot Pro-2": true, "Bot Principiante-2": true }
+@onready var bot_players_levels: Dictionary = {"Bot Avanzado-1" : "advanced", "Bot Principiante-1" : "starter", "Bot Pro-1": "pro","Bot Avanzado-2": "advanced", "Bot Pro-2": "pro", "Bot Principiante-2": "starter" }
 @onready var nplayers: int = 2
 @onready var game_players : Dictionary = Dictionary()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
@@ -38,10 +39,10 @@ enum GAME_MODES {TEST, REAL}
 @onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)
 @onready var general_options = SceneManager.create_general_options(color, timeout, clickable, add_to_back)
 @onready var platform
-@onready var bots_words_route = "res://diccionarios/filtered_spanish_dictionary.txt"
+@onready var bots_words_1 = "res://diccionarios/filtered_spanish_dictionary.txt"
+@onready var bots_words_2= "res://diccionarios/new_filtered_spanish_dictionary.txt"
 @onready var dictionary_route = "res://diccionarios/0_palabras_todas.txt"
 @onready var spanish_dictionary = {}
-@onready var bot_dictionary = {}
 @onready var choosing_letters = false
 
 
@@ -92,9 +93,9 @@ func load_dictionary_from_file():
 	else:
 		print("No se pudo abrir el archivo:", dictionary_route)
 
-func load_bot_words_from_file():
-	
-	var file = FileAccess.open(bots_words_route, FileAccess.READ)
+func load_bot_words_from_file(route):
+	var bot_dictionary = {}
+	var file = FileAccess.open(route, FileAccess.READ)
 	
 	if file != null:
 		var line = file.get_line()
@@ -104,8 +105,9 @@ func load_bot_words_from_file():
 			line = file.get_line()  # Leer la siguiente línea
 		file.close()
 		print("Diccionario cargado correctamente")
+		return bot_dictionary
 	else:
-		print("No se pudo abrir el archivo:", bots_words_route)
+		print("No se pudo abrir el archivo:", route)
 
 func check_word(word):
 	return spanish_dictionary.has(word)

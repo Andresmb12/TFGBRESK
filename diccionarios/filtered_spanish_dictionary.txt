@@ -6,7 +6,7 @@ ebanista
 fantasma
 gabinete
 habanera
-inscribir
+inscrito
 jabalcon
 kafkiana
 laboraba
@@ -88,7 +88,7 @@ ibais
 jable
 kappa
 labeo
-mable
+mirad
 nabab
 oasis
 pacae

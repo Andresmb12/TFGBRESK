@@ -1,7 +1,4 @@
 extends TextureButton
-#MenuButton Script
-
-# Called when the node enters the scene tree for the first time.
 
 @export var textButton: RichTextLabel
 
@@ -22,12 +19,10 @@ func restore_properties() -> void:
 
 func _on_texture_button_mouse_entered():
 	interpolate_properties()
-	pass # Replace with function body.
 
 
 func _on_texture_button_mouse_exited():
 	restore_properties()
-	pass # Replace with function body.
 
 
 func _on_focus_entered():

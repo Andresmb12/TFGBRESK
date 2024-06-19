@@ -1,7 +1,7 @@
 extends Control
 
 @onready var dice = $dice_lbl
-@onready var bresk = [ "bresk", "0", "1", "2" ,"3", "bresk"]
+@onready var bresk = [ "0", "1", "2", "3", "bresk"]
 @onready var alphabet = [
 	"A", "B", "C", "D", "E", "F", "G", "#","H", "I", "J", "K", "L", "M",
 	"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"
@@ -65,11 +65,16 @@ func _on_button_pressed():
 	
 	timer.set_wait_time(1)  # Cambiar la opción cada segundo
 	timer.set_one_shot(false)
-	timer.connect("timeout", _choose_option )
-	add_child(timer)
+	
+	if timer.get_parent()==null:
+		timer.connect("timeout", _choose_option )
+		add_child(timer)
 	timer.start()
 	
 func _choose_option():
 	dice_is_thrown = true
 	remove_child(timer) #Important
 	timer.disconnect("timeout", _choose_option)
+
+
+

@@ -330,17 +330,17 @@ custom_minimum_size = Vector2(50, 60)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.287
-anchor_top = 0.29
-anchor_right = 0.745
-anchor_bottom = 0.374
-offset_left = 0.640015
-offset_top = 0.199982
-offset_right = 0.399902
-offset_bottom = -0.279999
+anchor_top = 0.268
+anchor_right = 0.743
+anchor_bottom = 0.351
+offset_left = -3.60498
+offset_top = -0.440002
+offset_right = -0.0151367
+offset_bottom = 0.160034
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_colors/table_border = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_2o2yk")
 bbcode_enabled = true
 text = "[center] RESULTADOS DE LA PARTIDA [/center] "
@@ -350,15 +350,15 @@ clip_contents = false
 custom_minimum_size = Vector2(60, 300)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.176
+anchor_left = 0.057
 anchor_top = 0.424
-anchor_right = 0.852
-anchor_bottom = 0.84
-offset_left = -0.280014
-offset_top = -0.280029
-offset_right = -0.560059
-offset_bottom = 0.199951
-theme_override_font_sizes/font_size = 18
+anchor_right = 0.957
+anchor_bottom = 0.981
+offset_left = 0.844994
+offset_top = 0.0799866
+offset_right = 0.344971
+offset_bottom = 0.519897
+theme_override_font_sizes/font_size = 35
 allow_search = false
 max_text_lines = 2
 auto_height = true
@@ -400,6 +400,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
+visible = false
 layout_mode = 1
 anchor_left = 0.785
 anchor_top = 0.404
@@ -412,6 +413,7 @@ offset_bottom = 150.032
 scale = Vector2(0.7, 0.7)
 
 [node name="Dice2" parent="." instance=ExtResource("3_mkww0")]
+visible = false
 layout_mode = 1
 anchor_left = 0.782
 anchor_top = 0.401
@@ -423,6 +425,19 @@ offset_right = 151.393
 offset_bottom = 151.113
 scale = Vector2(0.7, 0.7)
 
+[node name="LineEdit" type="LineEdit" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.874
+anchor_top = 0.78
+anchor_right = 0.966
+anchor_bottom = 0.869
+offset_left = -0.953979
+offset_top = -0.180054
+offset_right = -0.686035
+offset_bottom = -0.389038
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="go_back_to_game_view"]
 [connection signal="item_clicked" from="ResultsScreen/results_list" to="." method="_on_results_list_icon_clicked"]
@@ -430,3 +445,4 @@ scale = Vector2(0.7, 0.7)
 [connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="bresk_dice_thrown" from="Dice1" to="." method="_on_bresk_dice_thrown"]
 [connection signal="alph_dice_thrown" from="Dice2" to="." method="_on_alph_dice_thrown"]
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
