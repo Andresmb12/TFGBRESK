@@ -79,7 +79,6 @@ bbcode_enabled = true
 fit_content = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
-visible = false
 clip_contents = true
 layout_direction = 1
 layout_mode = 1
@@ -108,9 +107,9 @@ disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
-size = Vector2i(2, 2)
+size = Vector2i(955, 509)
 size_2d_override_stretch = true
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="MainScenePlayer1" parent="GridContainer/svpcontainer1/SubViewport1" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -124,8 +123,8 @@ stretch = true
 [node name="SubViewport2" type="SubViewport" parent="GridContainer/svpcontainer2"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(955, 509)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer2" parent="GridContainer/svpcontainer2/SubViewport2" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -139,8 +138,8 @@ stretch = true
 [node name="SubViewport3" type="SubViewport" parent="GridContainer/svpcontainer3"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(955, 508)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer3" parent="GridContainer/svpcontainer3/SubViewport3" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -155,8 +154,8 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 msaa_2d = 1
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(955, 508)
+render_target_update_mode = 4
 
 [node name="MainScenePlayer4" parent="GridContainer/svpcontainer4/SubViewport4" instance=ExtResource("2_1ndxj")]
 scale = Vector2(0.6, 0.6)
@@ -167,13 +166,15 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.39
 anchor_top = 0.395
-anchor_right = 0.536
-anchor_bottom = 0.594
-offset_left = 0.459991
-offset_top = 0.204987
-offset_right = -0.296021
-offset_bottom = -0.274017
-text = "VER 
+anchor_right = 0.677
+anchor_bottom = 0.647
+offset_left = 0.809998
+offset_top = -1.99503
+offset_right = 0.48291
+offset_bottom = -0.407043
+theme_override_font_sizes/font_size = 40
+text = "FINAL DE LA PARTIDA
+VER 
 RESULTADOS"
 
 [node name="Button2" type="Button" parent="."]
@@ -191,6 +192,7 @@ offset_bottom = 0.261993
 text = "NEXT"
 
 [node name="lbl_next_step" type="RichTextLabel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.773
@@ -305,6 +307,7 @@ icon_alignment = 1
 vertical_icon_alignment = 2
 
 [node name="ResultsScreen" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -332,11 +335,11 @@ anchors_preset = -1
 anchor_left = 0.287
 anchor_top = 0.268
 anchor_right = 0.743
-anchor_bottom = 0.351
+anchor_bottom = 0.34
 offset_left = -3.60498
 offset_top = -0.440002
-offset_right = -0.0151367
-offset_bottom = 0.160034
+offset_right = 0.154907
+offset_bottom = -0.200012
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_colors/table_border = Color(0, 0, 0, 1)
@@ -350,22 +353,22 @@ clip_contents = false
 custom_minimum_size = Vector2(60, 300)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.057
-anchor_top = 0.424
-anchor_right = 0.957
-anchor_bottom = 0.981
-offset_left = 0.844994
-offset_top = 0.0799866
-offset_right = 0.344971
-offset_bottom = 0.519897
-theme_override_font_sizes/font_size = 35
+anchor_left = 0.099
+anchor_top = 0.419
+anchor_right = 0.932
+anchor_bottom = 0.907
+offset_left = -0.585007
+offset_top = -0.52002
+offset_right = -0.780029
+offset_bottom = 0.439941
+theme_override_font_sizes/font_size = 30
 allow_search = false
 max_text_lines = 2
 auto_height = true
 text_overrun_behavior = 4
 max_columns = 4
 same_column_width = true
-fixed_icon_size = Vector2i(21, 21)
+fixed_icon_size = Vector2i(45, 45)
 
 [node name="back_to_results_btn" type="TextureButton" parent="."]
 visible = false
@@ -400,7 +403,6 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Dice1" parent="." instance=ExtResource("3_mkww0")]
-visible = false
 layout_mode = 1
 anchor_left = 0.785
 anchor_top = 0.404
@@ -438,6 +440,21 @@ offset_top = -0.180054
 offset_right = -0.686035
 offset_bottom = -0.389038
 
+[node name="SpeedButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.856
+anchor_top = 0.797
+anchor_right = 0.959
+anchor_bottom = 0.961
+offset_left = -0.376099
+offset_top = 0.442932
+offset_right = -0.239014
+offset_bottom = 0.158936
+theme_override_font_sizes/font_size = 52
+toggle_mode = true
+text = "X1"
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="go_back_to_game_view"]
 [connection signal="item_clicked" from="ResultsScreen/results_list" to="." method="_on_results_list_icon_clicked"]
@@ -446,3 +463,4 @@ offset_bottom = -0.389038
 [connection signal="bresk_dice_thrown" from="Dice1" to="." method="_on_bresk_dice_thrown"]
 [connection signal="alph_dice_thrown" from="Dice2" to="." method="_on_alph_dice_thrown"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="toggled" from="SpeedButton" to="." method="_on_speed_button_toggled"]

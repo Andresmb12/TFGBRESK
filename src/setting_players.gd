@@ -18,10 +18,10 @@ func show_new_player_fields():
 	$lne_input.show()
 	$confirm_btn.show()
 	$input_nicknm_te.show()
-	$lne_input.grab_focus()
+	#$lne_input.grab_focus()
 	
 func _ready():
-	$nplayers_sbox.get_line_edit().grab_focus()	
+		
 	$lne_input.hide()
 	$confirm_btn.hide()
 	$input_nicknm_te.hide()
@@ -32,7 +32,7 @@ func _ready():
 
 	for p in DataLoader.all_players:
 		players_available.add_item(p)
-	
+	$nplayers_sbox.get_line_edit().virtual_keyboard_type = 4
 	$nplayers_sbox.get_line_edit().grab_focus()	
 	$nplayers_sbox.get_line_edit().set_caret_force_displayed ( true )
 	$nplayers_sbox.get_line_edit().set_caret_mid_grapheme_enabled ( true )

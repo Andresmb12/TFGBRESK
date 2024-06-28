@@ -18,9 +18,9 @@ extends Node
 @export var clickable: bool = false
 @export var add_to_back: bool = true
 
-@onready var all_players: Dictionary = { "Bot Avanzado-1" : true, "Bot Principiante-1" : true,"Bot Pro-1": true,"Bot Avanzado-2": true, "Bot Pro-2": true, "Bot Principiante-2": true }
-@onready var bot_players_levels: Dictionary = {"Bot Avanzado-1" : "advanced", "Bot Principiante-1" : "starter", "Bot Pro-1": "pro","Bot Avanzado-2": "advanced", "Bot Pro-2": "pro", "Bot Principiante-2": "starter" }
-@onready var nplayers: int = 2
+@onready var all_players: Dictionary = { "Bot Principiante" : true, "Bot Pro": true ,"Bot Avanzado": true, "Bot Experto": true}
+@onready var bot_players_levels: Dictionary = {"Bot Principiante" : "starter",  "Bot Pro": "pro", "Bot Avanzado" : "advanced","Bot Experto": "expert"}
+@onready var nplayers: int = 3
 @onready var game_players : Dictionary = Dictionary()
 var PlayerScene = preload("res://scenes/MainPlayerScene.tscn")
 @onready var current_player  = PlayerScene.instantiate()
@@ -55,7 +55,7 @@ func _ready():
 	if OS.get_name()=="Android":
 		get_viewport().size = DisplayServer.screen_get_size()
 		pass
-	if OS.get_name() == "Windows":
+	if OS.get_name() == "Windows" or OS.get_name() == "Linux":
 		get_viewport().size = Vector2i(1280,720)
 		pass
 		#

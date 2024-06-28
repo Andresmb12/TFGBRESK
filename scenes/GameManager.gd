@@ -33,6 +33,8 @@ extends Control
 @onready var data_players = []
 @onready var turn : int = 1
 @onready var speed
+@onready var game_speeds = [0.5, 1, 1.5, 2]
+@onready var speed_index = 1
 @onready var longest_bonus_winner = []
 @onready var GAME_FINISHED = false
 @onready var SHOW_RESULTS = false
@@ -49,7 +51,7 @@ extends Control
 
 
 func _ready():
-	speed = 2
+	speed = game_speeds[speed_index]
 	$Button.hide()
 	#$Button.show()
 	if DataLoader.game_players.is_empty():
@@ -85,6 +87,7 @@ func _ready():
 	cont_chosen_letters.hide()
 	for i in range(1,4):
 		var cont_letter = cont_chosen_letters.get_node("cont_letter" + str(i))
+		
 		cont_letter.hide()
 
 	for i in range(1,5):
@@ -273,6 +276,12 @@ func make_focus():
 				current_player.set_editable_subboards(false) #test
 		else:
 			cont.hide()
+func enable_letters():
+	for i in range(1,4):
+		if current_player.is_bot:
+			get_letter(i).virtual_keyboard_enabled = false
+		else:
+			get_letter(i).virtual_keyboard_enabled = true
 			
 func focus_on_player():
 	
@@ -291,6 +300,7 @@ func focus_on_player():
 		if current_player.is_bot:
 			bresk_dice.focus_mode = Control.FOCUS_NONE
 			print("Juega ahora un BOT")
+			
 			show_next_step("throw")
 			await get_tree().create_timer(1.5/speed).timeout
 			
@@ -307,7 +317,8 @@ func focus_on_player():
 			if turn == nplayers:
 				await get_tree().create_timer(2/speed).timeout
 				SHOW_RESULTS = true
-				get_winner()
+				
+				#THE GAME FINISHES AND HEADS TO RESULTS SCREEN
 				$Button.show()
 				
 			await get_tree().create_timer(2/speed).timeout
@@ -321,6 +332,7 @@ func focus_on_player():
 			_on_alph_dice_thrown()
 			
 		if current_play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE:
+			enable_letters()
 			cont_chosen_letters.show()
 			show_next_step("PlaceLetters")
 			read_n_letters(int(bresk_dice.result))
@@ -332,7 +344,11 @@ func focus_on_player():
 	
 	
 	
-
+func finish_game():
+	get_winner()
+	fill_results_table()
+	show_results_screen()
+	$SpeedButton.hide()
 	
 func focus_on_next_player():
 	
@@ -373,6 +389,7 @@ func _on_bresk_dice_thrown(result):
 		#throw second dice
 	else:
 		current_play_type =  DataLoader.game_play_types.LETTER_TO_CHOOSE
+		enable_letters()
 		if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
 			current_player.n_mainboard.set_editable_board(false) # test
 		if letters_in_board + int(result) > DataLoader.max_letters:
@@ -394,7 +411,7 @@ func _on_bresk_dice_thrown(result):
 func bot_choose_letters(n):
 	var chosen_letter
 	cont_chosen_letters.focus_mode = Control.FOCUS_NONE
-	cont_chosen_letters.grab_focus()
+	#cont_chosen_letters.grab_focus()
 	for i in range(1,n+1):
 		# chosen_letter = dummy_choose_a_letter()
 		chosen_letter = current_player.smart_choosing_letter(i)
@@ -512,7 +529,8 @@ func first_choose_n_letters(n):
 	cont_chosen_letters.show()
 	cont_chosen_letters.focus_mode = Control.FOCUS_ALL
 	n_chosen_letters = 0
-	get_letter(1).grab_focus()
+	if !current_player.is_bot:
+		get_letter(1).grab_focus()
 	var cont_i
 	
 	for i in range(1,n+1):
@@ -615,9 +633,8 @@ func _on_alph_dice_thrown():
 
 
 func _on_button_pressed():
+	finish_game()
 	
-	fill_results_table()
-	show_results_screen()
 	pass # Replace with function body.
 
 
@@ -669,3 +686,10 @@ func _on_line_edit_text_submitted(new_text):
 	bresk_dice.dice_is_thrown = true
 	bresk_dice.bresk_dice_thrown.emit(new_text)
 	pass # Replace with function body.
+
+func _on_speed_button_toggled(toggled_on):
+	speed_index = (speed_index + 1) % game_speeds.size()
+	$SpeedButton.text = "X " + str(game_speeds[speed_index])
+	speed = game_speeds[speed_index]
+	
+

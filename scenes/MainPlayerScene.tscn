@@ -49,4 +49,12 @@ texture_normal = ExtResource("6_38sp1")
 ignore_texture_size = true
 stretch_mode = 0
 
+[node name="Button" type="Button" parent="."]
+visible = false
+offset_left = 209.0
+offset_top = 814.0
+offset_right = 323.0
+offset_bottom = 900.0
+
 [connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_andres_button_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://rmtaxb05pqn3"]
+[gd_scene load_steps=17 format=3 uid="uid://rmtaxb05pqn3"]
 
 [ext_resource type="Script" path="res://src/setting_players.gd" id="1_212fy"]
 [ext_resource type="Texture2D" uid="uid://cgl4selsq0iar" path="res://images/breskphoto2.png" id="2_aitbt"]
@@ -35,6 +35,9 @@ default_font_size = 60
 content_margin_left = 15.0
 region_rect = Rect2(446, 117, 134, 86)
 modulate_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_kb02t"]
+normal_texture = ExtResource("3_tfgd2")
 
 [sub_resource type="Theme" id="Theme_qv84f"]
 default_font_size = 35
@@ -83,17 +86,34 @@ offset_top = 78.8251
 offset_right = 182.728
 offset_bottom = 86.8251
 
+[node name="TextEdit2" type="TextEdit" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.084
+anchor_top = 0.594
+anchor_right = 0.354
+anchor_bottom = 0.684
+offset_left = -0.112015
+offset_top = 0.291931
+offset_right = 5.02802
+offset_bottom = -0.0880127
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Seleccione un jugador"
+editable = false
+
 [node name="TextEdit" type="TextEdit" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.087
 anchor_top = 0.459
 anchor_right = 0.356
-anchor_bottom = 0.567
-offset_left = 0.133987
-offset_top = 0.361969
+anchor_bottom = 0.544
+offset_left = 0.133972
+offset_top = 0.361938
 offset_right = -0.807983
-offset_bottom = -24.494
+offset_bottom = 0.391907
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
@@ -144,18 +164,19 @@ update_on_text_changed = true
 clip_contents = true
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.536
-anchor_top = 0.461
-anchor_right = 0.593
-anchor_bottom = 0.556
-offset_left = -0.0479736
-offset_top = 0.197968
-offset_right = 440.626
-offset_bottom = 409.408
+anchor_left = 0.53
+anchor_top = 0.413
+anchor_right = 0.618
+anchor_bottom = 0.579
+offset_left = -0.540039
+offset_top = 0.133972
+offset_right = 313.676
+offset_bottom = 332.522
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.35, 0.35)
 size_flags_stretch_ratio = 0.0
+tooltip_text = "CONFIRMA Nº JUGADORES"
 theme = SubResource("Theme_lp6ox")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.498039)
@@ -163,6 +184,7 @@ theme_override_font_sizes/font_size = 10
 theme_override_icons/checked = ExtResource("4_uj4mw")
 theme_override_icons/unchecked = ExtResource("3_tfgd2")
 theme_override_styles/normal = SubResource("StyleBoxTexture_eg0sj")
+icon = SubResource("CanvasTexture_kb02t")
 flat = true
 
 [node name="disp_players_btn" type="OptionButton" parent="."]
@@ -283,14 +305,14 @@ stretch_mode = 0
 [node name="confirm_btn" type="TextureButton" parent="."]
 custom_minimum_size = Vector2(60, 50)
 layout_mode = 2
-anchor_left = 0.544
-anchor_top = 0.732
-anchor_right = 0.607
-anchor_bottom = 0.84
-offset_left = 45.6079
-offset_top = 1.97601
-offset_right = 46.7739
-offset_bottom = 2.12
+anchor_left = 0.568
+anchor_top = 0.734
+anchor_right = 0.631
+anchor_bottom = 0.842
+offset_left = -0.424072
+offset_top = -0.188049
+offset_right = 0.741821
+offset_bottom = -0.0441284
 texture_normal = ExtResource("3_tfgd2")
 ignore_texture_size = true
 stretch_mode = 0
@@ -307,7 +329,7 @@ offset_top = -0.500061
 offset_right = -0.310059
 offset_bottom = 0.0220337
 theme_override_font_sizes/font_size = 37
-placeholder_text = "Nombre de juegoo"
+placeholder_text = "Nombre de juego"
 alignment = 3
 caret_blink = true
 caret_force_displayed = true
@@ -315,10 +337,14 @@ caret_force_displayed = true
 [node name="input_nicknm_te" type="TextEdit" parent="."]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-offset_left = 166.0
-offset_top = 805.0
-offset_right = 679.0
-offset_bottom = 893.0
+anchor_left = 0.087
+anchor_top = 0.744
+anchor_right = 0.354
+anchor_bottom = 0.825
+offset_left = -0.866013
+offset_top = -0.00799561
+offset_right = 0.0280151
+offset_bottom = 0.349976
 theme_override_font_sizes/font_size = 44
 text = "Introduzca el nickname"
 editable = false
