@@ -35,6 +35,7 @@ enum game_play_types {BRESK, LETTER_TO_CHOOSE, SKIP, COUNT }
 enum GAME_MODES {TEST, REAL}
 @onready var current_game_mode = GAME_MODES.REAL
 @onready var next_letter
+
 @onready var fade_out_options = SceneManager.create_options(fade_out_speed, fade_out_pattern, fade_out_smoothness, fade_out_inverted)
 @onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)
 @onready var general_options = SceneManager.create_general_options(color, timeout, clickable, add_to_back)
@@ -44,7 +45,7 @@ enum GAME_MODES {TEST, REAL}
 @onready var dictionary_route = "res://diccionarios/0_palabras_todas.txt"
 @onready var spanish_dictionary = {}
 @onready var choosing_letters = false
-
+@onready var my_stylebox
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

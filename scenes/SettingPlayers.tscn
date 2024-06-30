@@ -256,7 +256,7 @@ layout_mode = 2
 theme = SubResource("Theme_nbt5y")
 theme_override_font_sizes/font_size = 44
 max_columns = 2
-fixed_icon_size = Vector2i(35, 35)
+fixed_icon_size = Vector2i(48, 48)
 
 [node name="TextureButton" type="TextureButton" parent="VBoxContainer/ItemList"]
 layout_mode = 1

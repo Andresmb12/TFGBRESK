@@ -7,3 +7,5 @@
 *.pdb
 *.xml
 *.tmp
+*.exe
+*.apk

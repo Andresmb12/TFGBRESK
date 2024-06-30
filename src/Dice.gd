@@ -1,10 +1,10 @@
 extends Control
 
 @onready var dice = $dice_lbl
-@onready var bresk = ["0", "1", "2", "3", "bresk"]
+@onready var bresk = ["0","1", "2", "3", "bresk"]
 @onready var alphabet = [
-	"A", "B", "C", "D", "E", "F", "G", "#","H", "I", "J", "K", "L", "M",
-	"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"
+	"A", "B", "C", "D", "E", "F", "G","H", "I", "J", "K", "L", "M",
+	"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
 ]
 @onready var dice_options
 @onready var dice_chosen

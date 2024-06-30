@@ -5,6 +5,7 @@ var consonants = [ "B", "C", "D", "F", "G","H", "J", "K", "L", "M",
 "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z" ]
 var space = "#"
 var used_positions : Array = []
+var needs_sep = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -38,6 +39,8 @@ func get_space_in_line(pos, orient, mainboard):
 				space += 1
 			else:
 				space += 1
+				if space > 1 :
+					needs_sep = true
 				done = true
 		done = true
 	if orient == "VERTICAL" and (pos.x==0 or get_letter(pos.x-1,col,mainboard) == "#"):
@@ -47,6 +50,8 @@ func get_space_in_line(pos, orient, mainboard):
 				space += 1
 			else:
 				space += 1
+				if space > 1:
+					needs_sep = true
 				#possible TW beginning
 				done = true
 		done = true
@@ -62,6 +67,7 @@ func find_first_valid_position(mainboard):
 			if !get_letter(r, c, mainboard).is_empty() and get_letter(r, c, mainboard) != "#":  # Celda vacía
 				var hor_space = get_space_in_line(Vector2(r, c), "HORIZONTAL", mainboard)
 				var ver_space = get_space_in_line(Vector2(r, c), "VERTICAL", mainboard)
+				SmartBots.needs_sep = false
 				# Si hay espacio suficiente en horizontal o vertical
 				if hor_space >= 2 or ver_space >= 2: 
 					next_pos = Vector2(r, c)  # Actualizar la variable local
@@ -141,7 +147,7 @@ func get_hor_sequence(board, pos, next_tw):#, target, wip):
 			elif next_hor_let.is_empty() :
 				hor_space += 1
 				blocked = true
-			elif blocked and !next_hor_let.is_empty():
+			elif blocked and !next_hor_let.is_empty() and hor_space > 1:
 				hor_space -= 1
 				need_spacer = true
 			elif next_hor_let == "#":
@@ -186,7 +192,7 @@ func get_ver_sequence(board, pos, next_tw):#, target, wip):
 			elif next_ver_let.is_empty():
 				ver_space += 1
 				blocked = true
-			elif blocked and !next_ver_let.is_empty():
+			elif blocked and !next_ver_let.is_empty() and ver_space > 1:
 				ver_space -= 1
 				need_spacer = true
 			elif next_ver_let == "#":
@@ -215,22 +221,23 @@ func find_optimal_position(board, aux_orient, current_pos):
 	var ver_points
 	var next_wip
 	var best_tw = ""
-	var next_tw : Array = [""]
+	var next_tw_hor : Array = [""]
+	var next_tw_ver : Array = [""]
 	var hor_points
 	
 	for r in range(BOARD_LIMIT):
 		for c in range(BOARD_LIMIT):
 			if !get_letter(r,c,board).is_empty() and Vector2(r,c)!=current_pos:
-				hor_points = get_hor_sequence(board, Vector2(r,c), next_tw)
-				ver_points = get_ver_sequence(board, Vector2(r,c), next_tw)
+				hor_points = get_hor_sequence(board, Vector2(r,c), next_tw_hor)
+				ver_points = get_ver_sequence(board, Vector2(r,c), next_tw_ver)
 				print("en la pos: ", Vector2(r,c))
 				print("se saca hor: ", hor_points)
 				print("se saca ver: ", ver_points)
-				if (hor_points.length() > 1 or ver_points.length() > 1) and next_tw[0].length() > best_tw.length():
+				if (hor_points.length() > 1 and next_tw_hor[0].length() > best_tw.length()) or (ver_points.length() > 1 and next_tw_ver[0].length() > best_tw.length()):
 					next_pos = Vector2(r,c)
-					best_tw = next_tw[0]
-					aux_orient[0] = "HORIZONTAL" if hor_points.length() > ver_points.length() else "VERTICAL"
-					next_wip = hor_points if hor_points.length() > ver_points.length() else ver_points
+					best_tw = next_tw_hor[0] if next_tw_hor[0].length() > next_tw_ver[0].length() else next_tw_ver[0]
+					aux_orient[0] = "HORIZONTAL" if next_tw_hor[0].length() > next_tw_ver[0].length() else "VERTICAL"
+					next_wip = hor_points if next_tw_hor[0].length() > next_tw_ver[0].length() else ver_points
 					break
 	print("experto devuelve: ", next_pos)
 	if aux_orient.size() > 0:

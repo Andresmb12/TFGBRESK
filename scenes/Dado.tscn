@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://b8t17ld0p75dm"]
 
-[ext_resource type="Script" path="res://scenes/Dice.gd" id="1_x6yee"]
+[ext_resource type="Script" path="res://src/Dice.gd" id="1_6g6c4"]
 [ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="2_vvbf8"]
 [ext_resource type="FontFile" uid="uid://dcuwn2wgs5ff2" path="res://Noto_Sans_JP/static/NotoSansJP-Black.ttf" id="3_055ek"]
 
@@ -26,7 +26,7 @@ anchor_bottom = 0.463
 offset_right = 0.799957
 offset_bottom = -0.0400391
 focus_mode = 1
-script = ExtResource("1_x6yee")
+script = ExtResource("1_6g6c4")
 metadata/_edit_horizontal_guides_ = [140.0]
 
 [node name="Dado" type="TextureRect" parent="."]

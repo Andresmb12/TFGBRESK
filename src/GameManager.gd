@@ -76,7 +76,7 @@ func _ready():
 				player.set_editable_subboards(false) #test bot
 			
 		print("Es BOT?", player.is_bot)
-		
+	DataLoader.my_stylebox = player.n_mainboard.letters_main_board[0][0].get_theme_stylebox("read_only").duplicate()
 	results_screen.hide()
 	DataLoader.load_dictionary_from_file()
 	
@@ -272,6 +272,7 @@ func make_focus():
 			current_player = get_player(i) # IMP here I get CURRENT PLAYER
 			current_player.position.x = 0
 			current_player.scale = focus_scale
+			current_player.modulate.a = 1
 			if DataLoader.current_game_mode == DataLoader.GAME_MODES.REAL:
 				current_player.set_editable_subboards(false) #test
 		else:
@@ -449,8 +450,8 @@ func bot_place_letters(n,choose = true):
 		current_player.smart_placing_letter(letter)
 			
 		DataLoader.next_letter = letter
-		await get_tree().create_timer(2/speed).timeout
 		save_letter(letter,n)
+		await get_tree().create_timer(2/speed).timeout
 		if letter != "#":
 			current_player.first_letter_placed = true
 					
@@ -561,10 +562,6 @@ func save_letter(letter,n):
 			if i != cont_letters + 1:
 				cont_chosen_letters.get_node("cont_letter" + str(i)).modulate.a = 0.5
 		DataLoader.play_type = DataLoader.game_play_types.SKIP
-	#if  DataLoader.play_type == DataLoader.game_play_types.LETTER_TO_CHOOSE and get_button(index_letter_to_place).is_connected("pressed",on_btn_letter_n_pressed):
-		
-	#	cont_chosen_letters.get_node("cont_letter" + str(index_letter_to_place)).modulate.a = 0.5
-		# get_button(index_letter_to_place).disconnect("pressed",on_btn_letter_n_pressed)
 	
 	if cont_letters == n:
 		

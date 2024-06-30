@@ -19,8 +19,8 @@ config/icon="res://icon.png"
 
 SceneManager="*res://addons/scene_manager/scene_manager.tscn"
 Scenes="*res://addons/scene_manager/scenes.gd"
-DataLoader="*res://data_loader.gd"
-SmartBots="*res://smart_bots.gd"
+DataLoader="*res://src/data_loader.gd"
+SmartBots="*res://src/smart_bots.gd"
 
 [display]
 
