@@ -78,7 +78,11 @@ func find_occurrences(word: String, letter: String) -> Array:
 			occurrences.append(i)
 
 	return occurrences
-	
+
+func clean_players():
+	DataLoader.game_players.clear()
+		
+		
 func load_dictionary_from_file():
 	
 	var file = FileAccess.open(dictionary_route, FileAccess.READ)

@@ -961,8 +961,6 @@ func get_target_word(letter, pos):
 		target_letter = ""
 		word_in_progress = ""
 		
-		
-
 	
 func _on_andres_button_pressed():
 	print("andresito")

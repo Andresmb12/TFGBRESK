@@ -108,7 +108,7 @@ func clean_letters_boxes():
 func show_next_step(action):
 	#current_player.modulate.a = 0.5
 	var next_action = actions[action]
-	if next_action == "NextPlayer":
+	if action == "NextPlayer":
 		next_step.text =  ("[center]%s[/center]" % [next_action] )
 	else:
 		next_step.text =  ("[center]%s \n %s[/center]" % [next_action, current_player.usernamevar ] )
@@ -674,7 +674,9 @@ func show_desired_player():
 
 
 func _on_exit_button_pressed():
-	get_tree().quit()
+	DataLoader.clean_players()
+	SceneManager.no_effect_change_scene("InitialMenu")
+	
 	pass # Replace with function body.
 
 

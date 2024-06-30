@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://cawqo7l54aw5t"]
+[gd_scene load_steps=16 format=3 uid="uid://cawqo7l54aw5t"]
 
 [ext_resource type="Script" path="res://src/GameManager.gd" id="1_ba7qf"]
 [ext_resource type="PackedScene" uid="uid://beqg8k0qbsbqm" path="res://scenes/MainPlayerScene.tscn" id="2_1ndxj"]
+[ext_resource type="Texture2D" uid="uid://v0ip3n1k2d0h" path="res://images/eye-solid.svg" id="2_csjhu"]
 [ext_resource type="PackedScene" uid="uid://b8t17ld0p75dm" path="res://scenes/Dado.tscn" id="3_mkww0"]
 [ext_resource type="FontFile" uid="uid://dcuwn2wgs5ff2" path="res://Noto_Sans_JP/static/NotoSansJP-Black.ttf" id="5_2ffwf"]
 [ext_resource type="PackedScene" uid="uid://crywaplhkqgtm" path="res://scenes/Letter.tscn" id="5_hcpsy"]
@@ -57,6 +58,7 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ba7qf")
+view_icon = ExtResource("2_csjhu")
 
 [node name="lbl_game_turn" type="RichTextLabel" parent="."]
 visible = false
@@ -303,6 +305,7 @@ icon_alignment = 1
 vertical_icon_alignment = 2
 
 [node name="ResultsScreen" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -344,7 +347,6 @@ bbcode_enabled = true
 text = "[center] RESULTADOS DE LA PARTIDA [/center] "
 
 [node name="results_list" type="ItemList" parent="ResultsScreen"]
-visible = false
 clip_contents = false
 custom_minimum_size = Vector2(60, 300)
 layout_mode = 1

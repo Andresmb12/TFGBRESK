@@ -157,8 +157,10 @@ mouse_force_pass_scroll_events = false
 theme = SubResource("Theme_ahim6")
 min_value = 2.0
 max_value = 4.0
+step = 0.0
 value = 2.0
 update_on_text_changed = true
+select_all_on_focus = true
 
 [node name="CheckBox" type="CheckBox" parent="."]
 clip_contents = true
