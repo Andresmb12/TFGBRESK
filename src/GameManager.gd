@@ -156,11 +156,10 @@ func update_game():
 			player.scale = phone_scale
 		else:
 			player.scale = general_scale
-	
-		
+
 	if !SHOW_RESULTS:
 		focus_on_next_player()
-	#lbl_turn.text = ("[center][color=WHITE][b]ES TURNO DE %s[/b][/color][/center]" % DataLoader.all_players[turn-1].usernamevar)
+	
 	
 func get_player(i):
 	var p = get_node("GridContainer/svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i))
@@ -307,8 +306,6 @@ func focus_on_player():
 			
 			bresk_dice._on_button_pressed() # First he throws the dice
 			
-			
-		
 	else: #Next player just places letters
 		
 		if current_play_type == DataLoader.game_play_types.COUNT:
@@ -416,11 +413,9 @@ func bot_choose_letters(n):
 	for i in range(1,n+1):
 		# chosen_letter = dummy_choose_a_letter()
 		chosen_letter = current_player.smart_choosing_letter(i)
-		if chosen_letter.is_empty():
-			print("BIG PROBLEM")
-		print("Bot elige la letra: ", chosen_letter)
+		
 		await get_tree().create_timer(1/speed).timeout
-		#get_letter(i).disabled = true
+		
 		get_letter(i).text = chosen_letter
 		
 		get_letter(i).letter_entered.emit(chosen_letter)
@@ -442,9 +437,7 @@ func bot_place_letters(n,choose = true):
 	for i in range(1,n+1):
 		if choose :
 			letter = get_letter(i).text
-			
 		else:
-			
 			letter = DataLoader.next_letter
 		
 		current_player.smart_placing_letter(letter)
@@ -477,9 +470,7 @@ func enable_placing_letters(n):
 				cont_i.modulate.a = 1
 			else:
 				cont_i.modulate.a = 0.5
-		#	var btn_i = get_button(i)
-		#	if !btn_i.is_connected("pressed",self.on_btn_letter_n_pressed):
-		#		btn_i.connect("pressed", self.on_btn_letter_n_pressed.bind(i))
+
 		DataLoader.next_letter = get_letter(1).text
 		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 	
@@ -489,7 +480,7 @@ func note_letter_to_players(letter):
 	letters_in_board += 1
 	print("Letras en el tablero:", letters_in_board)
 	for i in range(1,nplayers+1):
-		var player = grid.get_node("svpcontainer" + str(i) + "/SubViewport" + str(i) + "/MainScenePlayer" + str(i) )
+		var player = get_player(i)
 		player.n_scoreboard.note_new_letter(letter, player.last_index)
 		player.update_index()
 		
@@ -501,7 +492,6 @@ func manage_placing_letters(letter, n):
 	if n_chosen_letters < 3 and !current_player.is_bot:
 		get_letter(n_chosen_letters+1).grab_focus()
 		
-	
 	if n_chosen_letters == n:
 
 		print("Ya se han elegido las letras")
@@ -547,15 +537,12 @@ func get_letter(i):
 	return cont_chosen_letters.get_node("cont_letter" + str(i) + "/Letter" + str(i))
 	
 func save_letter(letter,n):
-	if letter == null:
-		print("NO SE PONE NADA")
+	
 	cont_letters = cont_letters + 1
 	DataLoader.next_letter = ""
 	if cont_letters < n:
 		 #Still letters to place
 		DataLoader.next_letter = get_letter(cont_letters+1).text
-		#get_letter(cont_letters+1).release_focus()
-		print("proxima letra a colocar: ", DataLoader.next_letter)
 		DataLoader.play_type = DataLoader.game_play_types.LETTER_TO_CHOOSE
 		cont_chosen_letters.get_node("cont_letter" + str(cont_letters+1)).modulate.a = 1
 		for i in range(1,n+1):
@@ -588,8 +575,6 @@ func save_letter(letter,n):
 func read_n_letters(n):
 	cont_letters = 0
 	current_player.n_mainboard.connect("letter_placed", self.save_letter.bind(n))
-	
-	pass
 
 		
 func handle_letter_placed(letter,n):

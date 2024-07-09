@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" path="res://src/bresk_rules.gd" id="1_fgyof"]
 [ext_resource type="Texture2D" uid="uid://x34iv8m58u04" path="res://images/possiblemenuphoto1.png" id="1_prlpv"]
+[ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="3_d6n16"]
 
 [sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_06wpw"]
-
-[sub_resource type="SystemFont" id="SystemFont_dwf1h"]
 
 [node name="BreskRules" type="Control"]
 layout_mode = 3
@@ -53,15 +52,15 @@ modulate = Color(0.00392157, 0.00392157, 0.00392157, 1)
 clip_contents = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.408
-anchor_top = 0.068
-anchor_right = 0.622
+anchor_left = 0.429
+anchor_top = 0.07
+anchor_right = 0.643
 anchor_bottom = 0.129
-offset_left = 0.0479736
-offset_top = 2.21999
-offset_right = 0.381958
-offset_bottom = 0.0349884
-theme_override_fonts/normal_font = SubResource("SystemFont_dwf1h")
+offset_left = -0.250916
+offset_top = 0.0500031
+offset_right = 0.0830078
+offset_bottom = 0.0349731
+theme_override_fonts/normal_font = ExtResource("3_d6n16")
 theme_override_font_sizes/normal_font_size = 46
 bbcode_enabled = true
 text = "REGLAS DE BRESK"

@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" path="res://src/bresk_rules.gd" id="1_ajgau"]
 [ext_resource type="Texture2D" uid="uid://x34iv8m58u04" path="res://images/possiblemenuphoto1.png" id="2_k18k2"]
+[ext_resource type="FontFile" uid="uid://banhyri0k0kbh" path="res://Noto_Sans_JP/static/NotoSansJP-Bold.ttf" id="3_h6uc5"]
 [ext_resource type="Texture2D" uid="uid://cpe7pm0icxmag" path="res://images/breskrules5.png" id="3_wh3sr"]
-
-[sub_resource type="SystemFont" id="SystemFont_dwf1h"]
 
 [node name="BreskRules5" type="Control"]
 layout_mode = 3
@@ -19,11 +18,12 @@ script = ExtResource("1_ajgau")
 modulate = Color(1, 1, 1, 0.588235)
 layout_mode = 1
 anchors_preset = -1
+anchor_left = -0.003
 anchor_right = 1.0
 anchor_bottom = 1.005
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 2.0
+offset_left = 0.768999
+offset_top = 2.0
+offset_right = 2.00024
 offset_bottom = -0.38501
 texture = ExtResource("2_k18k2")
 expand_mode = 1
@@ -41,7 +41,7 @@ offset_left = -0.954041
 offset_top = 0.456997
 offset_right = 0.00598145
 offset_bottom = 0.296982
-theme_override_fonts/normal_font = SubResource("SystemFont_dwf1h")
+theme_override_fonts/normal_font = ExtResource("3_h6uc5")
 theme_override_font_sizes/normal_font_size = 45
 bbcode_enabled = true
 text = "REGLAS DE BRESK"
@@ -64,14 +64,14 @@ text = "VOLVER A MENU"
 [node name="Breskrules5" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.269
+anchor_left = 0.262
 anchor_top = 0.182
-anchor_right = 0.786
-anchor_bottom = 0.901
-offset_left = -13.287
-offset_top = -0.0140076
-offset_right = -279.478
-offset_bottom = -204.377
+anchor_right = 0.831
+anchor_bottom = 0.966
+offset_left = 0.174011
+offset_top = -0.0139923
+offset_right = -303.013
+offset_bottom = -223.382
 scale = Vector2(1.3829, 1.35921)
 texture = ExtResource("3_wh3sr")
 

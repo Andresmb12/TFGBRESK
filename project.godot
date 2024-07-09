@@ -34,6 +34,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="Bresk1"
 
+[editor]
+
+movie_writer/movie_file="C:/Users/Andresito/ESCRITORIO ANDRESITO/andresito/TFG/PresentacionTFG/demoBresk1.avi"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/scene_manager/plugin.cfg")

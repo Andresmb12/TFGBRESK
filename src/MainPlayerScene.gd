@@ -145,6 +145,8 @@ func check_word_block(pos, word):
 				return true  # Bloqueada
 
 	return false  # No bloqueada
+	
+	
 func reset_everything():
 	copy_target_word = ""
 	target_word = ""
@@ -388,8 +390,8 @@ func place_without_tw_in_sight(letter):
 				print("rand pos: ", rand_pos)
 				print("target pos: ", pos_target_word)
 		else:
+			#TW is empty
 			rand_pos = dummy_placing_letters() #last change
-			print("target word empty y ponemos la letra donde sea")
 			place_letter(letter,rand_pos)
 			rand_pos = choose_next_target_pos()
 			if rand_pos != Vector2(-1,-1):
@@ -402,7 +404,7 @@ func place_without_tw_in_sight(letter):
 			
 func place_in_word(letter):
 	var arr_indexes = DataLoader.find_occurrences(copy_target_word,letter)
-	#print("se va a intentar place_in_word la letra, ",letter)
+
 	var board = n_mainboard.letters_main_board
 	if !arr_indexes.is_empty() and !placed:
 		print("se entra en place in word ->", arr_indexes)	
@@ -412,11 +414,10 @@ func place_in_word(letter):
 				if board[pos_target_word.x][pos_target_word.y + i].text.is_empty():
 					place_letter(letter,Vector2(pos_target_word.x,pos_target_word.y + i) )
 					print("La letra me sirve HORZ y la pongo donde corresponde")
-					 # prueba
 					
 					if !letter_chosen_by_me:
 						add_to_progress_word(letter)
-						print("Se añade una letra de otro tio ",word_in_progress)
+						#We add a letter from another player
 						check_word_while_placing()
 						
 					elif word_in_progress.length() > 0 and (word_in_progress.length() < 3 and !bot_is_starter()) and !target_letter.is_empty():
@@ -962,8 +963,3 @@ func get_target_word(letter, pos):
 		word_in_progress = ""
 		
 	
-func _on_andres_button_pressed():
-	print("andresito")
-	var aux_orient
-	expert_choosing_word()
-	pass # Replace with function body.
